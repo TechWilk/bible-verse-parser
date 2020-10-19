@@ -1,0 +1,34 @@
+{
+    "name": "techwilk/church-teachings-api",
+    "description": "",
+    "keywords": ["microframework", "rest", "router", "psr7"],
+    "homepage": "http://github.com/techwilk/church-teachings-api",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christopher Wilkinson",
+            "email": "c@wilk.tech",
+            "homepage": "https://wilk.tech"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "TechWilk\\BibleVerseParser\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TechWilk\\BibleVerseParser\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "process-timeout" : 0
+    },
+    "scripts": {
+        "start": "php -S localhost:8080 -t public public/index.php",
+        "test": "phpunit"
+    }
+}
