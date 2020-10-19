@@ -1,8 +1,8 @@
 {
-    "name": "techwilk/church-teachings-api",
+    "name": "techwilk/bible-verse-parser",
     "description": "",
-    "keywords": ["microframework", "rest", "router", "psr7"],
-    "homepage": "http://github.com/techwilk/church-teachings-api",
+    "keywords": ["bible", "scripture", "verse", "passage", "parse"],
+    "homepage": "http://github.com/techwilk/bible-verse-parser",
     "license": "MIT",
     "authors": [
         {
