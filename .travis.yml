@@ -1,0 +1,14 @@
+language: php
+php:
+- nightly
+- 7.4
+- 7.3
+- 7.2
+matrix:
+  allow_failures:
+    - php: nightly
+install: composer install
+script:
+  - composer test
+after_success:
+  - travis_retry php vendor/bin/php-coveralls -v
