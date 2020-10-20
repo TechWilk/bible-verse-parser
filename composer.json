@@ -11,6 +11,9 @@
             "homepage": "https://wilk.tech"
         }
     ],
+    "require": {
+    	"php": ">=7.4"
+    },
     "require-dev": {
         "phpunit/phpunit": "^9.4",
         "php-coveralls/php-coveralls": "^2.4"
