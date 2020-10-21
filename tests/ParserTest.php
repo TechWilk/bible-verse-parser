@@ -100,7 +100,7 @@ class ParserTest extends TestCase
         $parsedVerses = $parser->parse($verses);
 
         // test as strings for now
-        $parsedVerses = array_map(fn($verse) => (string)$verse, $parsedVerses);
+        $parsedVerses = array_map(fn ($verse) => (string) $verse, $parsedVerses);
 
         $this->assertEquals($expectedParsedVerses, $parsedVerses);
     }
