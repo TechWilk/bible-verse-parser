@@ -15,7 +15,6 @@ class BiblePassage
         $this->book = trim($book);
         $this->chapter = trim($chapterRange);
         $this->verse = trim($verseRange);
-
     }
 
     public function book(): string
