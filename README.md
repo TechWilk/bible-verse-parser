@@ -32,7 +32,9 @@ Use as a standard twig filter, passing in a maximum length after which to wrap:
 ``` php
 /** @var BiblePassage[] */
 $verses = $bibleParser->parse('1 John 5:4-17, 19-30 & Samuel 2');
+```
 
+``` php
 foreach ($verses as $verse) {
     echo (string) $verse . PHP_EOL;
 }
