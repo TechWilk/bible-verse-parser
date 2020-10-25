@@ -4,39 +4,43 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/techwilk/bible-verse-parser.svg)](https://packagist.org/packages/techwilk/bible-verse-parser)
 [![License](https://img.shields.io/packagist/l/techwilk/bible-verse-parser.svg)](https://packagist.org/packages/techwilk/bible-verse-parser)
 
-
 Parse verse textual representation into book/chapter/verse ranges
 
 Allows you to standardise many different people's bible passage/reference formats and gain programmatic access to them.
 
-> N.B. This package does NOT currently validate if any book / passage is valid. This is, however, planned for a later release. Shorthand representations of books are also NOT converted into full names.
+> N.B. This package does NOT currently validate if any book / passage is valid. This is, however, planned for a later release. Shorthand representations of books are also NOT converted into full names. (see [#roadmap](Roadmap))
 
 ## Installation
 
-1. Install through composer.
+1.  Install through composer.
 
     ``` shell
     composer require techwilk/bible-verse-parser
     ```
 
-2. Then create a parser
+2.  Then create a parser
 
     ``` php
-    $bibleParser = new BibleParser();
+    use TechWilk\BibleVerseParser\BiblePassageParser;
+
+    $passageParser = new BiblePassageParser();
     ```
 
 ## Use
 
-Use as a standard twig filter, passing in a maximum length after which to wrap:
+Just pass in a string, and it will parse into an array of passages.
+Each range will be a separate object in the array.
 
 ``` php
 /** @var BiblePassage[] */
-$verses = $bibleParser->parse('1 John 5:4-17, 19-30 & Samuel 2');
+$passages = $passageParser->parse('1 John 5:4-17, 19-21 & Samuel 2');
 ```
 
+### Casting to string
+
 ``` php
-foreach ($verses as $verse) {
-    echo (string) $verse . PHP_EOL;
+foreach ($passages as $passage) {
+    echo (string) $passage . PHP_EOL;
 }
 ```
 
@@ -44,15 +48,17 @@ outputs:
 
 ``` text
 1 John 5:4-17
-1 John 5:19-30
+1 John 5:19-21
 Samuel 2
 ```
+
+### Custom formatting
 
 Alternatively use the values yourself.
 
 ``` php
-foreach ($verses as $verse) {
-    echo "{$verse->book()}, chapter {$verse->chapter()} verses {$verse->verses()}." . PHP_EOL;
+foreach ($passages as $passage) {
+    echo "{$passage->book()}, chapter {$passage->chapter()} passages {$passage->verseRange()}." . PHP_EOL;
 }
 ```
 
@@ -60,7 +66,7 @@ outputs:
 
 ``` text
 1 John, chapter 5 verses 4-17.
-1 John, chapter 5 verses 19-30.
+1 John, chapter 5 verses 19-21.
 Samuel, chapter 2 verses .
 ```
 
@@ -95,6 +101,14 @@ Deut 6: 4-9, 16-end & Luke 15: 1-10
 1 Peter 2, 5 & Job 34
 1 Peter 2:15-16, 18-20
 ```
+
+## Roadmap
+- [x] Parse many formats into book / chapter / verse ranges
+- [ ] Validate book names
+- [ ] Translate abbreviated book names into full names
+- [ ] Validate chapter / verse is valid in a given book
+- [ ] Explode chapter ranges into one passage per chapter
+- [ ] Ability to explode verse ranges into one object per verse
 
 ## Oooh, badges...!
 
