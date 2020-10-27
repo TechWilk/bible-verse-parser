@@ -44,33 +44,33 @@ class ParserTest extends TestCase
             [
                 'Psalm 34',
                 [
-                    'Psalm 34',
+                    'Psalms 34',
                 ],
             ],
             [
                 '2 Cor 5: 11-21',
                 [
-                    '2 Cor 5:11-21',
+                    '2 Corinthians 5:11-21',
                 ],
             ],
             [
                 '2 Cor. 5: 11-21',
                 [
-                    '2 Cor. 5:11-21',
+                    '2 Corinthians 5:11-21',
                 ],
             ],
             [
                 'Is 53: 1-6 & 2 Cor 5: 20-21',
                 [
-                    'Is 53:1-6',
-                    '2 Cor 5:20-21',
+                    'Isaiah 53:1-6',
+                    '2 Corinthians 5:20-21',
                 ],
             ],
             [
                 'Deut 6: 4-9, 16-end & Luke 15: 1-10',
                 [
-                    'Deut 6:4-9',
-                    'Deut 6:16-end',
+                    'Deuteronomy 6:4-9',
+                    'Deuteronomy 6:16-end',
                     'Luke 15:1-10',
                 ],
             ],
@@ -92,8 +92,8 @@ class ParserTest extends TestCase
             [
                 'Gen 1:1; 4:26',
                 [
-                    'Gen 1:1',
-                    'Gen 4:26',
+                    'Genesis 1:1',
+                    'Genesis 4:26',
                 ],
             ],
             'readme example' => [

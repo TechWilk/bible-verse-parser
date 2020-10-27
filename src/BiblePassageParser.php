@@ -57,7 +57,7 @@ class BiblePassageParser
             }
 
             $verses[] = new BiblePassage(
-                $book,
+                new BibleBook($book),
                 $chapter,
                 $verse
             );
