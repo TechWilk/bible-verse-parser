@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace TechWilk\BibleVerseParser;
 
+use TechWilk\BibleVerseParser\Validator\BookValidator;
+
 class BiblePassage
 {
     protected $book;
     protected $chapter;
     protected $verse;
 
-    public function __construct(string $book, string $chapterRange, string $verseRange)
+    public function __construct(BibleBook $book, string $chapterRange, string $verseRange)
     {
-        $this->book = trim($book);
+        $this->book = $book->name();
         $this->chapter = trim($chapterRange);
         $this->verse = trim($verseRange);
     }
