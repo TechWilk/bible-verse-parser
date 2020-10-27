@@ -8,8 +8,6 @@ Parse verse textual representation into book/chapter/verse ranges
 
 Allows you to standardise many different people's bible passage/reference formats and gain programmatic access to them.
 
-> N.B. This package does NOT currently validate if any book / passage is valid. This is, however, planned for a later release. Shorthand representations of books are also NOT converted into full names. (see [#roadmap](Roadmap))
-
 ## Installation
 
 1.  Install through composer.
@@ -30,6 +28,8 @@ Allows you to standardise many different people's bible passage/reference format
 
 Just pass in a string, and it will parse into an array of passages.
 Each range will be a separate object in the array.
+
+> Shorthand book abbreviations will be converted into full book names
 
 ``` php
 /** @var BiblePassage[] */
