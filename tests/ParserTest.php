@@ -89,6 +89,13 @@ class ParserTest extends TestCase
                     '1 Peter 2:18-20',
                 ],
             ],
+            [
+                'Gen 1:1; 4:26',
+                [
+                    'Gen 1:1',
+                    'Gen 4:26',
+                ],
+            ],
         ];
     }
 
