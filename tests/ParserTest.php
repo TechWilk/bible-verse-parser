@@ -96,6 +96,14 @@ class ParserTest extends TestCase
                     'Gen 4:26',
                 ],
             ],
+            'readme example' => [
+                '1 John 5:4-17, 19-21 & Esther 2',
+                [
+                    '1 John 5:4-17',
+                    '1 John 5:19-21',
+                    'Esther 2',
+                ],
+            ],
         ];
     }
 
