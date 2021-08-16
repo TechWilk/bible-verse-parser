@@ -68,12 +68,12 @@ class BiblePassageParser
 
     protected function splitOnSeparators(string $text): array
     {
-        $textWithSingleSeparator = str_replace(
-            $this->separators,
-            $this->separators[0],
+        $normalisedText = str_replace(
+            $this->separators, 
+            $this->separators[0], 
             $text
         );
 
-        return explode($this->separators[0], $textWithSingleSeparator);
+        return explode($this->separators[0], $normalisedText);
     }
 }
