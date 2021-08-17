@@ -95,6 +95,7 @@ John 3
 ``` text
 John 3, 4
 John 3:16-18, 19-22
+Gen 1:1; 4:26
 John 3:16 & Isiah 22
 Is 53: 1-6 & 2 Cor 5: 20-21
 Deut 6: 4-9, 16-end & Luke 15: 1-10
