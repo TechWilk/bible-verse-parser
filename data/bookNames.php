@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 return [
-    1 => 'Genesis',
-    2 => 'Exodus',
-    3 => 'Leviticus',
-    4 => 'Numbers',
-    5 => 'Deuteronomy',
-    6 => 'Joshua',
-    7 => 'Judges',
-    8 => 'Ruth',
-    9 => '1 Samuel',
+    1  => 'Genesis',
+    2  => 'Exodus',
+    3  => 'Leviticus',
+    4  => 'Numbers',
+    5  => 'Deuteronomy',
+    6  => 'Joshua',
+    7  => 'Judges',
+    8  => 'Ruth',
+    9  => '1 Samuel',
     10 => '2 Samuel',
     11 => '1 Kings',
     12 => '2 Kings',
@@ -70,4 +70,3 @@ return [
     65 => 'Jude',
     66 => 'Revelation',
 ];
-

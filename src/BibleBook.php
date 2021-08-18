@@ -27,8 +27,8 @@ class BibleBook
 
     private function translateAbbreviation(string $abbreviation): string
     {
-        $bookAbbreviations = require __DIR__ . '/../data/books.php';
-        $bookNames = require __DIR__ . '/../data/bookNames.php';
+        $bookAbbreviations = require __DIR__.'/../data/books.php';
+        $bookNames = require __DIR__.'/../data/bookNames.php';
 
         $abbreviation = strtolower($abbreviation);
         $abbreviation = preg_replace('/[^a-z0-9 ]/', '', $abbreviation);

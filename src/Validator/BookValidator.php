@@ -10,7 +10,7 @@ class BookValidator
 {
     public static function validate(string $bookName): void
     {
-        $books = require __DIR__ . '/../../data/books.php';
+        $books = require __DIR__.'/../../data/books.php';
 
         $bookName = trim($bookName);
         $bookName = strtolower($bookName);
