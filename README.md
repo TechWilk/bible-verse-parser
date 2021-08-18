@@ -33,7 +33,7 @@ Each range will be a separate object in the array.
 
 ``` php
 /** @var BiblePassage[] */
-$passages = $passageParser->parse('1 John 5:4-17, 19-21 & Samuel 2');
+$passages = $passageParser->parse('1 John 5:4-17, 19-21 & Esther 2');
 ```
 
 ### Casting to string
@@ -49,7 +49,7 @@ outputs:
 ``` text
 1 John 5:4-17
 1 John 5:19-21
-Samuel 2
+Esther 2
 ```
 
 ### Custom formatting
@@ -67,7 +67,7 @@ outputs:
 ``` text
 1 John, chapter 5 verses 4-17.
 1 John, chapter 5 verses 19-21.
-Samuel, chapter 2 verses .
+Esther, chapter 2 verses .
 ```
 
 ## Supported formats
@@ -95,6 +95,7 @@ John 3
 ``` text
 John 3, 4
 John 3:16-18, 19-22
+Gen 1:1; 4:26
 John 3:16 & Isiah 22
 Is 53: 1-6 & 2 Cor 5: 20-21
 Deut 6: 4-9, 16-end & Luke 15: 1-10
