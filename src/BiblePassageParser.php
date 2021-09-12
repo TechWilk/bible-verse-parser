@@ -19,7 +19,7 @@ class BiblePassageParser
         $chapter = '';
         foreach ($sections as $section) {
             $result = preg_match(
-                '/^\\s*((?:[0-9]+\\s+)?[^0-9]+)?([0-9]+)?(?:\\s*[\\. \\:v]\\s*([0-9\\-]+(?:end)?))?\\s*$/',
+                '/^\\s*(?<book>(?:[0-9]+\\s+)?[^0-9]+)?(?<chapter>[0-9]+)?(?:\\s*[\\. \\:v]\\s*(?<verses>[0-9\\-]+(?:end)?))?\\s*$/',
                 $section,
                 $matches
             );
@@ -28,31 +28,31 @@ class BiblePassageParser
             }
 
             if (
-                !array_key_exists(1, $matches)
-                && !array_key_exists(2, $matches)
-                && !array_key_exists(3, $matches)
+                !array_key_exists('book', $matches)
+                && !array_key_exists('chapter', $matches)
+                && !array_key_exists('verses', $matches)
             ) {
                 throw new UnableToParseException('Unable to parse verse');
             }
 
-            $matches[1] = trim($matches[1] ?? '');
-            if ('' !== $matches[1]) {
-                $book = $matches[1];
+            $matches['book'] = trim($matches['book'] ?? '');
+            if ('' !== $matches['book']) {
+                $book = $matches['book'];
                 $chapter = '';
             }
 
-            $matches[2] = trim($matches[2] ?? '');
-            if ('' !== $matches[2]) {
-                $chapter = $matches[2];
+            $matches['chapter'] = trim($matches['chapter'] ?? '');
+            if ('' !== $matches['chapter']) {
+                $chapter = $matches['chapter'];
             }
 
             $verse = '';
-            $matches[3] = trim($matches[3] ?? '');
-            if ('' !== $matches[3]) {
+            $matches['verses'] = trim($matches['verses'] ?? '');
+            if ('' !== $matches['verses']) {
                 if ('' === $chapter) {
-                    $chapter = $matches[3];
+                    $chapter = $matches['verses'];
                 } else {
-                    $verse = $matches[3];
+                    $verse = $matches['verses'];
                 }
             }
 
