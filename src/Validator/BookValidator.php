@@ -8,16 +8,39 @@ use TechWilk\BibleVerseParser\Exception\InvalidBookException;
 
 class BookValidator
 {
-    public static function validate(string $bookName): void
+    public static function validate(string $bookName): bool
+    {
+        try {
+            self::getBookNumber($bookName);
+            return true;
+
+        } catch (InvalidBookException $e) {
+            return false;
+        }
+    }
+
+    public static function getBookNumber(string $bookAbbreviation): int
     {
         $books = require __DIR__.'/../../data/books.php';
 
-        $bookName = trim($bookName);
-        $bookName = strtolower($bookName);
-        $bookName = preg_replace('/[^a-z0-9 ]/', '', $bookName);
+        $bookAbbreviation = trim($bookAbbreviation);
+        $bookAbbreviation = strtolower($bookAbbreviation);
+        $bookAbbreviation = preg_replace('/[^a-z0-9 ]/', '', $bookAbbreviation);
 
-        if (!array_key_exists($bookName, $books)) {
-            throw InvalidBookException::invalidBook($bookName);
+        if (!array_key_exists($bookAbbreviation, $books)) {
+            throw InvalidBookException::invalidBook($bookAbbreviation);
         }
+
+        $bookNumber = $books[$bookAbbreviation];
+
+        return $bookNumber;
+    }
+
+    public static function translate(string $bookAbbreviation): string
+    {
+        $bookNames = require __DIR__ . '/../../data/bookNames.php';
+        $bookNumber = self::getBookNumber($bookAbbreviation);
+
+        return $bookNames[$bookNumber];
     }
 }
