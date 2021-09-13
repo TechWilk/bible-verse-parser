@@ -8,8 +8,4 @@ use Exception;
 
 class InvalidBookException extends Exception
 {
-    public static function invalidBook(string $bookName)
-    {
-        return new self('Invalid book name "'.$bookName.'"');
-    }
 }

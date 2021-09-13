@@ -816,7 +816,7 @@ return [
     ],
     23 => [
         'name' => 'Isaiah',
-        'abbreviations' => ['isa', 'is'],
+        'abbreviations' => ['isiah', 'isa', 'is'],
         'chapterStructure' => [
             1 => 31,
             2 => 22,

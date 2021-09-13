@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TechWilk\BibleVerseParser;
 
+use TechWilk\BibleVerseParser\Exception\InvalidBookException;
 use TechWilk\BibleVerseParser\Exception\UnableToParseException;
 
 class BiblePassageParser
@@ -96,7 +97,7 @@ class BiblePassageParser
         $bookNumber = $this->getBookNumber($bookAbbreviation);
 
         if (!array_key_exists($bookNumber, $this->bibleStructure)) {
-            throw InvalidBookException::invalidBook($bookNumber);
+            throw new InvalidBookException('Invalid book number "'.$bookNumber.'"');
         }
 
         $bookStructure = $this->bibleStructure[$bookNumber];
@@ -115,7 +116,7 @@ class BiblePassageParser
         $bookAbbreviation = $this->standardiseString($bookAbbreviation);
 
         if (!array_key_exists($bookAbbreviation, $this->bookAbbreviations)) {
-            throw InvalidBookException::invalidBook($bookAbbreviation);
+            throw new InvalidBookException('Invalid book name "'.$bookAbbreviation.'"');
         }
 
         $bookNumber = $this->bookAbbreviations[$bookAbbreviation];
