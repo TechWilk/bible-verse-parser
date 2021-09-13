@@ -289,7 +289,7 @@ return [
     ],
     9 => [
         'name' => '1 Samuel',
-        'abbreviations' => ['1 sam', '1st sam', '1st samuel', 'first samuel', '1 sm', '1 sa', ],
+        'abbreviations' => ['1 sam', '1st sam', '1st samuel', 'first samuel', '1 sm', '1 sa'],
         'chapterStructure' => [
             1 => 28,
             2 => 36,
@@ -384,7 +384,7 @@ return [
     ],
     12 => [
         'name' => '2 Kings',
-        'abbreviations' => ['2 kgs', '2nd kgs', '2nd kings', 'second kings', '2 kin', '2 ki', ],
+        'abbreviations' => ['2 kgs', '2nd kgs', '2nd kings', 'second kings', '2 kin', '2 ki'],
         'chapterStructure' => [
             1 => 18,
             2 => 25,
@@ -450,7 +450,7 @@ return [
     ],
     14 => [
         'name' => '2 Chronicles',
-        'abbreviations' => ['2 chr', '2nd chr', '2nd chronicles', 'second chronicles', '2 ch', '2 chron', ],
+        'abbreviations' => ['2 chr', '2nd chr', '2nd chronicles', 'second chronicles', '2 ch', '2 chron'],
         'chapterStructure' => [
             1 => 17,
             2 => 18,
@@ -784,7 +784,7 @@ return [
     ],
     21 => [
         'name' => 'Ecclesiastes',
-        'abbreviations' => ['eccl', 'ecc', 'ecc1', 'eccles', 'eccle', 'ec', ],
+        'abbreviations' => ['eccl', 'ecc', 'ecc1', 'eccles', 'eccle', 'ec'],
         'chapterStructure' => [
             1 => 18,
             2 => 26,
