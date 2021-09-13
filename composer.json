@@ -1,6 +1,6 @@
 {
     "name": "techwilk/bible-verse-parser",
-    "description": "",
+    "description": "Parse verse textual representation into book/chapter/verse ranges",
     "keywords": ["bible", "scripture", "verse", "passage", "parse"],
     "homepage": "http://github.com/techwilk/bible-verse-parser",
     "license": "MIT",
