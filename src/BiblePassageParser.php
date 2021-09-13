@@ -14,7 +14,7 @@ class BiblePassageParser
 
     public function __construct()
     {
-        $this->bibleStructure = require __DIR__ . '/../data/bibleStructure.php';
+        $this->bibleStructure = require __DIR__.'/../data/bibleStructure.php';
 
         foreach ($this->bibleStructure as $bookNumber => $book) {
             $this->bookAbbreviations[$this->standardiseString($book['name'])] = $bookNumber;
