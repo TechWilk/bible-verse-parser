@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace TechWilk\BibleVerseParser;
 
-use TechWilk\BibleVerseParser\Validator\BookValidator;
-use TechWilk\BibleVerseParser\Exception\InvalidBookException;
-
 class Book
 {
     protected $name;
