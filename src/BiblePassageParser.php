@@ -91,19 +91,6 @@ class BiblePassageParser
         return explode($this->separators[0], $normalisedText);
     }
 
-    protected function getBookNumber(string $bookAbbreviation): int
-    {
-        $bookAbbreviation = $this->standardiseString($bookAbbreviation);
-
-        if (!array_key_exists($bookAbbreviation, $this->bookAbbreviations)) {
-            throw InvalidBookException::invalidBook($bookAbbreviation);
-        }
-
-        $bookNumber = $this->bookAbbreviations[$bookAbbreviation];
-
-        return $bookNumber;
-    }
-
     protected function getBookFromAbbreviation(string $bookAbbreviation): Book
     {
         $bookNumber = $this->getBookNumber($bookAbbreviation);
@@ -121,6 +108,19 @@ class BiblePassageParser
         );
 
         return $book;
+    }
+
+    protected function getBookNumber(string $bookAbbreviation): int
+    {
+        $bookAbbreviation = $this->standardiseString($bookAbbreviation);
+
+        if (!array_key_exists($bookAbbreviation, $this->bookAbbreviations)) {
+            throw InvalidBookException::invalidBook($bookAbbreviation);
+        }
+
+        $bookNumber = $this->bookAbbreviations[$bookAbbreviation];
+
+        return $bookNumber;
     }
 
     protected function standardiseString(string $string): string
