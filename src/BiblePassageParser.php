@@ -4,11 +4,26 @@ declare(strict_types=1);
 
 namespace TechWilk\BibleVerseParser;
 
+use TechWilk\BibleVerseParser\Exception\InvalidBookException;
 use TechWilk\BibleVerseParser\Exception\UnableToParseException;
 
 class BiblePassageParser
 {
     protected $separators = ['&', ',', ';'];
+    protected $bibleStructure = [];
+    protected $bookAbbreviations = [];
+
+    public function __construct()
+    {
+        $this->bibleStructure = require __DIR__.'/../data/bibleStructure.php';
+
+        foreach ($this->bibleStructure as $bookNumber => $book) {
+            $this->bookAbbreviations[$this->standardiseString($book['name'])] = $bookNumber;
+            foreach ($book['abbreviations'] as $abbreviation) {
+                $this->bookAbbreviations[$this->standardiseString($abbreviation)] = $bookNumber;
+            }
+        }
+    }
 
     public function parse(string $versesString): array
     {
@@ -19,7 +34,7 @@ class BiblePassageParser
         $chapter = '';
         foreach ($sections as $section) {
             $result = preg_match(
-                '/^\\s*((?:[0-9]+\\s+)?[^0-9]+)?([0-9]+)?(?:\\s*[\\. \\:v]\\s*([0-9\\-]+(?:end)?))?\\s*$/',
+                '/^\\s*(?<book>(?:[0-9]+\\s+)?[^0-9]+)?(?<chapter>[0-9]+)?(?:\\s*[\\. \\:v]\\s*(?<verses>[0-9\\-]+(?:end)?))?\\s*$/',
                 $section,
                 $matches
             );
@@ -28,36 +43,36 @@ class BiblePassageParser
             }
 
             if (
-                !array_key_exists(1, $matches)
-                && !array_key_exists(2, $matches)
-                && !array_key_exists(3, $matches)
+                !array_key_exists('book', $matches)
+                && !array_key_exists('chapter', $matches)
+                && !array_key_exists('verses', $matches)
             ) {
                 throw new UnableToParseException('Unable to parse verse');
             }
 
-            $matches[1] = trim($matches[1] ?? '');
-            if ('' !== $matches[1]) {
-                $book = $matches[1];
+            $matches['book'] = trim($matches['book'] ?? '');
+            if ('' !== $matches['book']) {
+                $book = $matches['book'];
                 $chapter = '';
             }
 
-            $matches[2] = trim($matches[2] ?? '');
-            if ('' !== $matches[2]) {
-                $chapter = $matches[2];
+            $matches['chapter'] = trim($matches['chapter'] ?? '');
+            if ('' !== $matches['chapter']) {
+                $chapter = $matches['chapter'];
             }
 
             $verse = '';
-            $matches[3] = trim($matches[3] ?? '');
-            if ('' !== $matches[3]) {
+            $matches['verses'] = trim($matches['verses'] ?? '');
+            if ('' !== $matches['verses']) {
                 if ('' === $chapter) {
-                    $chapter = $matches[3];
+                    $chapter = $matches['verses'];
                 } else {
-                    $verse = $matches[3];
+                    $verse = $matches['verses'];
                 }
             }
 
             $verses[] = new BiblePassage(
-                $book,
+                $this->getBookFromAbbreviation($book),
                 $chapter,
                 $verse
             );
@@ -75,5 +90,46 @@ class BiblePassageParser
         );
 
         return explode($this->separators[0], $normalisedText);
+    }
+
+    protected function getBookFromAbbreviation(string $bookAbbreviation): Book
+    {
+        $bookNumber = $this->getBookNumber($bookAbbreviation);
+
+        if (!array_key_exists($bookNumber, $this->bibleStructure)) {
+            throw new InvalidBookException('Invalid book number "'.$bookNumber.'"');
+        }
+
+        $bookStructure = $this->bibleStructure[$bookNumber];
+
+        $book = new Book(
+            $bookStructure['name'],
+            $bookStructure['abbreviations'],
+            $bookStructure['chapterStructure']
+        );
+
+        return $book;
+    }
+
+    protected function getBookNumber(string $bookAbbreviation): int
+    {
+        $bookAbbreviation = $this->standardiseString($bookAbbreviation);
+
+        if (!array_key_exists($bookAbbreviation, $this->bookAbbreviations)) {
+            throw new InvalidBookException('Invalid book name "'.$bookAbbreviation.'"');
+        }
+
+        $bookNumber = $this->bookAbbreviations[$bookAbbreviation];
+
+        return $bookNumber;
+    }
+
+    protected function standardiseString(string $string): string
+    {
+        $string = trim($string);
+        $string = strtolower($string);
+        $string = preg_replace('/[^a-z0-9 ]/', '', $string);
+
+        return $string;
     }
 }
