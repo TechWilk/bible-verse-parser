@@ -10,7 +10,7 @@ class BiblePassage
     protected $chapter;
     protected $verse;
 
-    public function __construct(BibleBook $book, string $chapterRange, string $verseRange)
+    public function __construct(Book $book, string $chapterRange, string $verseRange)
     {
         $this->book = $book->name();
         $this->chapter = trim($chapterRange);
