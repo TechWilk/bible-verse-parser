@@ -29,12 +29,12 @@ class BiblePassageParser
     {
         $sections = $this->splitOnSeparators($versesString);
 
-        $verses = [];
+        $passages = [];
         $book = '';
         $chapter = '';
         foreach ($sections as $section) {
             $result = preg_match(
-                '/^\\s*(?<book>(?:[0-9]+\\s+)?[^0-9]+)?(?<chapter>[0-9]+)?(?:\\s*[\\. \\:v]\\s*(?<verses>[0-9\\-]+(?:end)?))?\\s*$/',
+                '/^\s*(?<start_book>(?:[0-9]+\s+)?[^0-9]+)?(?<start_chapter>[0-9]+)?(?:\s*[\. \:v]\s*(?<start_verse>[0-9]+(?:end)?))?\s*(?:\-\s*(?<end_book>(?:[0-9]+\s+)?[^0-9]+)?(?<end_chapter>[0-9]+)?(?:\s*[\. \:v]\s*(?<end_verse>[0-9]+(?:end)?))?\s*)?$/',
                 $section,
                 $matches
             );
@@ -42,43 +42,94 @@ class BiblePassageParser
                 throw new UnableToParseException('Unable to parse verse');
             }
 
+            // var_dump($matches);
+
             if (
-                !array_key_exists('book', $matches)
-                && !array_key_exists('chapter', $matches)
-                && !array_key_exists('verses', $matches)
+                !array_key_exists('start_book', $matches)
+                && !array_key_exists('start_chapter', $matches)
+                && !array_key_exists('start_verse', $matches)
             ) {
                 throw new UnableToParseException('Unable to parse verse');
             }
 
-            $matches['book'] = trim($matches['book'] ?? '');
-            if ('' !== $matches['book']) {
-                $book = $matches['book'];
+            $matches['start_book'] = trim($matches['start_book'] ?? '');
+            $matches['start_chapter'] = trim($matches['start_chapter'] ?? '');
+            $matches['start_verse'] = trim($matches['start_verse'] ?? '');
+            $matches['end_book'] = trim($matches['end_book'] ?? '');
+            $matches['end_chapter'] = trim($matches['end_chapter'] ?? '');
+            $matches['end_verse'] = trim($matches['end_verse'] ?? '');
+
+            // Start reference stuff
+
+            if ('' !== $matches['start_book']) {
+                $book = $matches['start_book'];
                 $chapter = '';
+                $verse = '';
             }
 
-            $matches['chapter'] = trim($matches['chapter'] ?? '');
-            if ('' !== $matches['chapter']) {
-                $chapter = $matches['chapter'];
+            if ('' !== $matches['start_chapter']) {
+                $chapter = $matches['start_chapter'];
+                $verse = '';
             }
 
             $verse = '';
-            $matches['verses'] = trim($matches['verses'] ?? '');
-            if ('' !== $matches['verses']) {
+            if ('' !== $matches['start_verse']) {
                 if ('' === $chapter) {
-                    $chapter = $matches['verses'];
+                    $chapter = $matches['start_verse'];
                 } else {
-                    $verse = $matches['verses'];
+                    $verse = $matches['start_verse'];
                 }
             }
 
-            $verses[] = new BiblePassage(
-                $this->getBookFromAbbreviation($book),
-                $chapter,
-                $verse
+            // End reference stuff
+
+            $endBook = '';
+            if ('' !== $matches['end_book']) {
+                $endBook = $matches['end_book'];
+            }
+
+            $endVerse = '';
+            $endChapter = '';
+            if ('' !== $matches['end_chapter']) {
+                if (
+                    '' !== $verse
+                    && (
+                        '' === $matches['end_book']
+                        || '' === $matches['end_verse']
+                    )
+                ) {
+                    $endVerse = $matches['end_chapter'];
+                } else {
+                    $endChapter = $matches['end_chapter'];
+                }
+            }
+
+            if ('' !== $matches['end_verse']) {
+                $endVerse = $matches['end_verse'];
+            }
+
+            $startBookObject = $this->getBookFromAbbreviation($book);
+            $fromReference = new BibleReference(
+                $startBookObject,
+                intval(trim($chapter)),
+                intval(trim($verse)),
+                ''
+            );
+
+            $toReference = new BibleReference(
+                $endBook ? $this->getBookFromAbbreviation($endBook) : $startBookObject,
+                intval(trim($endChapter !== '' ? $endChapter : $chapter)),
+                intval(trim($endVerse !== '' ? $endVerse : $verse)),
+                ''
+            );
+
+            $passages[] = new BiblePassage(
+                $fromReference,
+                $toReference
             );
         }
 
-        return $verses;
+        return $passages;
     }
 
     protected function splitOnSeparators(string $text): array

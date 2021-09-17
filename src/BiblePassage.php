@@ -6,38 +6,94 @@ namespace TechWilk\BibleVerseParser;
 
 class BiblePassage
 {
-    protected $book;
-    protected $chapter;
-    protected $verse;
+    protected $from;
+    protected $to;
 
-    public function __construct(Book $book, string $chapterRange, string $verseRange)
+    public function __construct(BibleReference $from, BibleReference $to)
     {
-        $this->book = $book->name();
-        $this->chapter = trim($chapterRange);
-        $this->verse = trim($verseRange);
+        $this->from = $from;
+        $this->to = $to;
     }
 
-    public function book(): string
+    public function from(): BibleReference
     {
-        return $this->book;
+        return $this->from;
     }
 
-    public function chapterRange(): string
+    public function to(): BibleReference
     {
-        return $this->chapter;
-    }
-
-    public function verseRange(): string
-    {
-        return $this->verse;
+        return $this->to;
     }
 
     public function __toString(): string
     {
-        if ('' === $this->verse) {
-            return "{$this->book} {$this->chapter}";
+        $string = "{$this->from->book()->name()}";
+
+        // Format "John"
+        if (
+            $this->to->book() === $this->from->book()
+            && 1 === $this->from->chapter()
+            && $this->to->book()->versesInChapter($this->to->chapter()) === $this->to->verse()
+            && 1 === $this->from->verse()
+            && $this->to->book()->versesInChapter($this->to->chapter()) === $this->to->verse()
+        ) {
+            return "{$this->from->book()->name()} {$this->from->chapter()}";
         }
 
-        return "{$this->book} {$this->chapter}:{$this->verse}";
+        // Format "John 3"
+        if (
+            $this->to->book() === $this->from->book()
+            && $this->to->chapter() === $this->from->chapter()
+            && (
+                0 === $this->from->verse()
+                || (
+                    1 === $this->from->verse()
+                    && $this->to->book()->versesInChapter($this->to->chapter()) === $this->to->verse()
+                )
+            )
+        ) {
+            return "{$this->from->book()->name()} {$this->from->chapter()}";
+        }
+
+        // Format "John 3:16"
+        if (
+            $this->to->book() === $this->from->book()
+            && $this->to->chapter() === $this->from->chapter()
+            && $this->to->verse() === $this->from->verse()
+        ) {
+            return "{$this->from->book()->name()} {$this->from->chapter()}:{$this->from->verse()}";
+        }
+
+        // start chapter
+        // if ($this->from->book()->versesInChapter($this->from->chapter()) === $this->$this->from->chapter()) {
+        if ($this->$this->to->chapter() === $this->$this->from->chapter()) {
+            $string .= " {$this->from->chapter()}";
+        }
+
+        // if ($this->from->book() === $this->to->book()) {
+
+        // }
+
+
+        return $string;
+
+
+        // if ('' === $this->from->verse()) {
+        //     return "{$this->from->book()->name()} {$this->from->chapter()}";
+        // }
+
+        // return "{$this->from->book()->name()} {$this->from->chapter()}:{$this->from->verse()}";
+
+
+        /**
+         * formats
+         */
+        // John
+        // John 3
+        // John 3:16
+        // John 3:16-17
+        // John 3-16-4:1
+        // John 3:16 - Acts 1:1 // always has a verse
+
     }
 }
