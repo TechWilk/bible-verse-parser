@@ -74,9 +74,7 @@ class BiblePassage
 
         // }
 
-
         return $string;
-
 
         // if ('' === $this->from->verse()) {
         //     return "{$this->from->book()->name()} {$this->from->chapter()}";
@@ -84,9 +82,8 @@ class BiblePassage
 
         // return "{$this->from->book()->name()} {$this->from->chapter()}:{$this->from->verse()}";
 
-
         /**
-         * formats
+         * formats.
          */
         // John
         // John 3
@@ -94,6 +91,5 @@ class BiblePassage
         // John 3:16-17
         // John 3-16-4:1
         // John 3:16 - Acts 1:1 // always has a verse
-
     }
 }
