@@ -22,7 +22,7 @@ class BibleReference
         if (
             $verse > $book->versesInChapter($chapter)
         ) {
-            throw new InvalidArgumentException('Verse "'.$verse.'" does not exist in book "'.$book->name().'"');;
+            throw new InvalidArgumentException('Verse "'.$verse.'" does not exist in chapter "'.$chapter.'" of book "'.$book->name().'"');;
         }
 
         if (!in_array($fragment, ['', 'a', 'b', 'c'])) {
@@ -57,7 +57,7 @@ class BibleReference
 
     public function integerNotation(): int
     {
-        return 0;// @todo implement this with multiplications;
+        return (1000000 * $this->book->number()) + (1000 * $this->chapter) + $this->verse;
     }
 
     public function __toString(): string

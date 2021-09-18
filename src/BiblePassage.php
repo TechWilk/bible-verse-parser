@@ -70,9 +70,9 @@ class BiblePassage
             $string .= " {$this->from->chapter()}";
         }
 
-        // if ($this->from->book() === $this->to->book()) {
-
-        // }
+        if ($this->from->book() !== $this->to->book()) {
+            $string = "{$this->from->book()->name()} {$this->from->chapter()}:{$this->from->verse()} - {$this->to->book()->name()} {$this->to->chapter()}:{$this->to->verse()}";
+        }
 
 
         return $string;

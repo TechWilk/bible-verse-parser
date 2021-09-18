@@ -8,6 +8,16 @@ use TechWilk\BibleVerseParser\Exception\UnableToParseException;
 
 class ParserTest extends TestCase
 {
+    protected $parser;
+
+    public function setUp(): void
+    {
+        $bibleStructure = require __DIR__.'/../data/bibleStructure.php';
+
+        $this->parser = new BiblePassageParser($bibleStructure, []);
+
+    }
+
     public function providerVerses(): array
     {
         return [
@@ -137,9 +147,9 @@ class ParserTest extends TestCase
     /** @dataProvider providerVerses */
     public function testParseVerses(string $verses, array $expectedParsedVerses): void
     {
-        $parser = new BiblePassageParser();
+        var_dump('running test:');
 
-        $parsedVerses = $parser->parse($verses);
+        $parsedVerses = $this->parser->parse($verses);
 
         // test as strings for now
         $parsedVerses = array_map(fn ($verse) => (string) $verse, $parsedVerses);
@@ -157,9 +167,7 @@ class ParserTest extends TestCase
     /** @dataProvider providerInvalidVerses */
     public function testParseInvalidVerses(string $invalidVerse): void
     {
-        $parser = new BiblePassageParser();
-
         $this->expectException(UnableToParseException::class);
-        $parser->parse($invalidVerse);
+        $this->parser->parse($invalidVerse);
     }
 }
