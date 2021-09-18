@@ -15,7 +15,6 @@ class BiblePassageParser
 
     public function __construct(array $structure, array $separators = [])
     {
-
         $this->bibleStructure = $structure;
 
         foreach ($this->bibleStructure as $bookNumber => $book) {
@@ -56,7 +55,6 @@ class BiblePassageParser
 
             var_dump('after 1, reference:', $fromReference);
 
-
             // End reference stuff
 
             if (1 === count($splitSection)) {
@@ -66,7 +64,7 @@ class BiblePassageParser
                     $verse ?? 1,
                     ''
                 );
-                // $toReference = $fromReference;
+            // $toReference = $fromReference;
             } else {
                 $matches = $this->parseReference($splitSection[1]);
 
@@ -87,7 +85,7 @@ class BiblePassageParser
                         )
                     ) {
                         var_dump('end verse being set', $matches['chapter_or_verse']);
-                        // $endVerse = intval($matches['chapter_or_verse']);
+                    // $endVerse = intval($matches['chapter_or_verse']);
                     } else {
                         $endChapter = intval($matches['chapter_or_verse']);
                     }
@@ -104,8 +102,7 @@ class BiblePassageParser
                 $lastChapter = $endChapterForReference;
                 $lastVerse = $endVerse;
 
-            var_dump('after 2, lasts:', $lastBook, $lastChapter, $lastVerse);
-
+                var_dump('after 2, lasts:', $lastBook, $lastChapter, $lastVerse);
 
                 $toReference = new BibleReference(
                     $endBookObject,
@@ -113,8 +110,7 @@ class BiblePassageParser
                     intval(!is_null($endVerse) ? $endVerse : $endBookObject->versesInChapter($endChapterForReference)),
                     ''
                 );
-            var_dump('after 2, reference:', $toReference);
-
+                var_dump('after 2, reference:', $toReference);
             }
 
             $passages[] = new BiblePassage(

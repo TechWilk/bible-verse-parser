@@ -15,7 +15,6 @@ class ParserTest extends TestCase
         $bibleStructure = require __DIR__.'/../data/bibleStructure.php';
 
         $this->parser = new BiblePassageParser($bibleStructure, []);
-
     }
 
     public function providerVerses(): array

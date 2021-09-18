@@ -75,7 +75,7 @@ class Book
     public function versesInChapter(int $chapter): int
     {
         if (!array_key_exists($chapter, $this->chapterStructure)) {
-            throw new InvalidArgumentException('Chapter "'.$chapter.'" does not exist');;
+            throw new InvalidArgumentException('Chapter "'.$chapter.'" does not exist');
         }
 
         return $this->chapterStructure[$chapter];
