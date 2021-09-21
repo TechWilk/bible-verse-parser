@@ -15,7 +15,6 @@ class BiblePassageParser
 
     public function __construct(array $structure, array $separators = [])
     {
-
         $bibleStructure = $structure;
 
         foreach ($bibleStructure as $bookNumber => $bookData) {
@@ -45,7 +44,6 @@ class BiblePassageParser
         $lastVerse = null;
 
         foreach ($sections as $key => $section) {
-
             $splitSection = explode('-', $section);
 
             if (count($splitSection) > 2) {
