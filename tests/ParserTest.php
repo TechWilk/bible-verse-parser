@@ -16,7 +16,6 @@ class ParserTest extends TestCase
         $bibleStructure = require __DIR__.'/../data/bibleStructure.php';
 
         $this->parser = new BiblePassageParser($bibleStructure, []);
-
     }
 
     public function providerVerses(): array
@@ -25,9 +24,9 @@ class ParserTest extends TestCase
             'readme example' => [
                 '1 John 5:4-17, 19-21 & Esther 2',
                 [
-                    ["1 John 5:4", "1 John 5:17"],
-                    ["1 John 5:19", "1 John 5:21"],
-                    ["Esther 2:1", "Esther 2:23"],
+                    ['1 John 5:4', '1 John 5:17'],
+                    ['1 John 5:19', '1 John 5:21'],
+                    ['Esther 2:1', 'Esther 2:23'],
                 ],
             ],
             'colon as verse delimiter' => [
