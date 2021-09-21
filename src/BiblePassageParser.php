@@ -10,19 +10,28 @@ use TechWilk\BibleVerseParser\Exception\UnableToParseException;
 class BiblePassageParser
 {
     protected $separators = ['&', ',', ';'];
-    protected $bibleStructure = [];
+    protected $books = [];
     protected $bookAbbreviations = [];
 
     public function __construct(array $structure, array $separators = [])
     {
 
-        $this->bibleStructure = $structure;
+        $bibleStructure = $structure;
 
-        foreach ($this->bibleStructure as $bookNumber => $book) {
-            $this->bookAbbreviations[$this->standardiseString($book['name'])] = $bookNumber;
-            foreach ($book['abbreviations'] as $abbreviation) {
-                $this->bookAbbreviations[$this->standardiseString($abbreviation)] = $bookNumber;
+        foreach ($bibleStructure as $bookNumber => $bookData) {
+            $book = new Book(
+                $bookNumber,
+                $bookData['name'],
+                $bookData['abbreviations'],
+                $bookData['chapterStructure']
+            );
+
+            $this->bookAbbreviations[$this->standardiseString($book->name())] = $book->number();
+            foreach ($book->abbreviations() as $abbreviation) {
+                $this->bookAbbreviations[$this->standardiseString($abbreviation)] = $book->number();
             }
+
+            $this->books[$bookNumber] = $book;
         }
     }
 
@@ -34,9 +43,8 @@ class BiblePassageParser
         $lastBook = '';
         $lastChapter = null;
         $lastVerse = null;
-        var_dump('before foreach:');
-        foreach ($sections as $section) {
-            var_dump('start of foreach:');
+
+        foreach ($sections as $key => $section) {
 
             $splitSection = explode('-', $section);
 
@@ -54,29 +62,28 @@ class BiblePassageParser
                 $lastVerse,
             ] = $this->parseStartReference($splitSection[0], $lastBook, $lastChapter, $lastVerse);
 
-            var_dump('after 1, reference:', $fromReference);
-
-
             // End reference stuff
 
             if (1 === count($splitSection)) {
+                $endBookObject = $this->getBookFromAbbreviation($lastBook);
+                $endChapterForReference = intval($lastChapter ?? $endBookObject->chaptersInBook());
                 $toReference = new BibleReference(
-                    $this->getBookFromAbbreviation($lastBook),
-                    $chapter ?? 1,
-                    $verse ?? 1,
+                    $endBookObject,
+                    $endChapterForReference,
+                    $lastVerse ?? $endBookObject->versesInChapter($endChapterForReference),
                     ''
                 );
-                // $toReference = $fromReference;
             } else {
                 $matches = $this->parseReference($splitSection[1]);
 
                 $endBook = '';
-                $endVerse = null;
                 $endChapter = null;
+                $endVerse = null;
 
                 if ('' !== $matches['book']) {
                     $endBook = (string) $matches['book'];
                 }
+                $endBookObject = $this->getBookFromAbbreviation($endBook !== '' ? $endBook : $lastBook);
 
                 if ('' !== $matches['chapter_or_verse']) {
                     if (
@@ -86,9 +93,14 @@ class BiblePassageParser
                             || '' === $matches['verse']
                         )
                     ) {
-                        var_dump('end verse being set', $matches['chapter_or_verse']);
-                        // $endVerse = intval($matches['chapter_or_verse']);
+                        if ('end' === $matches['chapter_or_verse']) {
+                            $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
+                        }
+                        $endVerse = intval($matches['chapter_or_verse']);
                     } else {
+                        if ('end' === $matches['chapter_or_verse']) {
+                            $matches['chapter_or_verse'] = $endBookObject->chaptersInBook();
+                        }
                         $endChapter = intval($matches['chapter_or_verse']);
                     }
                 }
@@ -97,24 +109,18 @@ class BiblePassageParser
                     $endVerse = intval($matches['verse']);
                 }
 
-                $endBookObject = $this->getBookFromAbbreviation($endBook !== '' ? $endBook : $lastBook);
-                $endChapterForReference = intval(!is_null($endChapter) ? $endChapter : ($chapter ?? $endBookObject->chaptersInBook()));
+                $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->chaptersInBook();
 
                 $lastBook = $endBookObject->name();
-                $lastChapter = $endChapterForReference;
+                $lastChapter = $endChapter ?? $lastChapter;
                 $lastVerse = $endVerse;
-
-            var_dump('after 2, lasts:', $lastBook, $lastChapter, $lastVerse);
-
 
                 $toReference = new BibleReference(
                     $endBookObject,
                     $endChapterForReference,
-                    intval(!is_null($endVerse) ? $endVerse : $endBookObject->versesInChapter($endChapterForReference)),
+                    $endVerse ?? $endBookObject->versesInChapter($endChapterForReference),
                     ''
                 );
-            var_dump('after 2, reference:', $toReference);
-
             }
 
             $passages[] = new BiblePassage(
@@ -150,6 +156,15 @@ class BiblePassageParser
         $matches['chapter_or_verse'] = trim($matches['chapter_or_verse'] ?? '');
         $matches['verse'] = trim($matches['verse'] ?? '');
 
+        if (
+            in_array($matches['book'], ['start', 'end'])
+            && '' === $matches['chapter_or_verse']
+            && '' === $matches['verse']
+        ) {
+            $matches['chapter_or_verse'] = $matches['book'];
+            $matches['book'] = '';
+        }
+
         return $matches;
     }
 
@@ -173,7 +188,10 @@ class BiblePassageParser
         }
 
         if ('' !== $matches['chapter_or_verse']) {
-            if (is_null($lastVerse)) {
+            if (
+                is_null($lastVerse)
+                || '' !== $matches['verse']
+            ) {
                 $chapter = intval($matches['chapter_or_verse']);
                 $lastVerse = null;
             } else {
@@ -201,8 +219,6 @@ class BiblePassageParser
         $lastBook = $startBookObject->name();
         $lastChapter = $chapter;
         $lastVerse = $verse;
-
-        var_dump('after 1, lasts:', $lastBook, $lastChapter, $lastVerse);
 
         $fromReference = new BibleReference(
             $startBookObject,
@@ -235,20 +251,11 @@ class BiblePassageParser
     {
         $bookNumber = $this->getBookNumber($bookAbbreviation);
 
-        if (!array_key_exists($bookNumber, $this->bibleStructure)) {
+        if (!array_key_exists($bookNumber, $this->books)) {
             throw new InvalidBookException('Invalid book number "'.$bookNumber.'"');
         }
 
-        $bookStructure = $this->bibleStructure[$bookNumber];
-
-        $book = new Book(
-            $bookNumber,
-            $bookStructure['name'],
-            $bookStructure['abbreviations'],
-            $bookStructure['chapterStructure']
-        );
-
-        return $book;
+        return $this->books[$bookNumber];
     }
 
     protected function getBookNumber(string $bookAbbreviation): int

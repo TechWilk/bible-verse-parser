@@ -62,10 +62,10 @@ class BibleReference
 
     public function __toString(): string
     {
-        if ('' === $this->verse) {
-            return "{$this->book} {$this->chapter}";
+        if (!$this->verse) {
+            return "{$this->book->name()} {$this->chapter}";
         }
 
-        return "{$this->book} {$this->chapter}:{$this->verse}{$this->fragment}";
+        return "{$this->book->name()} {$this->chapter}:{$this->verse}{$this->fragment}";
     }
 }
