@@ -26,7 +26,7 @@ class BiblePassage
     }
 
     /**
-     * string formats
+     * string formats.
      *
      * John
      * John 3
@@ -50,7 +50,7 @@ class BiblePassage
             return $string;
         }
 
-        $string .= ' ' . $this->from->chapter();
+        $string .= ' '.$this->from->chapter();
 
         // Format "John 3"
         if (
@@ -67,7 +67,7 @@ class BiblePassage
             return $string;
         }
 
-        $string .= ':' . $this->from->verse();
+        $string .= ':'.$this->from->verse();
 
         // Format "John 3:16"
         if (
@@ -80,16 +80,16 @@ class BiblePassage
 
         // Format "John 3:16-17"
         if ($this->from->chapter() === $this->to->chapter()) {
-            return $string . '-' . $this->to->verse();
+            return $string.'-'.$this->to->verse();
         }
 
-        $toString = $this->to->chapter() . ':' . $this->to->verse();
+        $toString = $this->to->chapter().':'.$this->to->verse();
 
         // Format "John 3:16 - Acts 1:1"
         if ($this->from->book()->name() !== $this->to->book()->name()) {
-            return $string . ' - ' . $this->to->book()->name() . ' ' . $toString;
+            return $string.' - '.$this->to->book()->name().' '.$toString;
         }
 
-        return $string . '-' . $toString;
+        return $string.'-'.$toString;
     }
 }
