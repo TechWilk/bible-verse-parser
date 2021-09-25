@@ -15,9 +15,7 @@ class BiblePassageParser
 
     public function __construct(array $structure, array $separators = [])
     {
-        $bibleStructure = $structure;
-
-        foreach ($bibleStructure as $bookNumber => $bookData) {
+        foreach ($structure as $bookNumber => $bookData) {
             $book = new Book(
                 $bookNumber,
                 $bookData['name'],

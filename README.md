@@ -58,16 +58,51 @@ Alternatively use the values yourself.
 
 ``` php
 foreach ($passages as $passage) {
-    echo "{$passage->book()}, chapter {$passage->chapter()} passages {$passage->verseRange()}." . PHP_EOL;
+    echo "From {$passage->from()->book()->name()}";
+    echo " chapter {$passage->from()->chapter()}";
+    echo " verse {$passage->from()->verse()}";
+
+    echo ", to {$passage->to()->book()->name()}";
+    echo " chapter {$passage->to()->chapter()}";
+    echo " verse {$passage->to()->verse()}." . PHP_EOL;
 }
 ```
 
 outputs:
 
 ``` text
-1 John, chapter 5 verses 4-17.
-1 John, chapter 5 verses 19-21.
-Esther, chapter 2 verses .
+From 1 John chapter 5 verse 4, to 1 John chapter 5 verse 17.
+From 1 John chapter 5 verse 19, to 1 John chapter 5 verse 21.
+From Esther chapter 2 verse 1, to Esther chapter 2 verse 23.
+```
+
+### Integer notation
+
+Ideal for storing in a database & querying with something like MySQL. The integer notation is the same as several other libraries, with book number in millions, chapter in thousands and verse as ones `(1000000 * book) + (1000 * chapter) + verse`. 
+
+```php
+foreach ($passages as $passage) {
+    echo $passage->from()->integerNotation();
+    echo ' (' . (string)$passage->from() . ')' . PHP_EOL;
+
+    echo $passage->to()->integerNotation();
+    echo ' (' . (string)$passage->to() . ')' . PHP_EOL;
+
+    echo PHP_EOL;
+}
+```
+
+outputs:
+
+``` text
+62005004 (1 John 5:4)
+62005017 (1 John 5:17)
+
+62005019 (1 John 5:19)
+62005021 (1 John 5:21)
+
+17002001 (Esther 2:1)
+17002023 (Esther 2:23)
 ```
 
 ## Supported formats
