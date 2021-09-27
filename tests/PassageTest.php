@@ -4,10 +4,8 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use TechWilk\BibleVerseParser\BiblePassage;
-use TechWilk\BibleVerseParser\BiblePassageParser;
 use TechWilk\BibleVerseParser\BibleReference;
 use TechWilk\BibleVerseParser\Book;
-use TechWilk\BibleVerseParser\Exception\UnableToParseException;
 
 class PassageTest extends TestCase
 {
