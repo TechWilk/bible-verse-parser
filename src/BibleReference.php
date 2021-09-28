@@ -17,7 +17,7 @@ class BibleReference
         Book $book,
         int $chapter,
         int $verse,
-        string $fragment, // 'a' | 'b' | 'c'
+        string $fragment // 'a' | 'b' | 'c'
     ) {
         if (
             $verse > $book->versesInChapter($chapter)
