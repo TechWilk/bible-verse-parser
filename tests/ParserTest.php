@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use TechWilk\BibleVerseParser\BiblePassage;
 use TechWilk\BibleVerseParser\BiblePassageParser;
+use TechWilk\BibleVerseParser\Exception\InvalidBookException;
 use TechWilk\BibleVerseParser\Exception\UnableToParseException;
 
 class ParserTest extends TestCase
@@ -47,6 +48,18 @@ class ParserTest extends TestCase
                     ['John 3:16', 'John 3:16'],
                 ],
             ],
+            // 'ch and v characters as verse delimiter' => [
+            //     'John ch3v16',
+            //     [
+            //         ['John 3:16', 'John 3:16'],
+            //     ],
+            // ],
+            // 'space, ch and v characters as verse delimiter' => [
+            //     'John ch3 v16',
+            //     [
+            //         ['John 3:16', 'John 3:16'],
+            //     ],
+            // ],
             'period as verse delimiter' => [
                 'John 3.16',
                 [
@@ -194,6 +207,21 @@ class ParserTest extends TestCase
     public function testParseInvalidVerses(string $invalidVerse): void
     {
         $this->expectException(UnableToParseException::class);
+        $this->parser->parse($invalidVerse);
+    }
+
+    public function providerInvalidVerseBooks(): array
+    {
+        return [
+            ['Bob'],
+            ['1'],
+        ];
+    }
+
+    /** @dataProvider providerInvalidVerseBooks */
+    public function testParseInvalidVerseBooks(string $invalidVerse): void
+    {
+        $this->expectException(InvalidBookException::class);
         $this->parser->parse($invalidVerse);
     }
 }

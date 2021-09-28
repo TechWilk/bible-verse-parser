@@ -6,9 +6,12 @@ namespace TechWilk\BibleVerseParser;
 
 use TechWilk\BibleVerseParser\Exception\InvalidBookException;
 use TechWilk\BibleVerseParser\Exception\UnableToParseException;
+use TechWilk\BibleVerseParser\Traits\StringManipulationTrait;
 
 class BiblePassageParser
 {
+    use StringManipulationTrait;
+
     protected $separators = ['&', ',', ';'];
     protected $books = [];
     protected $bookAbbreviations = [];
@@ -30,11 +33,16 @@ class BiblePassageParser
 
             $this->books[$bookNumber] = $book;
         }
+
+        if (!empty($separators)) {
+            // strict type check
+            $this->separators = (fn (string ...$separators) => $separators)(...$separators);
+        }
     }
 
     public function parse(string $versesString): array
     {
-        $sections = $this->splitOnSeparators($versesString);
+        $sections = $this->splitOnSeparators($this->separators, $versesString);
 
         $passages = [];
         $lastBook = '';
@@ -232,17 +240,6 @@ class BiblePassageParser
         ];
     }
 
-    protected function splitOnSeparators(string $text): array
-    {
-        $normalisedText = str_replace(
-            $this->separators,
-            $this->separators[0],
-            $text
-        );
-
-        return explode($this->separators[0], $normalisedText);
-    }
-
     protected function getBookFromAbbreviation(string $bookAbbreviation): Book
     {
         $bookNumber = $this->getBookNumber($bookAbbreviation);
@@ -265,14 +262,5 @@ class BiblePassageParser
         $bookNumber = $this->bookAbbreviations[$bookAbbreviation];
 
         return $bookNumber;
-    }
-
-    protected function standardiseString(string $string): string
-    {
-        $string = trim($string);
-        $string = strtolower($string);
-        $string = preg_replace('/[^a-z0-9 ]/', '', $string);
-
-        return $string;
     }
 }
