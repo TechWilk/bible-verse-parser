@@ -18,11 +18,11 @@ trait StringManipulationTrait
     protected function splitOnSeparators(array $separators, string $text): array
     {
         $normalisedText = str_replace(
-            $this->separators,
-            $this->separators[0],
+            $separators,
+            $separators[0],
             $text
         );
 
-        return explode($this->separators[0], $normalisedText);
+        return explode($separators[0], $normalisedText);
     }
 }

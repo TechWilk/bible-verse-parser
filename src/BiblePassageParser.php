@@ -95,7 +95,7 @@ class BiblePassageParser
 
                 if ('' !== $matches['chapter_or_verse']) {
                     if (
-                        !is_null($startVerse)
+                        null !== ($startVerse)
                         && (
                             '' === $matches['book']
                             || '' === $matches['verse']
@@ -161,7 +161,7 @@ class BiblePassageParser
 
         if ('' !== $matches['chapter_or_verse']) {
             if (
-                is_null($lastVerse)
+                null === $lastVerse
                 || '' !== $matches['verse']
             ) {
                 $chapter = (int)$matches['chapter_or_verse'];
@@ -172,7 +172,7 @@ class BiblePassageParser
         }
 
         if ('' !== $matches['verse']) {
-            if (is_null($chapter)) {
+            if (null === $chapter) {
                 // regex caught only one number, so must be a chapter
                 // even though it wasn't caught above
                 // as you can't have a verse in a non-existent chapter
@@ -183,7 +183,7 @@ class BiblePassageParser
             }
         }
 
-        if (is_null($chapter)) {
+        if (null === $chapter) {
             $chapter = $lastChapter;
         }
 
