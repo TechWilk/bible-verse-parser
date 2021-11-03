@@ -1202,7 +1202,7 @@ return [
     ],
     41 => [
         'name' => 'Mark',
-        'abbreviations' => [],
+        'abbreviations' => ['mk'],
         'chapterStructure' => [
             1 => 45,
             2 => 28,
@@ -1224,7 +1224,7 @@ return [
     ],
     42 => [
         'name' => 'Luke',
-        'abbreviations' => [],
+        'abbreviations' => ['lk'],
         'chapterStructure' => [
             1 => 80,
             2 => 52,
@@ -1254,7 +1254,7 @@ return [
     ],
     43 => [
         'name' => 'John',
-        'abbreviations' => [],
+        'abbreviations' => ['jn', 'jhn'],
         'chapterStructure' => [
             1 => 51,
             2 => 25,
@@ -1281,7 +1281,7 @@ return [
     ],
     44 => [
         'name' => 'Acts',
-        'abbreviations' => [],
+        'abbreviations' => ['act'],
         'chapterStructure' => [
             1 => 26,
             2 => 47,
