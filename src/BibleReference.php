@@ -22,7 +22,7 @@ class BibleReference
         if (
             $verse > $book->versesInChapter($chapter)
         ) {
-            throw new InvalidArgumentException('Verse "'.$verse.'" does not exist in chapter "'.$chapter.'" of book "'.$book->name().'"');;
+            throw new InvalidArgumentException('Verse "'.$verse.'" does not exist in chapter "'.$chapter.'" of book "'.$book->name().'"');
         }
 
         if (!in_array($fragment, ['', 'a', 'b', 'c'])) {
