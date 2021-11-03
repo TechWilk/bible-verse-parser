@@ -74,7 +74,7 @@ class BiblePassageParser
 
             if (1 === count($splitSection)) {
                 $endBookObject = $this->getBookFromAbbreviation($lastBook);
-                $endChapterForReference = (int)($lastChapter ?? $endBookObject->chaptersInBook());
+                $endChapterForReference = (int) ($lastChapter ?? $endBookObject->chaptersInBook());
                 $toReference = new BibleReference(
                     $endBookObject,
                     $endChapterForReference,
@@ -104,17 +104,17 @@ class BiblePassageParser
                         if ('end' === $matches['chapter_or_verse']) {
                             $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
                         }
-                        $endVerse = (int)$matches['chapter_or_verse'];
+                        $endVerse = (int) $matches['chapter_or_verse'];
                     } else {
                         if ('end' === $matches['chapter_or_verse']) {
                             $matches['chapter_or_verse'] = $endBookObject->chaptersInBook();
                         }
-                        $endChapter = (int)$matches['chapter_or_verse'];
+                        $endChapter = (int) $matches['chapter_or_verse'];
                     }
                 }
 
                 if ('' !== $matches['verse']) {
-                    $endVerse = (int)$matches['verse'];
+                    $endVerse = (int) $matches['verse'];
                 }
 
                 $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->chaptersInBook();
@@ -164,10 +164,10 @@ class BiblePassageParser
                 null === $lastVerse
                 || '' !== $matches['verse']
             ) {
-                $chapter = (int)$matches['chapter_or_verse'];
+                $chapter = (int) $matches['chapter_or_verse'];
                 $lastVerse = null;
             } else {
-                $verse = (int)$matches['chapter_or_verse'];
+                $verse = (int) $matches['chapter_or_verse'];
             }
         }
 
@@ -177,9 +177,9 @@ class BiblePassageParser
                 // even though it wasn't caught above
                 // as you can't have a verse in a non-existent chapter
                 // (possibly not needed with the simpler regex)
-                $chapter = (int)$matches['verse'];
+                $chapter = (int) $matches['verse'];
             } else {
-                $verse = (int)$matches['verse'];
+                $verse = (int) $matches['verse'];
             }
         }
 
