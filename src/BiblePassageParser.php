@@ -16,8 +16,12 @@ class BiblePassageParser
     protected $books = [];
     protected $bookAbbreviations = [];
 
-    public function __construct(array $structure, array $separators = [])
+    // configuration will be added in a later version once interface is finalised
+    // public function __construct(array $structure, array $separators = [])
+    public function __construct()
     {
+        $structure = require __DIR__.'/../data/bibleStructure.php';
+
         foreach ($structure as $bookNumber => $bookData) {
             $book = new Book(
                 $bookNumber,
@@ -136,42 +140,6 @@ class BiblePassageParser
         return $passages;
     }
 
-    protected function parseReference(string $reference): array
-    {
-        $regex = '/^\s*(?<book>(?:[0-9]+\s+)?[^0-9]+)?(?:(?<chapter_or_verse>[0-9]+)?(?:\s*[\. \:v]\s*(?<verse>[0-9]+(?:end)?))?)?\s*$/';
-        $result = preg_match(
-            $regex,
-            $reference,
-            $matches
-        );
-        if (!$result) {
-            throw new UnableToParseException('Unable to parse reference');
-        }
-
-        if (
-            !array_key_exists('book', $matches)
-            && !array_key_exists('chapter_or_verse', $matches)
-            && !array_key_exists('verse', $matches)
-        ) {
-            throw new UnableToParseException('Unable to parse reference');
-        }
-
-        $matches['book'] = trim($matches['book'] ?? '');
-        $matches['chapter_or_verse'] = trim($matches['chapter_or_verse'] ?? '');
-        $matches['verse'] = trim($matches['verse'] ?? '');
-
-        if (
-            in_array($matches['book'], ['start', 'end'])
-            && '' === $matches['chapter_or_verse']
-            && '' === $matches['verse']
-        ) {
-            $matches['chapter_or_verse'] = $matches['book'];
-            $matches['book'] = '';
-        }
-
-        return $matches;
-    }
-
     protected function parseStartReference(
         string $textReference,
         string $lastBook,
@@ -238,6 +206,43 @@ class BiblePassageParser
             $lastChapter,
             $lastVerse,
         ];
+    }
+
+
+    protected function parseReference(string $reference): array
+    {
+        $regex = '/^\s*(?<book>(?:[0-9]+\s+)?[^0-9]+)?(?:(?<chapter_or_verse>[0-9]+)?(?:\s*[\. \:v]\s*(?<verse>[0-9]+(?:end)?))?)?\s*$/';
+        $result = preg_match(
+            $regex,
+            $reference,
+            $matches
+        );
+        if (!$result) {
+            throw new UnableToParseException('Unable to parse reference');
+        }
+
+        if (
+            !array_key_exists('book', $matches)
+            && !array_key_exists('chapter_or_verse', $matches)
+            && !array_key_exists('verse', $matches)
+        ) {
+            throw new UnableToParseException('Unable to parse reference');
+        }
+
+        $matches['book'] = trim($matches['book'] ?? '');
+        $matches['chapter_or_verse'] = trim($matches['chapter_or_verse'] ?? '');
+        $matches['verse'] = trim($matches['verse'] ?? '');
+
+        if (
+            in_array($matches['book'], ['start', 'end'])
+            && '' === $matches['chapter_or_verse']
+            && '' === $matches['verse']
+        ) {
+            $matches['chapter_or_verse'] = $matches['book'];
+            $matches['book'] = '';
+        }
+
+        return $matches;
     }
 
     protected function getBookFromAbbreviation(string $bookAbbreviation): Book

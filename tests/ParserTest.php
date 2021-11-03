@@ -14,9 +14,7 @@ class ParserTest extends TestCase
 
     public function setUp(): void
     {
-        $bibleStructure = require __DIR__.'/../data/bibleStructure.php';
-
-        $this->parser = new BiblePassageParser($bibleStructure, []);
+        $this->parser = new BiblePassageParser();
     }
 
     public function providerVerses(): array
@@ -56,6 +54,24 @@ class ParserTest extends TestCase
             // ],
             // 'space, ch and v characters as verse delimiter' => [
             //     'John ch3 v16',
+            //     [
+            //         ['John 3:16', 'John 3:16'],
+            //     ],
+            // ],
+            // 'chapter and verse characters as verse delimiter' => [
+            //     'John chapter3verse16',
+            //     [
+            //         ['John 3:16', 'John 3:16'],
+            //     ],
+            // ],
+            // 'space, chapter and verse characters as verse delimiter' => [
+            //     'John chapter3 verse16',
+            //     [
+            //         ['John 3:16', 'John 3:16'],
+            //     ],
+            // ],
+            // 'spaces, chapter and verse characters as verse delimiter' => [
+            //     'John chapter 3 verse 16',
             //     [
             //         ['John 3:16', 'John 3:16'],
             //     ],
