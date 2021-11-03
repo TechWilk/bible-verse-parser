@@ -142,8 +142,8 @@ Deut 6: 4-9, 16-end & Luke 15: 1-10
 -   ~Parse many formats into book / chapter / verse ranges~
 -   ~Validate book names~
 -   ~Translate abbreviated book names into full names~
--   Validate chapter / verse is valid in a given book
--   Explode chapter ranges into one passage per chapter
+-   ~Validate chapter / verse is valid in a given book~
+-   ~Passages which span over chapter or book boundries~
 -   Ability to explode verse ranges into one object per verse
 
 ## Badges
