@@ -53,7 +53,7 @@ class BiblePassageParser
         $lastChapter = null;
         $lastVerse = null;
 
-        foreach ($sections as $key => $section) {
+        foreach ($sections as $section) {
             $splitSection = explode('-', $section);
 
             if (count($splitSection) > 2) {
