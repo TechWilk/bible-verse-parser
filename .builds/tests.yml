@@ -1,0 +1,13 @@
+image: archlinux
+packages:
+  - php
+  - composer
+sources:
+  - https://git.sr.ht/~techwilk/bible-verse-parser
+tasks:
+  - setup: |
+      cd bible-verse-parser
+      composer install
+  - test: |
+      cd bible-verse-parser
+      composer test
