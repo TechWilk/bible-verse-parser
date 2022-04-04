@@ -214,7 +214,7 @@ class BiblePassageParser
 
     protected function parseReference(string $reference): array
     {
-        $regex = '/^\s*(?<book>(?:[0-9]+\s+)?[^0-9]+)?(?:(?<chapter_or_verse>[0-9]+)?(?:\s*[\. \:v]\s*(?<verse>[0-9]+(?:end)?))?)?\s*$/';
+        $regex = '/^\s*(?<book>(?:[0-9]+\s+)?[^0-9]+)?(?:(?<chapter_or_verse>[0-9]+)?(?:\s*[\. \:v]+\s*(?<verse>[0-9]+(?:end)?))?)?\s*$/';
         $result = preg_match(
             $regex,
             $reference,
