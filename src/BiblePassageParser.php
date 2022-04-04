@@ -54,7 +54,7 @@ class BiblePassageParser
             // "verse" or "verses" into "v"
             '/([^a-z])verses?([^a-z])/i' => '$1v$2',
         ];
-        $versesString = preg_replace(array_keys($substitutions), array_values($substitutions),$versesString);
+        $versesString = preg_replace(array_keys($substitutions), array_values($substitutions), $versesString);
 
         $sections = $this->splitOnSeparators($this->separators, $versesString);
 
