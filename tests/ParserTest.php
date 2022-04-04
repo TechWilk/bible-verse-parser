@@ -225,6 +225,21 @@ class ParserTest extends TestCase
                     ['Exodus 6:3', 'Exodus 6:4'],
                 ],
             ],
+            'complex example from issues/18' => [
+                'Gen 1:1, 3-4; 4:26-5:1; Lev 4:5; 5:2; Phlm 1:2; 1 John 1;2 John 1; 3 John; Pss 1-2',
+                [
+                    ['Genesis 1:1', 'Genesis 1:1'],
+                    ['Genesis 1:3', 'Genesis 1:4'],
+                    ['Genesis 4:26', 'Genesis 5:1'],
+                    ['Leviticus 4:5', 'Leviticus 4:5'],
+                    ['Leviticus 5:2', 'Leviticus 5:2'],
+                    ['Philemon 1:2', 'Philemon 1:2'],
+                    ['1 John 1:1', '1 John 1:10'],
+                    ['2 John 1:1', '2 John 1:13'],
+                    ['3 John 1:1', '3 John 1:15'],
+                    ['Psalms 1:1', 'Psalms 2:12'],
+                ],
+            ],
         ];
     }
 
