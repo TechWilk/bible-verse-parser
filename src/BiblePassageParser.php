@@ -128,6 +128,11 @@ class BiblePassageParser
                 );
             }
 
+            if ($fromReference->integerNotation() > $toReference->integerNotation()) {
+                // reference are reversed
+                throw new UnableToParseException('References end is before beginning');
+            }
+
             $passages[] = new BiblePassage(
                 $fromReference,
                 $toReference

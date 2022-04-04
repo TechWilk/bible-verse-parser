@@ -260,7 +260,12 @@ class ParserTest extends TestCase
     public function providerInvalidVerses(): array
     {
         return [
-            [''],
+            'empty string' => [
+                ''
+            ],
+            'back to front' => [
+                'Psalm 34-20'
+            ],
         ];
     }
 
