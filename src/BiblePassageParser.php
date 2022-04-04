@@ -46,9 +46,17 @@ class BiblePassageParser
 
     public function parse(string $versesString): array
     {
+        $substitutions = [
+            // "to" into hyphen "-"
+            '/[^a-z]to[^a-z]/i' => '-',
+            // "chapter" into "ch"
+            '/([^a-z])chapter([^a-z])/i' => '$1ch$2',
+            // "verse" or "verses" into "v"
+            '/([^a-z])verses?([^a-z])/i' => '$1v$2',
+        ];
+        $versesString = preg_replace(array_keys($substitutions), array_values($substitutions),$versesString);
+
         $sections = $this->splitOnSeparators($this->separators, $versesString);
-        // Change word "to" into hyphen "-"
-        $sections = preg_replace('/[^a-z]to[^a-z]/i', '-',$sections);
 
         $passages = [];
         $lastBook = '';
@@ -243,6 +251,12 @@ class BiblePassageParser
         ) {
             $matches['chapter_or_verse'] = $matches['book'];
             $matches['book'] = '';
+        }
+
+        // remove " ch" (chapter shorthand) if caught in the book capture group
+        $chPosition = strlen($matches['book']) - 3;
+        if (strpos($matches['book'], ' ch') === $chPosition) {
+            $matches['book'] = str_split($matches['book'], $chPosition)[0];
         }
 
         return $matches;
