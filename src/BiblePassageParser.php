@@ -47,6 +47,8 @@ class BiblePassageParser
     public function parse(string $versesString): array
     {
         $sections = $this->splitOnSeparators($this->separators, $versesString);
+        // Change word "to" into hyphen "-"
+        $sections = preg_replace('/[^a-z]to[^a-z]/i', '-',$sections);
 
         $passages = [];
         $lastBook = '';

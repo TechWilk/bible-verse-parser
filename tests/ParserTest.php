@@ -144,6 +144,18 @@ class ParserTest extends TestCase
                     ['Genesis 1:1', 'Genesis 4:26'],
                 ],
             ],
+            'verse range without hyphen' => [
+                '1 John 3:1 to 4:12',
+                [
+                    ['1 John 3:1', '1 John 4:12'],
+                ],
+            ],
+            'verse range without hyphen longhand' => [
+                ' 1 John 3:12 to 1 John 4:21',
+                [
+                    ['1 John 3:12', '1 John 4:21'],
+                ],
+            ],
             'two single verses in different chapters' => [
                 'Gen 1:1; 4:26',
                 [
