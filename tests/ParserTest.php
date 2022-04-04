@@ -52,6 +52,18 @@ class ParserTest extends TestCase
             //         ['John 3:16', 'John 3:16'],
             //     ],
             // ],
+            // 'vv characters as verse delimiter' => [
+            //     'John 3vv16',
+            //     [
+            //         ['John 3:16', 'John 3:16'],
+            //     ],
+            // ],
+            // 'ch and vv characters as verse delimiter' => [
+            //     'John ch3vv16',
+            //     [
+            //         ['John 3:16', 'John 3:16'],
+            //     ],
+            // ],
             // 'space, ch and v characters as verse delimiter' => [
             //     'John ch3 v16',
             //     [
@@ -112,6 +124,24 @@ class ParserTest extends TestCase
                 [
                     ['John 3:16', 'John 3:18'],
                     ['John 3:19', 'John 3:22'],
+                ],
+            ],
+            'verses spanning different chapters' => [
+                'Gen 1:1-4:26',
+                [
+                    ['Genesis 1:1', 'Genesis 4:26'],
+                ],
+            ],
+            'verses spanning different chapters with numeric book' => [
+                '1 John 3:1-4:12',
+                [
+                    ['1 John 3:1', '1 John 4:12'],
+                ],
+            ],
+            'verses spanning different chapters shorthand' => [
+                'Gen 1-4:26',
+                [
+                    ['Genesis 1:1', 'Genesis 4:26'],
                 ],
             ],
             'two single verses in different chapters' => [

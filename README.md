@@ -136,6 +136,7 @@ Is 53: 1-6 & 2 Cor 5: 20-21
 Deut 6: 4-9, 16-end & Luke 15: 1-10
 1 Peter 2, 5 & Job 34
 1 Peter 2:15-16, 18-20
+1 John 3:1-4:12
 ```
 
 ## Roadmap

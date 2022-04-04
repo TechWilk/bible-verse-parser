@@ -96,10 +96,7 @@ class BiblePassageParser
                 if ('' !== $matches['chapter_or_verse']) {
                     if (
                         null !== ($startVerse)
-                        && (
-                            '' === $matches['book']
-                            || '' === $matches['verse']
-                        )
+                        && '' === $matches['verse']
                     ) {
                         if ('end' === $matches['chapter_or_verse']) {
                             $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
