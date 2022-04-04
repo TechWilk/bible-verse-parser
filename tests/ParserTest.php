@@ -261,10 +261,10 @@ class ParserTest extends TestCase
     {
         return [
             'empty string' => [
-                ''
+                '',
             ],
             'back to front' => [
-                'Psalm 34-20'
+                'Psalm 34-20',
             ],
         ];
     }
