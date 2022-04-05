@@ -40,54 +40,72 @@ class ParserTest extends TestCase
                     ['John 3:16', 'John 3:16'],
                 ],
             ],
+            'colon and v character as verse delimiter' => [
+                'John 3: v16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
             'space and v character as verse delimiter' => [
                 'John 3 v16',
                 [
                     ['John 3:16', 'John 3:16'],
                 ],
             ],
-            // 'ch and v characters as verse delimiter' => [
-            //     'John ch3v16',
-            //     [
-            //         ['John 3:16', 'John 3:16'],
-            //     ],
-            // ],
-            // 'vv characters as verse delimiter' => [
-            //     'John 3vv16',
-            //     [
-            //         ['John 3:16', 'John 3:16'],
-            //     ],
-            // ],
-            // 'ch and vv characters as verse delimiter' => [
-            //     'John ch3vv16',
-            //     [
-            //         ['John 3:16', 'John 3:16'],
-            //     ],
-            // ],
-            // 'space, ch and v characters as verse delimiter' => [
-            //     'John ch3 v16',
-            //     [
-            //         ['John 3:16', 'John 3:16'],
-            //     ],
-            // ],
-            // 'chapter and verse characters as verse delimiter' => [
-            //     'John chapter3verse16',
-            //     [
-            //         ['John 3:16', 'John 3:16'],
-            //     ],
-            // ],
-            // 'space, chapter and verse characters as verse delimiter' => [
-            //     'John chapter3 verse16',
-            //     [
-            //         ['John 3:16', 'John 3:16'],
-            //     ],
-            // ],
-            // 'spaces, chapter and verse characters as verse delimiter' => [
-            //     'John chapter 3 verse 16',
-            //     [
-            //         ['John 3:16', 'John 3:16'],
-            //     ],
-            // ],
+            'vv characters as verse delimiter' => [
+                'John 3vv16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'space and vv character as verse delimiter' => [
+                'John 3 vv16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'c and v characters as verse delimiter' => [
+                'John c3v16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'ch and v characters as verse delimiter' => [
+                'John ch3v16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'ch and vv characters as verse delimiter' => [
+                'John ch3vv16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'space, ch and v characters as verse delimiter' => [
+                'John ch3 v16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'chapter and verse characters as verse delimiter' => [
+                'John chapter3verse16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'space, chapter and verse characters as verse delimiter' => [
+                'John chapter3 verse16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'spaces, chapter and verse characters as verse delimiter' => [
+                'John chapter 3 verse 16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
             'period as verse delimiter' => [
                 'John 3.16',
                 [

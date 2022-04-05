@@ -114,9 +114,13 @@ We may add additional formats in the future (please open an issue if you use a f
 ``` text
 John 3:16
 John 3v16
+John 3vv16
 John 3 v16
 John 3.16
 John 3 16
+John c3 v16
+John ch3 v16
+John chapter 3 verse 16
 ```
 
 ### Whole chapter
