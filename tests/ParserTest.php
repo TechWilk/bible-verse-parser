@@ -64,6 +64,12 @@ class ParserTest extends TestCase
                     ['John 3:16', 'John 3:16'],
                 ],
             ],
+            'c and v characters as verse delimiter' => [
+                'John c3v16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
             'ch and v characters as verse delimiter' => [
                 'John ch3v16',
                 [

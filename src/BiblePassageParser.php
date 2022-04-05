@@ -51,6 +51,8 @@ class BiblePassageParser
             '/[^a-z]to[^a-z]/i' => '-',
             // "chapter" into "ch"
             '/([^a-z])chapter([^a-z])/i' => '$1ch$2',
+            // "c" into "ch"
+            '/([^a-z])c([^a-z])/i' => '$1ch$2',
             // "verse" or "verses" into "v"
             '/([^a-z])verses?([^a-z])/i' => '$1v$2',
         ];

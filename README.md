@@ -118,6 +118,7 @@ John 3vv16
 John 3 v16
 John 3.16
 John 3 16
+John c3 v16
 John ch3 v16
 John chapter 3 verse 16
 ```
