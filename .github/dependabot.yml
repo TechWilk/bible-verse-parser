@@ -5,9 +5,3 @@ updates:
   schedule:
     interval: daily
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: phpunit/phpunit
-    versions:
-    - 9.5.1
-    - 9.5.2
-    - 9.5.3
