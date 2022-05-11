@@ -289,7 +289,7 @@ return [
     ],
     9 => [
         'name' => '1 Samuel',
-        'abbreviations' => ['1 sam', '1st sam', '1st samuel', 'first samuel', '1 sm', '1 sa'],
+        'abbreviations' => ['1 sam', '1st sam', '1st samuel', 'first samuel', '1 sm', '1 sa', 'i samuel'],
         'chapterStructure' => [
             1 => 28,
             2 => 36,
@@ -326,7 +326,7 @@ return [
     ],
     10 => [
         'name' => '2 Samuel',
-        'abbreviations' => ['2 sam', '2nd sam', '2nd samuel', 'second samuel', '2 sm', '2 sa', '2 s'],
+        'abbreviations' => ['2 sam', '2nd sam', '2nd samuel', 'second samuel', '2 sm', '2 sa', '2 s', 'ii samuel'],
         'chapterStructure' => [
             1 => 27,
             2 => 32,
@@ -356,7 +356,7 @@ return [
     ],
     11 => [
         'name' => '1 Kings',
-        'abbreviations' => ['1 kgs', '1st kgs', '1st kings', 'first kings', '1 kin', '1 ki', '1k'],
+        'abbreviations' => ['1 kgs', '1st kgs', '1st kings', 'first kings', '1 kin', '1 ki', '1k', 'i kings'],
         'chapterStructure' => [
             1 => 53,
             2 => 46,
@@ -384,7 +384,7 @@ return [
     ],
     12 => [
         'name' => '2 Kings',
-        'abbreviations' => ['2 kgs', '2nd kgs', '2nd kings', 'second kings', '2 kin', '2 ki'],
+        'abbreviations' => ['2 kgs', '2nd kgs', '2nd kings', 'second kings', '2 kin', '2 ki', 'ii kings'],
         'chapterStructure' => [
             1 => 18,
             2 => 25,
@@ -415,7 +415,7 @@ return [
     ],
     13 => [
         'name' => '1 Chronicles',
-        'abbreviations' => ['1 chr', '1st chr', '1st chronicles', 'first chronicles', '1 ch'],
+        'abbreviations' => ['1 chr', '1st chr', '1st chronicles', 'first chronicles', '1 ch', 'i chronicles'],
         'chapterStructure' => [
             1 => 54,
             2 => 55,
@@ -450,7 +450,7 @@ return [
     ],
     14 => [
         'name' => '2 Chronicles',
-        'abbreviations' => ['2 chr', '2nd chr', '2nd chronicles', 'second chronicles', '2 ch', '2 chron'],
+        'abbreviations' => ['2 chr', '2nd chr', '2nd chronicles', 'second chronicles', '2 ch', '2 chron', 'ii chronicles'],
         'chapterStructure' => [
             1 => 17,
             2 => 18,
@@ -1337,7 +1337,7 @@ return [
     ],
     46 => [
         'name' => '1 Corinthians',
-        'abbreviations' => ['1 cor', '1st cor', '1st corinthians', 'first corinthians'],
+        'abbreviations' => ['1 cor', '1st cor', '1st corinthians', 'first corinthians', 'i corinthians', 'i cor'],
         'chapterStructure' => [
             1 => 31,
             2 => 16,
@@ -1359,7 +1359,7 @@ return [
     ],
     47 => [
         'name' => '2 Corinthians',
-        'abbreviations' => ['2 cor', '2nd cor', '2nd corinthians', 'second corinthians'],
+        'abbreviations' => ['2 cor', '2nd cor', '2nd corinthians', 'second corinthians', 'ii corinthians', 'ii cor'],
         'chapterStructure' => [
             1 => 24,
             2 => 17,
@@ -1422,7 +1422,7 @@ return [
     ],
     52 => [
         'name' => '1 Thessalonians',
-        'abbreviations' => ['1 thess', '1st thess', '1st thessalonians', 'first thessalonians'],
+        'abbreviations' => ['1 thess', '1st thess', '1st thessalonians', 'first thessalonians', 'i thessalonians'],
         'chapterStructure' => [
             1 => 10,
             2 => 20,
@@ -1433,7 +1433,7 @@ return [
     ],
     53 => [
         'name' => '2 Thessalonians',
-        'abbreviations' => ['2 thess', '2nd thess', '2nd thessalonians', 'second thessalonians'],
+        'abbreviations' => ['2 thess', '2nd thess', '2nd thessalonians', 'second thessalonians', 'ii thessalonians'],
         'chapterStructure' => [
             1 => 12,
             2 => 17,
@@ -1442,7 +1442,7 @@ return [
     ],
     54 => [
         'name' => '1 Timothy',
-        'abbreviations' => ['1 tim', '1st tim', '1st timothy', 'first timothy'],
+        'abbreviations' => ['1 tim', '1st tim', '1st timothy', 'first timothy', 'i timothy'],
         'chapterStructure' => [
             1 => 20,
             2 => 15,
@@ -1454,7 +1454,7 @@ return [
     ],
     55 => [
         'name' => '2 Timothy',
-        'abbreviations' => ['2 tim', '2nd tim', '2nd timothy', 'second timothy'],
+        'abbreviations' => ['2 tim', '2nd tim', '2nd timothy', 'second timothy', 'ii timothy'],
         'chapterStructure' => [
             1 => 18,
             2 => 26,
@@ -1510,7 +1510,7 @@ return [
     ],
     60 => [
         'name' => '1 Peter',
-        'abbreviations' => ['1 pet', '1st pet', '1st peter', 'first peter'],
+        'abbreviations' => ['1 pet', '1st pet', '1st peter', 'first peter', 'i peter'],
         'chapterStructure' => [
             1 => 25,
             2 => 25,
@@ -1521,7 +1521,7 @@ return [
     ],
     61 => [
         'name' => '2 Peter',
-        'abbreviations' => ['2 pet', '2nd pet', '2nd peter', 'second peter'],
+        'abbreviations' => ['2 pet', '2nd pet', '2nd peter', 'second peter', 'ii peter'],
         'chapterStructure' => [
             1 => 21,
             2 => 22,
@@ -1530,7 +1530,7 @@ return [
     ],
     62 => [
         'name' => '1 John',
-        'abbreviations' => ['1st john', 'first john'],
+        'abbreviations' => ['1st john', 'first john', 'i john'],
         'chapterStructure' => [
             1 => 10,
             2 => 29,
@@ -1541,14 +1541,14 @@ return [
     ],
     63 => [
         'name' => '2 John',
-        'abbreviations' => ['2nd john', 'second john'],
+        'abbreviations' => ['2nd john', 'second john', 'ii john'],
         'chapterStructure' => [
             1 => 13,
         ],
     ],
     64 => [
         'name' => '3 John',
-        'abbreviations' => ['3rd john', 'third john'],
+        'abbreviations' => ['3rd john', 'third john', 'iii john'],
         'chapterStructure' => [
             1 => 15,
         ],

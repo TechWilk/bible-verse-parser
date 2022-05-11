@@ -248,6 +248,12 @@ class ParserTest extends TestCase
                     ['2 Corinthians 5:11', '2 Corinthians 5:21'],
                 ],
             ],
+            'roman numeral abbreviation' => [
+                'I Samuel 10:22',
+                [
+                    ['1 Samuel 10:22', '1 Samuel 10:22'],
+                ],
+            ],
             'horribly complex' => [
                 'Genesis 1:1 - Exodus 5:2 & 6:3-4',
                 [
