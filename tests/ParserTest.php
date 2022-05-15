@@ -248,6 +248,25 @@ class ParserTest extends TestCase
                     ['2 Corinthians 5:11', '2 Corinthians 5:21'],
                 ],
             ],
+            'roman numeral book name uppercase' => [
+                'I Samuel 10:22',
+                [
+                    ['1 Samuel 10:22', '1 Samuel 10:22'],
+                ],
+            ],
+            'roman numeral book name lowercase' => [
+                'i Samuel 10:22',
+                [
+                    ['1 Samuel 10:22', '1 Samuel 10:22'],
+                ],
+            ],
+            'roman numerals on multiple book name' => [
+                'II Kings 1:1 & I Samuel 10:22',
+                [
+                    ['2 Kings 1:1', '2 Kings 1:1'],
+                    ['1 Samuel 10:22', '1 Samuel 10:22'],
+                ],
+            ],
             'horribly complex' => [
                 'Genesis 1:1 - Exodus 5:2 & 6:3-4',
                 [
