@@ -1,0 +1,23 @@
+image: debian/bullseye
+repositories:
+  sury: https://packages.sury.org/php/ bullseye main 0x15058500a0235d97f5d10063b188e2b695bd4743
+packages:
+  - php7.4-cli
+  - php7.4-dom
+  - php7.4-mbstring
+  # Depencencies for composer
+  - wget
+  - php7.4-zip
+  - unzip
+sources:
+  - https://git.sr.ht/~techwilk/bible-verse-parser
+tasks:
+  - install-composer: |
+      wget -O composer-setup.php https://getcomposer.org/installer
+      sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+  - setup: |
+      cd bible-verse-parser
+      composer install
+  - test: |
+      cd bible-verse-parser
+      composer test
