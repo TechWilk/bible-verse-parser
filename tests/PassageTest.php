@@ -101,6 +101,11 @@ class PassageTest extends TestCase
                 ['Psalms', 150, 6],
                 'Psalms'
             ],
+            'Psalm to Psalm' => [
+                ['Psalms', 117, 2],
+                ['Psalms', 118, 1],
+                'Psalm 117:2-118:1'
+            ],
         ];
     }
 

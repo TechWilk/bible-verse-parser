@@ -96,6 +96,6 @@ class BiblePassage
             return $this->from->book().' '.$this->from->chapter().'-'.$this->to->chapter();
         }
 
-        return $this->from->book().$trailer.'-'.$toString;
+        return $this->from->book()->singularName().$trailer.'-'.$toString;
     }
 }
