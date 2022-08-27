@@ -37,24 +37,22 @@ class BiblePassage
      */
     public function __toString(): string
     {
-        $string = $this->from->book()->name();
-
-        // Format "John"
+        // Format "John", "Psalms"
         if (
-            $this->to->book()->name() === $this->from->book()->name()
+            $this->to->book() == $this->from->book()
             && 1 === $this->from->chapter()
             && 1 === $this->from->verse()
             && $this->to->book()->chaptersInBook() === $this->to->chapter()
             && $this->to->book()->versesInChapter($this->to->chapter()) === $this->to->verse()
         ) {
-            return $string;
+            return $this->from->book()->name();
         }
 
-        $string .= ' '.$this->from->chapter();
+        $trailer = ' '.$this->from->chapter();
 
-        // Format "John 3"
+        // Format "John 3", "Psalm 3"
         if (
-            $this->to->book()->name() === $this->from->book()->name()
+            $this->to->book() == $this->from->book()
             && $this->to->chapter() === $this->from->chapter()
             && (
                 0 === $this->from->verse()
@@ -64,32 +62,40 @@ class BiblePassage
                 )
             )
         ) {
-            return $string;
+            return $this->from->book()->singularName() . $trailer;
         }
 
-        $string .= ':'.$this->from->verse();
+        $trailer .= ':'.$this->from->verse();
 
         // Format "John 3:16"
         if (
-            $this->to->book()->name() === $this->from->book()->name()
+            $this->to->book() == $this->from->book()
             && $this->to->chapter() === $this->from->chapter()
             && $this->to->verse() === $this->from->verse()
         ) {
-            return $string;
+            return $this->from->book()->singularName() . $trailer;
         }
 
         // Format "John 3:16-17"
         if ($this->from->chapter() === $this->to->chapter()) {
-            return $string.'-'.$this->to->verse();
+            return $this->from->book()->singularName()
+                .$trailer.'-'.$this->to->verse();
         }
 
         $toString = $this->to->chapter().':'.$this->to->verse();
 
         // Format "John 3:16 - Acts 1:1"
-        if ($this->from->book()->name() !== $this->to->book()->name()) {
-            return $string.' - '.$this->to->book()->name().' '.$toString;
+        if ($this->from->book() != $this->to->book()) {
+            return $this->from->book().$trailer.' - '.$this->to->book().' '.$toString;
         }
 
-        return $string.'-'.$toString;
+        // Format "Psalms 120-134"
+        if ($this->from->verse() === 1
+            && $this->to->book()->versesInChapter($this->to->chapter()) === $this->to->verse()
+        ) {
+            return $this->from->book().' '.$this->from->chapter().'-'.$this->to->chapter();
+        }
+
+        return $this->from->book().$trailer.'-'.$toString;
     }
 }
