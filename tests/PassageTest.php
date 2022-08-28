@@ -46,6 +46,11 @@ class PassageTest extends TestCase
                 ['Esther', 2, 23],
                 'Esther 2',
             ],
+            'fragment' => [
+                ['Philippians', 2, 14],
+                ['Philippians', 2, 15, 'a'],
+                'Philippians 2:14-15a',
+            ],
             'entire book' => [
                 ['John', 1, 1],
                 ['John', 21, 25],
@@ -117,13 +122,13 @@ class PassageTest extends TestCase
                 $this->books[$from[0]],
                 $from[1],
                 $from[2],
-                ''
+                $from[3] ?? ''
             ),
             new BibleReference(
                 $this->books[$to[0]],
                 $to[1],
                 $to[2],
-                ''
+                $to[3] ?? ''
             )
         );
 

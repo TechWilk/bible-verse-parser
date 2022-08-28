@@ -65,7 +65,7 @@ class BiblePassage
             return $this->from->book()->singularName().$trailer;
         }
 
-        $trailer .= ':'.$this->from->verse();
+        $trailer .= ':'.$this->from->verse().$this->from->fragment();
 
         // Format "John 3:16"
         if (
@@ -79,10 +79,10 @@ class BiblePassage
         // Format "John 3:16-17"
         if ($this->from->chapter() === $this->to->chapter()) {
             return $this->from->book()->singularName()
-                .$trailer.'-'.$this->to->verse();
+                .$trailer.'-'.$this->to->verse().$this->to->fragment();
         }
 
-        $toString = $this->to->chapter().':'.$this->to->verse();
+        $toString = $this->to->chapter().':'.$this->to->verse().$this->to->fragment();
 
         // Format "John 3:16 - Acts 1:1"
         if ($this->from->book() != $this->to->book()) {
