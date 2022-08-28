@@ -289,6 +289,22 @@ class ParserTest extends TestCase
                     ['Psalms 1:1', 'Psalms 2:12'],
                 ],
             ],
+            'end fragment' => [
+                'Philippians 2:14-15a',
+                [['Philippians 2:14', 'Philippians 2:15a']]
+            ],
+            'start fragment' => [
+                'John 4:7b-4:8',
+                [['John 4:7b', 'John 4:8']]
+            ],
+            'single fragment' => [
+                'Acts 2:39a',
+                [['Acts 2:39a', 'Acts 2:39a']]
+            ],
+            'fragment to fragment' => [
+                'John 3:16b-17a',
+                [['John 3:16b', 'John 3:17a']]
+            ],
         ];
     }
 

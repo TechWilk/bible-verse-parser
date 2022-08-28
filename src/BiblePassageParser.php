@@ -81,6 +81,7 @@ class BiblePassageParser
                 $lastBook,
                 $lastChapter,
                 $lastVerse,
+                $lastFragment,
             ] = $this->parseStartReference($splitSection[0], $lastBook, $lastChapter, $lastVerse);
 
             // End reference stuff
@@ -92,7 +93,7 @@ class BiblePassageParser
                     $endBookObject,
                     $endChapterForReference,
                     $lastVerse ?? $endBookObject->versesInChapter($endChapterForReference),
-                    ''
+                    $lastFragment ?? ''
                 );
             } else {
                 $matches = $this->parseReference($splitSection[1]);
@@ -113,6 +114,8 @@ class BiblePassageParser
                     ) {
                         if ('end' === $matches['chapter_or_verse']) {
                             $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
+                        } else {
+                            $endFragment = in_array($matches['chapter_or_verse'][-1],["a","b","c"])?$matches['chapter_or_verse'][-1]:null;
                         }
                         $endVerse = (int) $matches['chapter_or_verse'];
                     } else {
@@ -125,6 +128,7 @@ class BiblePassageParser
 
                 if ('' !== $matches['verse']) {
                     $endVerse = (int) $matches['verse'];
+                    $endFragment = in_array($matches['verse'][-1],["a","b","c"])?$matches['verse'][-1]:null;
                 }
 
                 $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->chaptersInBook();
@@ -137,7 +141,7 @@ class BiblePassageParser
                     $endBookObject,
                     $endChapterForReference,
                     $endVerse ?? $endBookObject->versesInChapter($endChapterForReference),
-                    ''
+                    $endFragment ?? ''
                 );
             }
 
@@ -165,6 +169,7 @@ class BiblePassageParser
         $book = '';
         $chapter = null;
         $verse = null;
+        $fragment = null;
 
         if ('' !== $matches['book']) {
             $book = $matches['book'];
@@ -183,6 +188,7 @@ class BiblePassageParser
                 $lastVerse = null;
             } else {
                 $verse = (int) $matches['chapter_or_verse'];
+                $fragment = in_array($matches['chapter_or_verse'][-1],["a","b","c"])?$matches['chapter_or_verse'][-1]:null;
             }
         }
 
@@ -195,6 +201,7 @@ class BiblePassageParser
                 $chapter = (int) $matches['verse'];
             } else {
                 $verse = (int) $matches['verse'];
+                $fragment = in_array($matches['verse'][-1],["a","b","c"])?$matches['verse'][-1]:null;
             }
         }
 
@@ -206,12 +213,13 @@ class BiblePassageParser
         $lastBook = $startBookObject->name();
         $lastChapter = $chapter;
         $lastVerse = $verse;
+        $lastFragment = $fragment;
 
         $fromReference = new BibleReference(
             $startBookObject,
             $chapter ?? 1,
             $verse ?? 1,
-            ''
+            $fragment ?? ''
         );
 
         return [
@@ -220,12 +228,13 @@ class BiblePassageParser
             $lastBook,
             $lastChapter,
             $lastVerse,
+            $lastFragment,
         ];
     }
 
     protected function parseReference(string $reference): array
     {
-        $regex = '/^\s*(?<book>(?:[0-9]+\s+)?[^0-9]+)?(?:(?<chapter_or_verse>[0-9]+)?(?:\s*[\. \:v]+\s*(?<verse>[0-9]+(?:end)?))?)?\s*$/';
+        $regex = '/^\s*(?<book>(?:[0-9]+\s+)?[^0-9]+)?(?:(?<chapter_or_verse>[0-9]+[abc]?)?(?:\s*[\. \:v]+\s*(?<verse>[0-9]+[abc]?(?:end)?))?)?\s*$/';
         $result = preg_match(
             $regex,
             $reference,
