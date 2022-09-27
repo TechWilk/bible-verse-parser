@@ -19,6 +19,7 @@ class PassageTest extends TestCase
             $book = new Book(
                 $bookNumber,
                 $bookData['name'],
+                $bookData['singularName'] ?? $bookData['name'],
                 $bookData['abbreviations'],
                 $bookData['chapterStructure']
             );
@@ -68,7 +69,7 @@ class PassageTest extends TestCase
             'passage spanning different chapters' => [
                 ['Genesis', 1, 1],
                 ['Genesis', 4, 26],
-                'Genesis 1:1-4:26',
+                'Genesis 1-4',
             ],
             'passage spanning different chapters with odd verses' => [
                 ['Genesis', 1, 5],
@@ -79,6 +80,31 @@ class PassageTest extends TestCase
                 ['Genesis', 1, 1],
                 ['Exodus', 5, 2],
                 'Genesis 1:1 - Exodus 5:2',
+            ],
+            'singular Psalm' => [
+                ['Psalms', 1, 1],
+                ['Psalms', 1, 6],
+                'Psalm 1',
+            ],
+            'verses in a single Psalm' => [
+                ['Psalms', 1, 2],
+                ['Psalms', 1, 3],
+                'Psalm 1:2-3',
+            ],
+            'plural Psalms' => [
+                ['Psalms', 120, 1],
+                ['Psalms', 134, 3],
+                'Psalms 120-134',
+            ],
+            'All of Psalms' => [
+                ['Psalms', 1, 1],
+                ['Psalms', 150, 6],
+                'Psalms',
+            ],
+            'Psalm to Psalm' => [
+                ['Psalms', 117, 2],
+                ['Psalms', 118, 1],
+                'Psalm 117:2-118:1',
             ],
         ];
     }

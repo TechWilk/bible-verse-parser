@@ -26,6 +26,7 @@ class BiblePassageParser
             $book = new Book(
                 $bookNumber,
                 $bookData['name'],
+                $bookData['singularName'] ?? $bookData['name'],
                 $bookData['abbreviations'],
                 $bookData['chapterStructure']
             );

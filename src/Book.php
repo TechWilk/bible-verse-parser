@@ -10,17 +10,20 @@ class Book
 {
     protected $number;
     protected $name;
+    protected $singularName;
     protected $abbreviations;
     protected $chapterStructure;
 
     public function __construct(
         int $number,
         string $name,
+        string $singularName,
         array $abbreviations,
         array $chapterStructure
     ) {
         $this->number = $number;
         $this->name = $name;
+        $this->singularName = $singularName;
         $this->abbreviations = $abbreviations;
         $this->chapterStructure = $chapterStructure;
     }
@@ -38,6 +41,11 @@ class Book
     public function name(): string
     {
         return $this->name;
+    }
+
+    public function singularName(): string
+    {
+        return $this->singularName;
     }
 
     public function abbreviations(): array

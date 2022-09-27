@@ -591,6 +591,7 @@ return [
     ],
     19 => [
         'name' => 'Psalms',
+        'singularName' => 'Psalm',
         'abbreviations' => ['ps', 'pss', 'psalm', 'pslm', 'psa', 'psm'],
         'chapterStructure' => [
             1 => 6,
