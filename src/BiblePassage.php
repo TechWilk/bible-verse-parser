@@ -62,7 +62,7 @@ class BiblePassage
                 )
             )
         ) {
-            return $this->from->book()->singularName() . $trailer;
+            return $this->from->book()->singularName().$trailer;
         }
 
         $trailer .= ':'.$this->from->verse();
@@ -73,7 +73,7 @@ class BiblePassage
             && $this->to->chapter() === $this->from->chapter()
             && $this->to->verse() === $this->from->verse()
         ) {
-            return $this->from->book()->singularName() . $trailer;
+            return $this->from->book()->singularName().$trailer;
         }
 
         // Format "John 3:16-17"
