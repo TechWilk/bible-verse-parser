@@ -115,7 +115,7 @@ class BiblePassageParser
                         if ('end' === $matches['chapter_or_verse']) {
                             $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
                         } else {
-                            $endFragment = in_array($matches['chapter_or_verse'][-1],["a","b","c"])?$matches['chapter_or_verse'][-1]:null;
+                            $endFragment = in_array($matches['chapter_or_verse'][-1], ['a', 'b', 'c']) ? $matches['chapter_or_verse'][-1] : null;
                         }
                         $endVerse = (int) $matches['chapter_or_verse'];
                     } else {
@@ -128,7 +128,7 @@ class BiblePassageParser
 
                 if ('' !== $matches['verse']) {
                     $endVerse = (int) $matches['verse'];
-                    $endFragment = in_array($matches['verse'][-1],["a","b","c"])?$matches['verse'][-1]:null;
+                    $endFragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
                 }
 
                 $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->chaptersInBook();
@@ -188,7 +188,7 @@ class BiblePassageParser
                 $lastVerse = null;
             } else {
                 $verse = (int) $matches['chapter_or_verse'];
-                $fragment = in_array($matches['chapter_or_verse'][-1],["a","b","c"])?$matches['chapter_or_verse'][-1]:null;
+                $fragment = in_array($matches['chapter_or_verse'][-1], ['a', 'b', 'c']) ? $matches['chapter_or_verse'][-1] : null;
             }
         }
 
@@ -201,7 +201,7 @@ class BiblePassageParser
                 $chapter = (int) $matches['verse'];
             } else {
                 $verse = (int) $matches['verse'];
-                $fragment = in_array($matches['verse'][-1],["a","b","c"])?$matches['verse'][-1]:null;
+                $fragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
             }
         }
 
