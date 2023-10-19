@@ -18,9 +18,11 @@ class BiblePassageParser
 
     // configuration will be added in a later version once interface is finalised
     // public function __construct(array $structure, array $separators = [])
-    public function __construct()
+    public function __construct($structure = null)
     {
-        $structure = require __DIR__.'/../data/bibleStructure.php';
+        if(!$structure) {
+            $structure = require __DIR__ . '/../data/bibleStructure.php';
+        }
 
         foreach ($structure as $bookNumber => $bookData) {
             $book = new Book(
