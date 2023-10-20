@@ -18,12 +18,12 @@ class BiblePassageParser
 
     /**
      * @param array<int,array{name: string, singularName?: string, abbreviations: string[], chapterStructure: array<int, int>}>|null $structure
-     * @param string[]|null $separators
+     * @param string[]|null                                                                                                          $separators
      */
     public function __construct(?array $structure = null, ?array $separators = [])
     {
         if ($structure === null) {
-            $structure = require __DIR__ . '/../data/bibleStructure.php';
+            $structure = require __DIR__.'/../data/bibleStructure.php';
         }
 
         foreach ($structure as $bookNumber => $bookData) {
