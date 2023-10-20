@@ -16,6 +16,10 @@ class BiblePassageParser
     protected $books = [];
     protected $bookAbbreviations = [];
 
+    /**
+     * @param array<int,array{name: string, singularName?: string, abbreviations: string[], chapterStructure: array<int, int>}>|null $structure
+     * @param string[]|null $separators
+     */
     public function __construct(?array $structure = null, ?array $separators = [])
     {
         if ($structure === null) {
