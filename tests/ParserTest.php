@@ -301,6 +301,12 @@ class ParserTest extends TestCase
                     ['John 4:7b', 'John 4:8'],
                 ],
             ],
+            'start fragment with more letters' => [
+                'Mark 1v4b-15',
+                [
+                    ['Mark 1:4b', 'Mark 1:15'],
+                ],
+            ],
             'single fragment' => [
                 'Acts 2:39a',
                 [

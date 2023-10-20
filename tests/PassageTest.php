@@ -51,6 +51,11 @@ class PassageTest extends TestCase
                 ['Philippians', 2, 15, 'a'],
                 'Philippians 2:14-15a',
             ],
+            'another fragment' => [
+                ['Mark', 1, 4, 'b'],
+                ['Mark', 1, 15],
+                'Mark 1:4b-15',
+            ],
             'entire book' => [
                 ['John', 1, 1],
                 ['John', 21, 25],
