@@ -16,11 +16,9 @@ class BiblePassageParser
     protected $books = [];
     protected $bookAbbreviations = [];
 
-    // configuration will be added in a later version once interface is finalised
-    // public function __construct(array $structure, array $separators = [])
-    public function __construct($structure = null)
+    public function __construct(?array $structure = null, ?array $separators = [])
     {
-        if(!$structure) {
+        if ($structure === null) {
             $structure = require __DIR__ . '/../data/bibleStructure.php';
         }
 
@@ -41,7 +39,7 @@ class BiblePassageParser
             $this->books[$bookNumber] = $book;
         }
 
-        if (!empty($separators)) {
+        if ($separators !== null) {
             // strict type check
             $this->separators = (fn (string ...$separators) => $separators)(...$separators);
         }
