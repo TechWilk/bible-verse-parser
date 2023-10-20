@@ -109,7 +109,7 @@ class BiblePassageParser
 
                 if ('' !== $matches['chapter_or_verse']) {
                     if (
-                        null !== ($startVerse)
+                        null !== $startVerse
                         && '' === $matches['verse']
                     ) {
                         if ('end' === $matches['chapter_or_verse']) {
