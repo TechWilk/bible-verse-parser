@@ -9,6 +9,8 @@ packages:
   - wget
   - php8.2-zip
   - unzip
+  # Dependencies for deployment
+  - rsync
 sources:
   - https://git.sr.ht/~techwilk/bible-verse-parser
 secrets:
