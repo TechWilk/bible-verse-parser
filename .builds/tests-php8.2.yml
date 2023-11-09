@@ -2,15 +2,18 @@ image: debian/bullseye
 repositories:
   sury: https://packages.sury.org/php/ bullseye main 0x15058500a0235d97f5d10063b188e2b695bd4743
 packages:
-  - php8.0-cli
-  - php8.0-dom
-  - php8.0-mbstring
+  - php8.2-cli
+  - php8.2-dom
+  - php8.2-mbstring
   # Dependencies for composer
   - wget
-  - php8.0-zip
+  - php8.2-zip
   - unzip
 sources:
   - https://git.sr.ht/~techwilk/bible-verse-parser
+secrets:
+  - 7fa0de32-cd53-4a36-8b6b-27e4e1f94f92
+  - 7fbc71ab-c46e-49e4-bc87-153d28da48bf
 tasks:
   - install-composer: |
       wget -O composer-setup.php https://getcomposer.org/installer
@@ -21,3 +24,10 @@ tasks:
   - test: |
       cd bible-verse-parser
       composer test
+  - deploy: |
+      echo "StrictHostKeyChecking=no" >> ~/.ssh/config
+      rsync -avpP bible-verse-parser/ cj-server-22:/ --delete --exclude="htdocs" --exclude="public/.well-known/"
+triggers:
+  - action: email
+    condition: always
+    to: techwilk <git@wilk.tech>

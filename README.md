@@ -8,6 +8,12 @@ Parse verse textual representation into book/chapter/verse ranges
 
 Allows you to standardise many different people's bible passage/reference formats and gain programmatic access to them.
 
+## Demo
+
+A demo of the library's parsing can usually be found at https://bible-verse-parser.techwilk.com/
+
+The code for the demo is in `public/`.
+
 ## Installation
 
 1.  Install through composer.
@@ -158,3 +164,8 @@ Deut 6: 4-9, 16-end & Luke 15: 1-10
 [![](https://styleci.io/repos/7548986/shield)](https://styleci.io/repos/7548986)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/TechWilk/bible-verse-parser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/TechWilk/bible-verse-parser/?branch=master)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/226bff72c3824b3985f64e9327e255c3)](https://www.codacy.com/gh/TechWilk/bible-verse-parser/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TechWilk/bible-verse-parser&amp;utm_campaign=Badge_Grade)
+
+Source code: 
+[Github](https://github.com/TechWilk/bible-verse-parser) 
+| [Sourcehut](https://git.sr.ht/~techwilk/bible-verse-parser) 
+| [Codeberg](https://codeberg.org/techwilk/bible-verse-parser)
