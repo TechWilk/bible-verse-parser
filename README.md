@@ -1,4 +1,4 @@
-# Bible Verse Parser [![Build Status](https://travis-ci.org/TechWilk/bible-verse-parser.svg?branch=master)](https://travis-ci.org/TechWilk/bible-verse-parser) [![Coverage Status](https://coveralls.io/repos/github/TechWilk/bible-verse-parser/badge.svg?branch=master)](https://coveralls.io/github/TechWilk/bible-verse-parser?branch=master)
+# Bible Verse Parser [![builds.sr.ht status](https://builds.sr.ht/~techwilk/bible-verse-parser/commits/master.svg)](https://builds.sr.ht/~techwilk/bible-verse-parser/commits/master?)
 
 [![Total Downloads](https://img.shields.io/packagist/dt/techwilk/bible-verse-parser.svg)](https://packagist.org/packages/techwilk/bible-verse-parser)
 [![Latest Stable Version](https://img.shields.io/packagist/v/techwilk/bible-verse-parser.svg)](https://packagist.org/packages/techwilk/bible-verse-parser)
@@ -159,7 +159,7 @@ Deut 6: 4-9, 16-end & Luke 15: 1-10
 
 ## Badges
 
-[![Build Status](https://travis-ci.org/TechWilk/bible-verse-parser.svg?branch=master)](https://travis-ci.org/TechWilk/bible-verse-parser)
+[![builds.sr.ht status](https://builds.sr.ht/~techwilk/bible-verse-parser/commits/master.svg)](https://builds.sr.ht/~techwilk/bible-verse-parser/commits/master?)
 [![Coverage Status](https://coveralls.io/repos/github/TechWilk/bible-verse-parser/badge.svg?branch=master)](https://coveralls.io/github/TechWilk/bible-verse-parser?branch=master)
 [![](https://styleci.io/repos/7548986/shield)](https://styleci.io/repos/7548986)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/TechWilk/bible-verse-parser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/TechWilk/bible-verse-parser/?branch=master)
