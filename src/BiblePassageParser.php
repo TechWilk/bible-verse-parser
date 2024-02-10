@@ -52,6 +52,8 @@ class BiblePassageParser
     public function parse(string $versesString): array
     {
         $substitutions = [
+            // en and em dashes into hyphen "-"
+            '/(—|–)/' => '-',
             // "to" into hyphen "-"
             '/[^a-z]to[^a-z]/i' => '-',
             // "chapter" into "ch"
