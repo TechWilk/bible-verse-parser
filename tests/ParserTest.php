@@ -467,6 +467,48 @@ class ParserTest extends TestCase
                     ['1 Kings 22:53', '2 Kings 1:12'],
                 ],
             ],
+            'book to book with no whitespace' => [
+                '1 Kings-2 Kings',
+                [
+                    ['1 Kings 1:1', '2 Kings 25:30'],
+                ],
+            ],
+            'en dash between verses' => [
+                '1 Corinthians 13:1–3',
+                [
+                    ['1 Corinthians 13:1', '1 Corinthians 13:3'],
+                ],
+            ],
+            'en dash between chapters' => [
+                '1 Corinthians 12–13',
+                [
+                    ['1 Corinthians 12:1', '1 Corinthians 13:13'],
+                ],
+            ],
+            'en dash between books' => [
+                '1 Corinthians–2 Corinthians',
+                [
+                    ['1 Corinthians 1:1', '2 Corinthians 13:14'],
+                ],
+            ],
+            'em dash between verses' => [
+                '1 Corinthians 13:1—3',
+                [
+                    ['1 Corinthians 13:1', '1 Corinthians 13:3'],
+                ],
+            ],
+            'em dash between chapters' => [
+                '1 Corinthians 12—13',
+                [
+                    ['1 Corinthians 12:1', '1 Corinthians 13:13'],
+                ],
+            ],
+            'em dash between books' => [
+                '1 Corinthians—2 Corinthians',
+                [
+                    ['1 Corinthians 1:1', '2 Corinthians 13:14'],
+                ],
+            ],
         ];
     }
 
