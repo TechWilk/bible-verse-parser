@@ -319,6 +319,154 @@ class ParserTest extends TestCase
                     ['John 3:16b', 'John 3:17a'],
                 ],
             ],
+            'numbered book without white space between book number and book name, without chapter and verse' => [
+                '1Kings',
+                [
+                    ['1 Kings 1:1', '1 Kings 22:53'],
+                ],
+            ],
+            'numbered book without white space between book number and book name, with chapter' => [
+                '1Kings 1',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:53'],
+                ],
+            ],
+            'numbered book without white space between book number and book name, with chapter and verse' => [
+                '1Kings 1:1',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:1'],
+                ],
+            ],
+            'numbered book without white space between book number and book name, with chapter and verses interval' => [
+                '1Kings 1:1-2',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:2'],
+                ],
+            ],
+            'numbered book without white space between book number and book name, with chapter and selected verses' => [
+                '1Kings 1:1,12',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:1'],
+                    ['1 Kings 1:12', '1 Kings 1:12'],
+                ],
+            ],
+            'multiple numbered book without white space between book number and book name, without chapter and verse' => [
+                '1Kings; 2Kings',
+                [
+                    ['1 Kings 1:1', '1 Kings 22:53'],
+                    ['2 Kings 1:1', '2 Kings 25:30'],
+                ],
+            ],
+            'multiple numbered book without white space between book number and book name, with chapter' => [
+                '1Kings 1; 2Kings 1',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:53'],
+                    ['2 Kings 1:1', '2 Kings 1:18'],
+                ],
+            ],
+            'multiple numbered book without white space between book number and book name, with chapter and verse' => [
+                '1Kings 1:1; 2Kings 1:1',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:1'],
+                    ['2 Kings 1:1', '2 Kings 1:1'],
+                ],
+            ],
+            'multiple numbered book without white space between book number and book name, with chapter and verses interval' => [
+                '1Kings 1:1-2; 2Kings 1:1-2',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:2'],
+                    ['2 Kings 1:1', '2 Kings 1:2'],
+                ],
+            ],
+            'multiple numbered book without white space between book number and book name, with chapter and selected verses' => [
+                '1Kings 1:1,12; 2Kings 1:1,12',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:1'],
+                    ['1 Kings 1:12', '1 Kings 1:12'],
+                    ['2 Kings 1:1', '2 Kings 1:1'],
+                    ['2 Kings 1:12', '2 Kings 1:12'],
+                ],
+            ],
+            'multiple numbered book without white space between book number and book name, in range' => [
+                '1Kings 22:53-2Kings 1:12',
+                [
+                    ['1 Kings 22:53', '2 Kings 1:12'],
+                ],
+            ],
+            'numbered book with white space between book number and book name, without chapter and verse' => [
+                '1 Kings',
+                [
+                    ['1 Kings 1:1', '1 Kings 22:53'],
+                ],
+            ],
+            'numbered book with white space between book number and book name, with chapter' => [
+                '1 Kings 1',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:53'],
+                ],
+            ],
+            'numbered book with white space between book number and book name, with chapter and verse' => [
+                '1 Kings 1:1',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:1'],
+                ],
+            ],
+            'numbered book with white space between book number and book name, with chapter and verses interval' => [
+                '1 Kings 1:1-2',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:2'],
+                ],
+            ],
+            'numbered book with white space between book number and book name, with chapter and selected verses' => [
+                '1 Kings 1:1,12',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:1'],
+                    ['1 Kings 1:12', '1 Kings 1:12'],
+                ],
+            ],
+            'multiple numbered book with white space between book number and book name, without chapter and verse' => [
+                '1 Kings; 2 Kings',
+                [
+                    ['1 Kings 1:1', '1 Kings 22:53'],
+                    ['2 Kings 1:1', '2 Kings 25:30'],
+                ],
+            ],
+            'multiple numbered book with white space between book number and book name, with chapter' => [
+                '1 Kings 1; 2 Kings 1',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:53'],
+                    ['2 Kings 1:1', '2 Kings 1:18'],
+                ],
+            ],
+            'multiple numbered book with white space between book number and book name, with chapter and verse' => [
+                '1 Kings 1:1; 2 Kings 1:1',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:1'],
+                    ['2 Kings 1:1', '2 Kings 1:1'],
+                ],
+            ],
+            'multiple numbered book with white space between book number and book name, with chapter and verses interval' => [
+                '1 Kings 1:1-2; 2 Kings 1:1-2',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:2'],
+                    ['2 Kings 1:1', '2 Kings 1:2'],
+                ],
+            ],
+            'multiple numbered book with white space between book number and book name, with chapter and selected verses' => [
+                '1 Kings 1:1,12; 2 Kings 1:1,12',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:1'],
+                    ['1 Kings 1:12', '1 Kings 1:12'],
+                    ['2 Kings 1:1', '2 Kings 1:1'],
+                    ['2 Kings 1:12', '2 Kings 1:12'],
+                ],
+            ],
+            'multiple numbered book with white space between book number and book name, in range' => [
+                '1 Kings 22:53-2 Kings 1:12',
+                [
+                    ['1 Kings 22:53', '2 Kings 1:12'],
+                ],
+            ],
         ];
     }
 

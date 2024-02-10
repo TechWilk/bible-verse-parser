@@ -61,7 +61,7 @@ class BiblePassageParser
             // "verse" or "verses" into "v"
             '/([^a-z])verses?([^a-z])/i' => '$1v$2',
             // add space between book number and book name
-            '/([\d])([a-zA-Z])/i' => '$1 $2',
+            '/(^|;\ *|\-)([\d])([a-zA-Z])/i' => '$1 $2 $3',
         ];
         $versesString = preg_replace(array_keys($substitutions), array_values($substitutions), $versesString);
 
