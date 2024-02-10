@@ -28,7 +28,7 @@ tasks:
       composer test
   - deploy: |
       echo "StrictHostKeyChecking=no" >> ~/.ssh/config
-      rsync -avpP bible-verse-parser/ cj-server-22:/ --delete --exclude="htdocs" --exclude="public/.well-known/"
+      rsync -avpP bible-verse-parser/ cj-server-22:/ --delete --exclude="htdocs" --exclude="public/.well-known/" --exclude="logs"
 triggers:
   - action: email
     condition: always
