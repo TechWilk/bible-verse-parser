@@ -509,6 +509,18 @@ class ParserTest extends TestCase
                     ['1 Corinthians 1:1', '2 Corinthians 13:14'],
                 ],
             ],
+            'double space and capital fragment issues/92' => [
+                'Luke 24  36B-48',
+                [
+                    ['Luke 24:36b', 'Luke 24:48'],
+                ],
+            ],
+            'capital fragment issues/92' => [
+                'Luke 24:36B-48',
+                [
+                    ['Luke 24:36b', 'Luke 24:48'],
+                ],
+            ],
         ];
     }
 
