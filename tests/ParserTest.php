@@ -521,6 +521,13 @@ class ParserTest extends TestCase
                     ['Luke 24:36b', 'Luke 24:48'],
                 ],
             ],
+            'and separator issues/93' => [
+                'John 1 and 2',
+                [
+                    ['John 1:1', 'John 1:51'],
+                    ['John 2:1', 'John 2:25'],
+                ],
+            ],
         ];
     }
 

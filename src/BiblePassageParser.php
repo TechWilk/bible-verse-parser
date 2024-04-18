@@ -12,7 +12,7 @@ class BiblePassageParser
 {
     use StringManipulationTrait;
 
-    protected $separators = ['&', ',', ';'];
+    protected $separators = ['&', ',', ';', 'and'];
     protected $books = [];
     protected $bookAbbreviations = [];
 
