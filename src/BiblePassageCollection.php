@@ -31,7 +31,7 @@ class BiblePassageCollection implements ArrayAccess
         throw new BadMethodCallException('Bible Passage Collections are immutable');
     }
 
-    public function offsetUnset($key)
+    public function offsetUnset($key): void
     {
         throw new BadMethodCallException('Bible Passage Collections are immutable');
     }
