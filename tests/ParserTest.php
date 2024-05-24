@@ -544,19 +544,43 @@ class ParserTest extends TestCase
                 'Obadiah v 01',
                 [
                     ['Obadiah 1:1', 'Obadiah 1:1'],
-                ]
+                ],
             ],
             'single chapter books can omit chapter variant' => [
                 'Obadiah verse 01',
                 [
                     ['Obadiah 1:1', 'Obadiah 1:1'],
-                ]
+                ],
             ],
             'single chapter books can omit chapter variant larger verse' => [
                 'Obadiah verse 15',
                 [
                     ['Obadiah 1:15', 'Obadiah 1:15'],
-                ]
+                ],
+            ],
+            'single integer' => [
+                '43003016',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'integer range' => [
+                '43003016-43003017',
+                [
+                    ['John 3:16', 'John 3:17'],
+                ],
+            ],
+            'integer and regular' => [
+                '43003016-John 3:17',
+                [
+                    ['John 3:16', 'John 3:17'],
+                ],
+            ],
+            'integer and verse number' => [
+                '43003016-17',
+                [
+                    ['John 3:16', 'John 3:17'],
+                ],
             ],
         ];
     }
