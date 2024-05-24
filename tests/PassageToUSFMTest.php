@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use TechWilk\BibleVerseParser\BiblePassage;
+use TechWilk\BibleVerseParser\BiblePassageParser;
 use TechWilk\BibleVerseParser\BibleReference;
 use TechWilk\BibleVerseParser\Book;
 
@@ -118,6 +119,11 @@ class PassageToUSFMTest extends TestCase
                 ['Psalms', 118, 1],
                 'PSA 117:2-118:1',
             ],
+            'lots of ones' => [
+                ['1 Corinthians', 1, 1],
+                ['1 Corinthians', 1, 1],
+                '1CO 1:1'
+            ]
         ];
     }
 
@@ -140,5 +146,10 @@ class PassageToUSFMTest extends TestCase
         );
 
         $this->assertEquals($expected, $passage->formatAsUSFM());
+
+        // ensure we can parse our own formats
+        $parser = new BiblePassageParser();
+        $passages = $parser->parse((string)$passage->formatAsUSFM());
+        $this->assertEquals(1, count($passages));
     }
 }
