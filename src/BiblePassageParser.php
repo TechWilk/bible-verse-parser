@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TechWilk\BibleVerseParser;
 
+use InvalidArgumentException;
+use TechWilk\BibleVerseParser\Data\BibleStructure;
 use TechWilk\BibleVerseParser\Exception\InvalidBookException;
 use TechWilk\BibleVerseParser\Exception\UnableToParseException;
 use TechWilk\BibleVerseParser\Traits\StringManipulationTrait;
@@ -17,25 +19,19 @@ class BiblePassageParser
     protected $bookAbbreviations = [];
 
     /**
-     * @param array<int,array{name: string, singularName?: string, abbreviations: string[], chapterStructure: array<int, int>}>|null $structure
-     * @param string[]|null                                                                                                          $separators
+     * @param array<Book>|null $structure
+     * @param string[]|null    $separators
      */
     public function __construct(?array $structure = null, ?array $separators = null)
     {
         if ($structure === null) {
-            $structure = require __DIR__.'/../data/bibleStructure.php';
+            $structure = BibleStructure::getBibleStructure();
         }
 
-        foreach ($structure as $index => $bookData) {
-            $book = new Book(
-                $index,
-                $bookData['number'],
-                $bookData['identifier'],
-                $bookData['name'],
-                $bookData['singularName'] ?? $bookData['name'],
-                $bookData['abbreviations'],
-                $bookData['chapterStructure']
-            );
+        foreach ($structure as $book) {
+            if (! $book instanceof Book) {
+                throw new InvalidArgumentException('Invalid book');
+            }
 
             $this->bookAbbreviations[$this->standardiseString($book->name())] = $book->numberChronological();
             $this->bookAbbreviations[$this->standardiseString($book->identifier())] = $book->numberChronological();
