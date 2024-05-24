@@ -77,11 +77,18 @@ Passages:
 	<?= htmlentities((string) $passage->to()->integerNotation()) ?>
 </p>
 <?php endforeach ?>
+
+<h3>USFM reference</h3>
+<?php foreach ($passages as $passage): ?>
+<p>
+	<?= htmlentities($passage->formatAsUSFM()) ?>
+</p>
+<?php endforeach ?>
 <?php endif ?>
 
 <footer>
 <small>
-	View code on 
+	View code on
 	<a href="https://github.com/techwilk/bible-verse-parser">GitHub</a>
 	or
 	<a href="https://git.sr.ht/~techwilk/bible-verse-parser">Sourcehut</a>
