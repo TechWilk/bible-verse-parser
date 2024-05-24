@@ -106,7 +106,11 @@ class BiblePassageParser
                     $lastFragment ?? ''
                 );
             } else {
-                $matches = $this->parseReference($splitSection[1]);
+                try {
+                    $matches = $this->parseReferenceAsInteger($splitSection[1]);
+                } catch (UnableToParseException) {
+                    $matches = $this->parseReference($splitSection[1]);
+                }
 
                 $endBook = '';
                 $endChapter = null;
@@ -175,7 +179,11 @@ class BiblePassageParser
         ?int $lastChapter,
         ?int $lastVerse
     ): array {
-        $matches = $this->parseReference($textReference);
+        try {
+            $matches = $this->parseReferenceAsInteger($textReference);
+        } catch (UnableToParseException) {
+            $matches = $this->parseReference($textReference);
+        }
         $book = '';
         $chapter = null;
         $verse = null;
@@ -287,6 +295,28 @@ class BiblePassageParser
         }
 
         return $matches;
+    }
+
+    protected function parseReferenceAsInteger(string $reference): array
+    {
+        $reference = trim($reference);
+        if (! is_numeric($reference)) {
+            throw new UnableToParseException('Unable to parse reference');
+        }
+
+        if (((int)$reference) < 1001001) {
+            throw new UnableToParseException('Unable to parse reference');
+        }
+
+        $bookNumber = floor($reference / 1000000);
+        $chapter = floor(($reference - ($bookNumber*1000000)) / 1000);
+        $verse = $reference - ($bookNumber*1000000) - ($chapter*1000);
+
+        return [
+            'book' => (string)$this->books[$bookNumber],
+            'chapter_or_verse' => (string)$chapter,
+            'verse' => (string)$verse,
+        ];
     }
 
     protected function getBookFromAbbreviation(string $bookAbbreviation): Book
