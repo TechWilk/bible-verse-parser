@@ -348,17 +348,6 @@ class BiblePassageParser
 
     protected function parseReferenceAsInteger(string $reference): array
     {
-        // should this be USFM book number, or book index? We should have some kind of settings to control this
-
-
-
-
-
-
-
-
-
-
         $reference = trim($reference);
         if (! is_numeric($reference)) {
             throw new UnableToParseException('Unable to parse reference');
