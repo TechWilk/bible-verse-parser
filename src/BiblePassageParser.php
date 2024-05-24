@@ -29,6 +29,7 @@ class BiblePassageParser
         foreach ($structure as $bookNumber => $bookData) {
             $book = new Book(
                 $bookNumber,
+                $bookData['identifier'],
                 $bookData['name'],
                 $bookData['singularName'] ?? $bookData['name'],
                 $bookData['abbreviations'],
@@ -36,6 +37,7 @@ class BiblePassageParser
             );
 
             $this->bookAbbreviations[$this->standardiseString($book->name())] = $book->number();
+            $this->bookAbbreviations[$this->standardiseString($book->identifier())] = $book->number();
             foreach ($book->abbreviations() as $abbreviation) {
                 $this->bookAbbreviations[$this->standardiseString($abbreviation)] = $book->number();
             }
