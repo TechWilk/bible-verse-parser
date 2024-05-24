@@ -5,6 +5,7 @@ declare(strict_types=1);
 return [
     1 => [
         'name' => 'Genesis',
+        'identifier' => 'GEN',
         'abbreviations' => ['gen', 'ge', 'gn'],
         'chapterStructure' => [
             1 => 31,
@@ -61,6 +62,7 @@ return [
     ],
     2 => [
         'name' => 'Exodus',
+        'identifier' => 'EXO',
         'abbreviations' => ['exod', 'ex', 'exo'],
         'chapterStructure' => [
             1 => 22,
@@ -107,6 +109,7 @@ return [
     ],
     3 => [
         'name' => 'Leviticus',
+        'identifier' => 'LEV',
         'abbreviations' => ['lev', 'le', 'lv'],
         'chapterStructure' => [
             1 => 17,
@@ -140,6 +143,7 @@ return [
     ],
     4 => [
         'name' => 'Numbers',
+        'identifier' => 'NUM',
         'abbreviations' => ['num', 'nu', 'nm', 'nb'],
         'chapterStructure' => [
             1 => 54,
@@ -182,6 +186,7 @@ return [
     ],
     5 => [
         'name' => 'Deuteronomy',
+        'identifier' => 'DEU',
         'abbreviations' => ['deut', 'de', 'dt'],
         'chapterStructure' => [
             1 => 46,
@@ -222,6 +227,7 @@ return [
     ],
     6 => [
         'name' => 'Joshua',
+        'identifier' => 'JOS',
         'abbreviations' => ['josh', 'jos', 'jsh'],
         'chapterStructure' => [
             1 => 18,
@@ -252,6 +258,7 @@ return [
     ],
     7 => [
         'name' => 'Judges',
+        'identifier' => 'JDG',
         'abbreviations' => ['judg', 'jdg', 'jg', 'jdgs'],
         'chapterStructure' => [
             1 => 36,
@@ -279,6 +286,7 @@ return [
     ],
     8 => [
         'name' => 'Ruth',
+        'identifier' => 'RUT',
         'abbreviations' => ['rth', 'ru'],
         'chapterStructure' => [
             1 => 22,
@@ -289,6 +297,7 @@ return [
     ],
     9 => [
         'name' => '1 Samuel',
+        'identifier' => '1SA',
         'abbreviations' => ['1 sam', '1st sam', '1st samuel', 'first samuel', '1 sm', '1 sa', 'i samuel'],
         'chapterStructure' => [
             1 => 28,
@@ -326,6 +335,7 @@ return [
     ],
     10 => [
         'name' => '2 Samuel',
+        'identifier' => '2SA',
         'abbreviations' => ['2 sam', '2nd sam', '2nd samuel', 'second samuel', '2 sm', '2 sa', '2 s', 'ii samuel'],
         'chapterStructure' => [
             1 => 27,
@@ -356,6 +366,7 @@ return [
     ],
     11 => [
         'name' => '1 Kings',
+        'identifier' => '1KI',
         'abbreviations' => ['1 kgs', '1st kgs', '1st kings', 'first kings', '1 kin', '1 ki', '1k', 'i kings'],
         'chapterStructure' => [
             1 => 53,
@@ -384,6 +395,7 @@ return [
     ],
     12 => [
         'name' => '2 Kings',
+        'identifier' => '2KI',
         'abbreviations' => ['2 kgs', '2nd kgs', '2nd kings', 'second kings', '2 kin', '2 ki', 'ii kings'],
         'chapterStructure' => [
             1 => 18,
@@ -415,6 +427,7 @@ return [
     ],
     13 => [
         'name' => '1 Chronicles',
+        'identifier' => '1CH',
         'abbreviations' => ['1 chr', '1 chron', '1st chr', '1st chron', '1st chronicles', 'first chronicles', '1 ch', 'i chronicles'],
         'chapterStructure' => [
             1 => 54,
@@ -450,6 +463,7 @@ return [
     ],
     14 => [
         'name' => '2 Chronicles',
+        'identifier' => '2CH',
         'abbreviations' => ['2 chr', '2 chron', '2nd chr', '2nd chron', '2nd chronicles', 'second chronicles', '2 ch', '2 chron', 'ii chronicles'],
         'chapterStructure' => [
             1 => 17,
@@ -492,6 +506,7 @@ return [
     ],
     15 => [
         'name' => 'Ezra',
+        'identifier' => 'EZR',
         'abbreviations' => ['ezr', 'ez'],
         'chapterStructure' => [
             1 => 11,
@@ -508,6 +523,7 @@ return [
     ],
     16 => [
         'name' => 'Nehemiah',
+        'identifier' => 'NEH',
         'abbreviations' => ['neh', 'ne'],
         'chapterStructure' => [
             1 => 11,
@@ -527,6 +543,7 @@ return [
     ],
     17 => [
         'name' => 'Esther',
+        'identifier' => 'EST',
         'abbreviations' => ['esth', 'est', 'esth 1', 'es'],
         'chapterStructure' => [
             1 => 22,
@@ -543,6 +560,7 @@ return [
     ],
     18 => [
         'name' => 'Job',
+        'identifier' => 'JOB',
         'abbreviations' => ['jb'],
         'chapterStructure' => [
             1 => 22,
@@ -592,6 +610,7 @@ return [
     19 => [
         'name' => 'Psalms',
         'singularName' => 'Psalm',
+        'identifier' => 'PSA',
         'abbreviations' => ['ps', 'pss', 'psalm', 'pslm', 'psa', 'psm'],
         'chapterStructure' => [
             1 => 6,
@@ -748,6 +767,7 @@ return [
     ],
     20 => [
         'name' => 'Proverbs',
+        'identifier' => 'PRO',
         'abbreviations' => ['prov', 'pro', 'prv', 'pr'],
         'chapterStructure' => [
             1 => 33,
@@ -785,6 +805,7 @@ return [
     ],
     21 => [
         'name' => 'Ecclesiastes',
+        'identifier' => 'ECC',
         'abbreviations' => ['eccl', 'ecc', 'ecc1', 'eccles', 'eccle', 'ec'],
         'chapterStructure' => [
             1 => 18,
@@ -803,6 +824,7 @@ return [
     ],
     22 => [
         'name' => 'Song of Solomon',
+        'identifier' => 'SNG',
         'abbreviations' => ['song', 'song of songs', 'the song of songs', 'the song of solomon'],
         'chapterStructure' => [
             1 => 17,
@@ -817,6 +839,7 @@ return [
     ],
     23 => [
         'name' => 'Isaiah',
+        'identifier' => 'ISA',
         'abbreviations' => ['isiah', 'isa', 'is'],
         'chapterStructure' => [
             1 => 31,
@@ -889,6 +912,7 @@ return [
     ],
     24 => [
         'name' => 'Jeremiah',
+        'identifier' => 'JER',
         'abbreviations' => ['jer', 'je', 'jr'],
         'chapterStructure' => [
             1 => 19,
@@ -947,6 +971,7 @@ return [
     ],
     25 => [
         'name' => 'Lamentations',
+        'identifier' => 'LAM',
         'abbreviations' => ['lam', 'la'],
         'chapterStructure' => [
             1 => 22,
@@ -958,6 +983,7 @@ return [
     ],
     26 => [
         'name' => 'Ezekiel',
+        'identifier' => 'EZK',
         'abbreviations' => ['ezek'],
         'chapterStructure' => [
             1 => 28,
@@ -1012,6 +1038,7 @@ return [
     ],
     27 => [
         'name' => 'Daniel',
+        'identifier' => 'DAN',
         'abbreviations' => ['dan', 'da', 'dn'],
         'chapterStructure' => [
             1 => 21,
@@ -1030,6 +1057,7 @@ return [
     ],
     28 => [
         'name' => 'Hosea',
+        'identifier' => 'HOS',
         'abbreviations' => ['hos', 'ho'],
         'chapterStructure' => [
             1 => 11,
@@ -1050,6 +1078,7 @@ return [
     ],
     29 => [
         'name' => 'Joel',
+        'identifier' => 'JOL',
         'abbreviations' => ['jl'],
         'chapterStructure' => [
             1 => 20,
@@ -1059,6 +1088,7 @@ return [
     ],
     30 => [
         'name' => 'Amos',
+        'identifier' => 'AMO',
         'abbreviations' => ['am'],
         'chapterStructure' => [
             1 => 15,
@@ -1074,6 +1104,7 @@ return [
     ],
     31 => [
         'name' => 'Obadiah',
+        'identifier' => 'OBA',
         'abbreviations' => ['obad', 'oba'],
         'chapterStructure' => [
             1 => 21,
@@ -1081,6 +1112,7 @@ return [
     ],
     32 => [
         'name' => 'Jonah',
+        'identifier' => 'JON',
         'abbreviations' => ['jon', 'jnh'],
         'chapterStructure' => [
             1 => 17,
@@ -1091,6 +1123,7 @@ return [
     ],
     33 => [
         'name' => 'Micah',
+        'identifier' => 'MIC',
         'abbreviations' => ['mic', 'mc'],
         'chapterStructure' => [
             1 => 16,
@@ -1104,6 +1137,7 @@ return [
     ],
     34 => [
         'name' => 'Nahum',
+        'identifier' => 'NAM',
         'abbreviations' => ['nah', 'na'],
         'chapterStructure' => [
             1 => 15,
@@ -1113,6 +1147,7 @@ return [
     ],
     35 => [
         'name' => 'Habakkuk',
+        'identifier' => 'HAB',
         'abbreviations' => ['hab'],
         'chapterStructure' => [
             1 => 17,
@@ -1122,6 +1157,7 @@ return [
     ],
     36 => [
         'name' => 'Zephaniah',
+        'identifier' => 'ZEP',
         'abbreviations' => ['zeph', 'zep', 'zp'],
         'chapterStructure' => [
             1 => 18,
@@ -1131,6 +1167,7 @@ return [
     ],
     37 => [
         'name' => 'Haggai',
+        'identifier' => 'HAG',
         'abbreviations' => ['hag', 'hg. '],
         'chapterStructure' => [
             1 => 15,
@@ -1139,6 +1176,7 @@ return [
     ],
     38 => [
         'name' => 'Zechariah',
+        'identifier' => 'ZEC',
         'abbreviations' => ['zech', 'zec', 'zc'],
         'chapterStructure' => [
             1 => 21,
@@ -1159,6 +1197,7 @@ return [
     ],
     39 => [
         'name' => 'Malachi',
+        'identifier' => 'MAL',
         'abbreviations' => ['mal', 'ml'],
         'chapterStructure' => [
             1 => 14,
@@ -1169,6 +1208,7 @@ return [
     ],
     40 => [
         'name' => 'Matthew',
+        'identifier' => 'MAT',
         'abbreviations' => ['matt'],
         'chapterStructure' => [
             1 => 25,
@@ -1203,6 +1243,7 @@ return [
     ],
     41 => [
         'name' => 'Mark',
+        'identifier' => 'MRK',
         'abbreviations' => ['mk'],
         'chapterStructure' => [
             1 => 45,
@@ -1225,6 +1266,7 @@ return [
     ],
     42 => [
         'name' => 'Luke',
+        'identifier' => 'LUK',
         'abbreviations' => ['lk'],
         'chapterStructure' => [
             1 => 80,
@@ -1255,6 +1297,7 @@ return [
     ],
     43 => [
         'name' => 'John',
+        'identifier' => 'JHN',
         'abbreviations' => ['jn', 'jhn'],
         'chapterStructure' => [
             1 => 51,
@@ -1282,6 +1325,7 @@ return [
     ],
     44 => [
         'name' => 'Acts',
+        'identifier' => 'ACT',
         'abbreviations' => ['act'],
         'chapterStructure' => [
             1 => 26,
@@ -1316,6 +1360,7 @@ return [
     ],
     45 => [
         'name' => 'Romans',
+        'identifier' => 'ROM',
         'abbreviations' => ['rom'],
         'chapterStructure' => [
             1 => 32,
@@ -1338,6 +1383,7 @@ return [
     ],
     46 => [
         'name' => '1 Corinthians',
+        'identifier' => '1CO',
         'abbreviations' => ['1 cor', '1st cor', '1st corinthians', 'first corinthians', 'i corinthians', 'i cor'],
         'chapterStructure' => [
             1 => 31,
@@ -1360,6 +1406,7 @@ return [
     ],
     47 => [
         'name' => '2 Corinthians',
+        'identifier' => '2CO',
         'abbreviations' => ['2 cor', '2nd cor', '2nd corinthians', 'second corinthians', 'ii corinthians', 'ii cor'],
         'chapterStructure' => [
             1 => 24,
@@ -1379,6 +1426,7 @@ return [
     ],
     48 => [
         'name' => 'Galatians',
+        'identifier' => 'GAL',
         'abbreviations' => ['gal'],
         'chapterStructure' => [
             1 => 24,
@@ -1391,6 +1439,7 @@ return [
     ],
     49 => [
         'name' => 'Ephesians',
+        'identifier' => 'EPH',
         'abbreviations' => ['eph'],
         'chapterStructure' => [
             1 => 23,
@@ -1403,6 +1452,7 @@ return [
     ],
     50 => [
         'name' => 'Philippians',
+        'identifier' => 'PHP',
         'abbreviations' => ['phil'],
         'chapterStructure' => [
             1 => 30,
@@ -1413,6 +1463,7 @@ return [
     ],
     51 => [
         'name' => 'Colossians',
+        'identifier' => 'COL',
         'abbreviations' => ['col'],
         'chapterStructure' => [
             1 => 29,
@@ -1423,6 +1474,7 @@ return [
     ],
     52 => [
         'name' => '1 Thessalonians',
+        'identifier' => '1TH',
         'abbreviations' => ['1 thess', '1st thess', '1st thessalonians', 'first thessalonians', 'i thessalonians'],
         'chapterStructure' => [
             1 => 10,
@@ -1434,6 +1486,7 @@ return [
     ],
     53 => [
         'name' => '2 Thessalonians',
+        'identifier' => '2TH',
         'abbreviations' => ['2 thess', '2nd thess', '2nd thessalonians', 'second thessalonians', 'ii thessalonians'],
         'chapterStructure' => [
             1 => 12,
@@ -1443,6 +1496,7 @@ return [
     ],
     54 => [
         'name' => '1 Timothy',
+        'identifier' => '1TI',
         'abbreviations' => ['1 tim', '1st tim', '1st timothy', 'first timothy', 'i timothy'],
         'chapterStructure' => [
             1 => 20,
@@ -1455,6 +1509,7 @@ return [
     ],
     55 => [
         'name' => '2 Timothy',
+        'identifier' => '2TI',
         'abbreviations' => ['2 tim', '2nd tim', '2nd timothy', 'second timothy', 'ii timothy'],
         'chapterStructure' => [
             1 => 18,
@@ -1465,6 +1520,7 @@ return [
     ],
     56 => [
         'name' => 'Titus',
+        'identifier' => 'TIT',
         'abbreviations' => [],
         'chapterStructure' => [
             1 => 16,
@@ -1474,6 +1530,7 @@ return [
     ],
     57 => [
         'name' => 'Philemon',
+        'identifier' => 'PHM',
         'abbreviations' => ['phlm'],
         'chapterStructure' => [
             1 => 25,
@@ -1481,6 +1538,7 @@ return [
     ],
     58 => [
         'name' => 'Hebrews',
+        'identifier' => 'HEB',
         'abbreviations' => ['heb'],
         'chapterStructure' => [
             1 => 14,
@@ -1500,6 +1558,7 @@ return [
     ],
     59 => [
         'name' => 'James',
+        'identifier' => 'JAS',
         'abbreviations' => ['jas'],
         'chapterStructure' => [
             1 => 27,
@@ -1511,6 +1570,7 @@ return [
     ],
     60 => [
         'name' => '1 Peter',
+        'identifier' => '1PE',
         'abbreviations' => ['1 pet', '1st pet', '1st peter', 'first peter', 'i peter'],
         'chapterStructure' => [
             1 => 25,
@@ -1522,6 +1582,7 @@ return [
     ],
     61 => [
         'name' => '2 Peter',
+        'identifier' => '2PE',
         'abbreviations' => ['2 pet', '2nd pet', '2nd peter', 'second peter', 'ii peter'],
         'chapterStructure' => [
             1 => 21,
@@ -1531,6 +1592,7 @@ return [
     ],
     62 => [
         'name' => '1 John',
+        'identifier' => '1JN',
         'abbreviations' => ['1st john', 'first john', 'i john'],
         'chapterStructure' => [
             1 => 10,
@@ -1542,6 +1604,7 @@ return [
     ],
     63 => [
         'name' => '2 John',
+        'identifier' => '2JN',
         'abbreviations' => ['2nd john', 'second john', 'ii john'],
         'chapterStructure' => [
             1 => 13,
@@ -1549,6 +1612,7 @@ return [
     ],
     64 => [
         'name' => '3 John',
+        'identifier' => '3JN',
         'abbreviations' => ['3rd john', 'third john', 'iii john'],
         'chapterStructure' => [
             1 => 15,
@@ -1556,6 +1620,7 @@ return [
     ],
     65 => [
         'name' => 'Jude',
+        'identifier' => 'JUD',
         'abbreviations' => [],
         'chapterStructure' => [
             1 => 25,
@@ -1563,6 +1628,7 @@ return [
     ],
     66 => [
         'name' => 'Revelation',
+        'identifier' => 'REV',
         'abbreviations' => ['rev'],
         'chapterStructure' => [
             1 => 20,

@@ -9,19 +9,32 @@ use InvalidArgumentException;
 class Book
 {
     protected $number;
+    protected $identifier;
     protected $name;
     protected $singularName;
     protected $abbreviations;
     protected $chapterStructure;
 
+    /**
+     * @param $identifier USFM Identifier
+     * @see https://ubsicap.github.io/usfm/identification/books.html
+     */
     public function __construct(
         int $number,
+        string $identifier,
         string $name,
         string $singularName,
         array $abbreviations,
         array $chapterStructure
     ) {
+        if (strlen($identifier) !== 3) {
+            throw new InvalidArgumentException('Invalid identifier');
+        }
+        if (strlen($name) === 0) {
+            throw new InvalidArgumentException('Invalid name');
+        }
         $this->number = $number;
+        $this->identifier = $identifier;
         $this->name = $name;
         $this->singularName = $singularName;
         $this->abbreviations = $abbreviations;
@@ -31,6 +44,11 @@ class Book
     public function number(): int
     {
         return $this->number;
+    }
+
+    public function identifier(): string
+    {
+        return $this->identifier;
     }
 
     public function __toString(): string
