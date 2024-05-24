@@ -65,8 +65,10 @@ class BiblePassageParser
             '/([^a-z])c([^a-z])/i' => '$1ch$2',
             // "verse" or "verses" into "v"
             '/([^a-z])verses?([^a-z])/i' => '$1v$2',
-            // add space between book number and book name
-            '/(^|;\ *|\-)([\d])([a-zA-Z])/i' => '$1 $2 $3',
+            // // add space around numbers
+            // '/(\d+)/i' => ' $1 ',
+            // // remove double space
+            // '/\s{2,}/i' => ' ',
         ];
         $versesString = preg_replace(array_keys($substitutions), array_values($substitutions), $versesString);
 
@@ -254,7 +256,7 @@ class BiblePassageParser
     protected function parseReference(string $reference): array
     {
         $reference = strtolower($reference);
-        $regex = '/^\s*(?<book>(?:[0-9]+\s+)?[^0-9]+)?(?:(?<chapter_or_verse>[0-9]+[abc]?)?(?:\s*[\. \:v]+\s*(?<verse>[0-9]+[abc]?(?:end)?))?)?\s*$/';
+        $regex = '/^\s*(?<book>(?:[0-9]+\s+)?[^0-9]+)?(?:(?<chapter_or_verse>[0-9]+(?: [abc])?)?(?:\s*[\. \:v]+\s*(?<verse>[0-9]+(?: [abc])?(?:end)?))?)?\s*$/';
         $result = preg_match(
             $regex,
             $reference,
