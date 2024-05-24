@@ -552,6 +552,42 @@ class ParserTest extends TestCase
                     ['John 3:16', 'John 3:17'],
                 ]
             ],
+            'usfm scripture reference' => [
+                'DEU 1:1',
+                [
+                    ['Deuteronomy 1:1', 'Deuteronomy 1:1'],
+                ],
+            ],
+            'another usfm scripture reference' => [
+                'SNG 4',
+                [
+                    ['Song of Solomon 4:1', 'Song of Solomon 4:16'],
+                ],
+            ],
+            'numeric usfm scripture reference' => [
+                '1CO 1:1',
+                [
+                    ['1 Corinthians 1:1', '1 Corinthians 1:1'],
+                ],
+            ],
+            'usfm scripture reference range' => [
+                'SNG 4:1-16',
+                [
+                    ['Song of Solomon 4:1', 'Song of Solomon 4:16'],
+                ],
+            ],
+            'usfm-style youversion scripture reference' => [
+                'JHN.1.6',
+                [
+                    ['John 1:6', 'John 1:6'],
+                ],
+            ],
+            'usfm-style youversion scripture reference range' => [
+                'JHN.1.6-7',
+                [
+                    ['John 1:6', 'John 1:7'],
+                ],
+            ],
         ];
     }
 
