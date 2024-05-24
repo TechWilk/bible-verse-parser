@@ -148,7 +148,7 @@ class BiblePassage
         $toString = $this->to->chapter().':'.$this->to->verse().$this->to->fragment();
 
         // Format "John 3:16 - Acts 1:1"
-        if (! $this->isSameBook()) {
+        if (!$this->isSameBook()) {
             return $this->from->book()->identifier().$trailer.' - '.$this->to->book()->identifier().' '.$toString;
         }
 
@@ -174,7 +174,6 @@ class BiblePassage
     {
         // Format "John", "Psalms"
         if ($this->isWholeBook()) {
-
             return $this->from->book()->name();
         }
 
@@ -182,7 +181,6 @@ class BiblePassage
 
         // Format "John 3", "Psalm 3"
         if ($this->isWholeChapter()) {
-
             return $this->from->book()->singularName().$trailer;
         }
 
@@ -202,7 +200,7 @@ class BiblePassage
         $toString = $this->to->chapter().':'.$this->to->verse().$this->to->fragment();
 
         // Format "John 3:16 - Acts 1:1"
-        if (! $this->isSameBook()) {
+        if (!$this->isSameBook()) {
             return $this->from->book().$trailer.' - '.$this->to->book().' '.$toString;
         }
 
