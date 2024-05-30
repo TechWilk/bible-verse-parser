@@ -70,6 +70,15 @@ class BibleReference implements JsonSerializable
         return "{$this->book->identifier()} {$this->chapter}:{$this->verse}{$this->fragment}";
     }
 
+    public function formatAsURLSafeUSFM(): string
+    {
+        if (!$this->verse) {
+            return "{$this->book->identifier()}.{$this->chapter}";
+        }
+
+        return "{$this->book->identifier()}.{$this->chapter}.{$this->verse}{$this->fragment}";
+    }
+
     public function formatAsString(): string
     {
         if (!$this->verse) {
