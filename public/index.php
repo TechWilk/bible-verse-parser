@@ -84,6 +84,13 @@ Passages:
 	<?= htmlentities($passage->formatAsUSFM()) ?>
 </p>
 <?php endforeach ?>
+
+<h3>URL-safe USFM reference</h3>
+<?php foreach ($passages as $passage): ?>
+<p>
+	<?= htmlentities($passage->formatAsURLSafeUSFM()) ?>
+</p>
+<?php endforeach ?>
 <?php endif ?>
 
 <footer>
