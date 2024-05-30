@@ -296,22 +296,22 @@ class BiblePassageParser
     protected function parseReferenceAsInteger(string $reference): array
     {
         $reference = trim($reference);
-        if (! is_numeric($reference)) {
+        if (!is_numeric($reference)) {
             throw new UnableToParseException('Unable to parse reference');
         }
 
-        if (((int)$reference) < 1001001) {
+        if (((int) $reference) < 1001001) {
             throw new UnableToParseException('Unable to parse reference');
         }
 
         $bookNumber = floor($reference / 1000000);
-        $chapter = floor(($reference - ($bookNumber*1000000)) / 1000);
-        $verse = $reference - ($bookNumber*1000000) - ($chapter*1000);
+        $chapter = floor(($reference - ($bookNumber * 1000000)) / 1000);
+        $verse = $reference - ($bookNumber * 1000000) - ($chapter * 1000);
 
         return [
-            'book' => (string)$this->books[$bookNumber],
-            'chapter_or_verse' => (string)$chapter,
-            'verse' => (string)$verse,
+            'book' => (string) $this->books[$bookNumber],
+            'chapter_or_verse' => (string) $chapter,
+            'verse' => (string) $verse,
         ];
     }
 

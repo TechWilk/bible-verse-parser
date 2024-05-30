@@ -17,6 +17,7 @@ class Book
 
     /**
      * @param $identifier USFM Identifier
+     *
      * @see https://ubsicap.github.io/usfm/identification/books.html
      */
     public function __construct(
