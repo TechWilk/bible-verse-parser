@@ -163,6 +163,58 @@ class BiblePassage
     /**
      * string formats.
      *
+     * JHN
+     * JHN.3
+     * JHN.3.16
+     * JHN.3.16-17
+     * JHN.3.16-4:1
+     * JHN.3.16-ACT.1.1 // always has a verse
+     */
+    public function formatAsURLSafeUSFM(): string
+    {
+        // Format "John", "Psalms"
+        if ($this->isWholeBook()) {
+            return $this->from->book()->identifier();
+        }
+
+        $trailer = '.'.$this->from->chapter();
+
+        // Format "John 3", "Psalm 3"
+        if ($this->isWholeChapter()) {
+            return $this->from->book()->identifier().$trailer;
+        }
+
+        $trailer .= '.'.$this->from->verse().$this->from->fragment();
+
+        // Format "John 3:16"
+        if ($this->isSingleVerse()) {
+            return $this->from->book()->identifier().$trailer;
+        }
+
+        // Format "John 3:16-17"
+        if ($this->isSameChapter()) {
+            return $this->from->book()->identifier()
+                .$trailer.'-'.$this->to->verse().$this->to->fragment();
+        }
+
+        $toString = $this->to->chapter().'.'.$this->to->verse().$this->to->fragment();
+
+        // Format "John 3:16 - Acts 1:1"
+        if (! $this->isSameBook()) {
+            return $this->from->book()->identifier().$trailer.'-'.$this->to->book()->identifier().'.'.$toString;
+        }
+
+        // Format "Psalms 120-134"
+        if ($this->isMultipleWholeChapters()) {
+            return $this->from->book()->identifier().'.'.$this->from->chapter().'-'.$this->to->chapter();
+        }
+
+        return $this->from->book()->identifier().$trailer.'-'.$toString;
+    }
+
+    /**
+     * string formats.
+     *
      * John
      * John 3
      * John 3:16
