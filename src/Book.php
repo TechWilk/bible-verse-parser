@@ -61,8 +61,8 @@ class Book
      * This can vary based on the type of bible.
      * For example:
      * - Revelations is book 66 in the Protestant bible
-     * - Revelations is book 73 in the Catholic bible
-     * - Revelations is book ? in the Orthadox bible
+     * - Revelations is book 69 in the Catholic bible
+     * - Revelations is book 73 in the Orthadox bible
      *
      * @see numberUSFM() if you want a numerical value which doesn't change based on position
      */
