@@ -26,9 +26,10 @@ class BiblePassageParser
             $structure = require __DIR__.'/../data/bibleStructure.php';
         }
 
-        foreach ($structure as $bookNumber => $bookData) {
+        foreach ($structure as $index => $bookData) {
             $book = new Book(
-                $bookNumber,
+                $index,
+                $bookData['number'],
                 $bookData['identifier'],
                 $bookData['name'],
                 $bookData['singularName'] ?? $bookData['name'],
@@ -36,13 +37,13 @@ class BiblePassageParser
                 $bookData['chapterStructure']
             );
 
-            $this->bookAbbreviations[$this->standardiseString($book->name())] = $book->number();
-            $this->bookAbbreviations[$this->standardiseString($book->identifier())] = $book->number();
+            $this->bookAbbreviations[$this->standardiseString($book->name())] = $book->numberChronological();
+            $this->bookAbbreviations[$this->standardiseString($book->identifier())] = $book->numberChronological();
             foreach ($book->abbreviations() as $abbreviation) {
-                $this->bookAbbreviations[$this->standardiseString($abbreviation)] = $book->number();
+                $this->bookAbbreviations[$this->standardiseString($abbreviation)] = $book->numberChronological();
             }
 
-            $this->books[$bookNumber] = $book;
+            $this->books[$book->numberChronological()] = $book;
         }
 
         if ($separators !== null) {
@@ -159,7 +160,7 @@ class BiblePassageParser
                 );
             }
 
-            if ($fromReference->integerNotation() > $toReference->integerNotation()) {
+            if ($fromReference->integerNotationUSFM() > $toReference->integerNotationUSFM()) {
                 // reference are reversed
                 throw new UnableToParseException('References end is before beginning');
             }
@@ -312,6 +313,17 @@ class BiblePassageParser
 
     protected function parseReferenceAsInteger(string $reference): array
     {
+        // should this be USFM book number, or book index? We should have some kind of settings to control this
+
+
+
+
+
+
+
+
+
+
         $reference = trim($reference);
         if (! is_numeric($reference)) {
             throw new UnableToParseException('Unable to parse reference');
