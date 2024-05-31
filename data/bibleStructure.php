@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 return [
     1 => [
+        'number' => 1,
         'name' => 'Genesis',
         'identifier' => 'GEN',
         'abbreviations' => ['gen', 'ge', 'gn'],
@@ -61,6 +62,7 @@ return [
         ],
     ],
     2 => [
+        'number' => 2,
         'name' => 'Exodus',
         'identifier' => 'EXO',
         'abbreviations' => ['exod', 'ex', 'exo'],
@@ -108,6 +110,7 @@ return [
         ],
     ],
     3 => [
+        'number' => 3,
         'name' => 'Leviticus',
         'identifier' => 'LEV',
         'abbreviations' => ['lev', 'le', 'lv'],
@@ -142,6 +145,7 @@ return [
         ],
     ],
     4 => [
+        'number' => 4,
         'name' => 'Numbers',
         'identifier' => 'NUM',
         'abbreviations' => ['num', 'nu', 'nm', 'nb'],
@@ -185,6 +189,7 @@ return [
         ],
     ],
     5 => [
+        'number' => 5,
         'name' => 'Deuteronomy',
         'identifier' => 'DEU',
         'abbreviations' => ['deut', 'de', 'dt'],
@@ -226,6 +231,7 @@ return [
         ],
     ],
     6 => [
+        'number' => 6,
         'name' => 'Joshua',
         'identifier' => 'JOS',
         'abbreviations' => ['josh', 'jos', 'jsh'],
@@ -257,6 +263,7 @@ return [
         ],
     ],
     7 => [
+        'number' => 7,
         'name' => 'Judges',
         'identifier' => 'JDG',
         'abbreviations' => ['judg', 'jdg', 'jg', 'jdgs'],
@@ -285,6 +292,7 @@ return [
         ],
     ],
     8 => [
+        'number' => 8,
         'name' => 'Ruth',
         'identifier' => 'RUT',
         'abbreviations' => ['rth', 'ru'],
@@ -296,6 +304,7 @@ return [
         ],
     ],
     9 => [
+        'number' => 9,
         'name' => '1 Samuel',
         'identifier' => '1SA',
         'abbreviations' => ['1 sam', '1st sam', '1st samuel', 'first samuel', '1 sm', '1 sa', 'i samuel'],
@@ -334,6 +343,7 @@ return [
         ],
     ],
     10 => [
+        'number' => 10,
         'name' => '2 Samuel',
         'identifier' => '2SA',
         'abbreviations' => ['2 sam', '2nd sam', '2nd samuel', 'second samuel', '2 sm', '2 sa', '2 s', 'ii samuel'],
@@ -365,6 +375,7 @@ return [
         ],
     ],
     11 => [
+        'number' => 11,
         'name' => '1 Kings',
         'identifier' => '1KI',
         'abbreviations' => ['1 kgs', '1st kgs', '1st kings', 'first kings', '1 kin', '1 ki', '1k', 'i kings'],
@@ -394,6 +405,7 @@ return [
         ],
     ],
     12 => [
+        'number' => 12,
         'name' => '2 Kings',
         'identifier' => '2KI',
         'abbreviations' => ['2 kgs', '2nd kgs', '2nd kings', 'second kings', '2 kin', '2 ki', 'ii kings'],
@@ -426,6 +438,7 @@ return [
         ],
     ],
     13 => [
+        'number' => 13,
         'name' => '1 Chronicles',
         'identifier' => '1CH',
         'abbreviations' => ['1 chr', '1 chron', '1st chr', '1st chron', '1st chronicles', 'first chronicles', '1 ch', 'i chronicles'],
@@ -462,6 +475,7 @@ return [
         ],
     ],
     14 => [
+        'number' => 14,
         'name' => '2 Chronicles',
         'identifier' => '2CH',
         'abbreviations' => ['2 chr', '2 chron', '2nd chr', '2nd chron', '2nd chronicles', 'second chronicles', '2 ch', '2 chron', 'ii chronicles'],
@@ -505,6 +519,7 @@ return [
         ],
     ],
     15 => [
+        'number' => 15,
         'name' => 'Ezra',
         'identifier' => 'EZR',
         'abbreviations' => ['ezr', 'ez'],
@@ -522,6 +537,7 @@ return [
         ],
     ],
     16 => [
+        'number' => 16,
         'name' => 'Nehemiah',
         'identifier' => 'NEH',
         'abbreviations' => ['neh', 'ne'],
@@ -542,6 +558,7 @@ return [
         ],
     ],
     17 => [
+        'number' => 17,
         'name' => 'Esther',
         'identifier' => 'EST',
         'abbreviations' => ['esth', 'est', 'esth 1', 'es'],
@@ -559,6 +576,7 @@ return [
         ],
     ],
     18 => [
+        'number' => 18,
         'name' => 'Job',
         'identifier' => 'JOB',
         'abbreviations' => ['jb'],
@@ -608,6 +626,7 @@ return [
         ],
     ],
     19 => [
+        'number' => 19,
         'name' => 'Psalms',
         'singularName' => 'Psalm',
         'identifier' => 'PSA',
@@ -766,6 +785,7 @@ return [
         ],
     ],
     20 => [
+        'number' => 20,
         'name' => 'Proverbs',
         'identifier' => 'PRO',
         'abbreviations' => ['prov', 'pro', 'prv', 'pr'],
@@ -804,6 +824,7 @@ return [
         ],
     ],
     21 => [
+        'number' => 21,
         'name' => 'Ecclesiastes',
         'identifier' => 'ECC',
         'abbreviations' => ['eccl', 'ecc', 'ecc1', 'eccles', 'eccle', 'ec'],
@@ -823,6 +844,7 @@ return [
         ],
     ],
     22 => [
+        'number' => 22,
         'name' => 'Song of Solomon',
         'identifier' => 'SNG',
         'abbreviations' => ['song', 'song of songs', 'the song of songs', 'the song of solomon'],
@@ -838,6 +860,7 @@ return [
         ],
     ],
     23 => [
+        'number' => 23,
         'name' => 'Isaiah',
         'identifier' => 'ISA',
         'abbreviations' => ['isiah', 'isa', 'is'],
@@ -911,6 +934,7 @@ return [
         ],
     ],
     24 => [
+        'number' => 24,
         'name' => 'Jeremiah',
         'identifier' => 'JER',
         'abbreviations' => ['jer', 'je', 'jr'],
@@ -970,6 +994,7 @@ return [
         ],
     ],
     25 => [
+        'number' => 25,
         'name' => 'Lamentations',
         'identifier' => 'LAM',
         'abbreviations' => ['lam', 'la'],
@@ -982,6 +1007,7 @@ return [
         ],
     ],
     26 => [
+        'number' => 26,
         'name' => 'Ezekiel',
         'identifier' => 'EZK',
         'abbreviations' => ['ezek'],
@@ -1037,6 +1063,7 @@ return [
         ],
     ],
     27 => [
+        'number' => 27,
         'name' => 'Daniel',
         'identifier' => 'DAN',
         'abbreviations' => ['dan', 'da', 'dn'],
@@ -1056,6 +1083,7 @@ return [
         ],
     ],
     28 => [
+        'number' => 28,
         'name' => 'Hosea',
         'identifier' => 'HOS',
         'abbreviations' => ['hos', 'ho'],
@@ -1077,6 +1105,7 @@ return [
         ],
     ],
     29 => [
+        'number' => 29,
         'name' => 'Joel',
         'identifier' => 'JOL',
         'abbreviations' => ['jl'],
@@ -1087,6 +1116,7 @@ return [
         ],
     ],
     30 => [
+        'number' => 30,
         'name' => 'Amos',
         'identifier' => 'AMO',
         'abbreviations' => ['am'],
@@ -1103,6 +1133,7 @@ return [
         ],
     ],
     31 => [
+        'number' => 31,
         'name' => 'Obadiah',
         'identifier' => 'OBA',
         'abbreviations' => ['obad', 'oba'],
@@ -1111,6 +1142,7 @@ return [
         ],
     ],
     32 => [
+        'number' => 32,
         'name' => 'Jonah',
         'identifier' => 'JON',
         'abbreviations' => ['jon', 'jnh'],
@@ -1122,6 +1154,7 @@ return [
         ],
     ],
     33 => [
+        'number' => 33,
         'name' => 'Micah',
         'identifier' => 'MIC',
         'abbreviations' => ['mic', 'mc'],
@@ -1136,6 +1169,7 @@ return [
         ],
     ],
     34 => [
+        'number' => 34,
         'name' => 'Nahum',
         'identifier' => 'NAM',
         'abbreviations' => ['nah', 'na'],
@@ -1146,6 +1180,7 @@ return [
         ],
     ],
     35 => [
+        'number' => 35,
         'name' => 'Habakkuk',
         'identifier' => 'HAB',
         'abbreviations' => ['hab'],
@@ -1156,6 +1191,7 @@ return [
         ],
     ],
     36 => [
+        'number' => 36,
         'name' => 'Zephaniah',
         'identifier' => 'ZEP',
         'abbreviations' => ['zeph', 'zep', 'zp'],
@@ -1166,6 +1202,7 @@ return [
         ],
     ],
     37 => [
+        'number' => 37,
         'name' => 'Haggai',
         'identifier' => 'HAG',
         'abbreviations' => ['hag', 'hg. '],
@@ -1175,6 +1212,7 @@ return [
         ],
     ],
     38 => [
+        'number' => 38,
         'name' => 'Zechariah',
         'identifier' => 'ZEC',
         'abbreviations' => ['zech', 'zec', 'zc'],
@@ -1196,6 +1234,7 @@ return [
         ],
     ],
     39 => [
+        'number' => 39,
         'name' => 'Malachi',
         'identifier' => 'MAL',
         'abbreviations' => ['mal', 'ml'],
@@ -1207,6 +1246,7 @@ return [
         ],
     ],
     40 => [
+        'number' => 41,
         'name' => 'Matthew',
         'identifier' => 'MAT',
         'abbreviations' => ['matt'],
@@ -1242,6 +1282,7 @@ return [
         ],
     ],
     41 => [
+        'number' => 42,
         'name' => 'Mark',
         'identifier' => 'MRK',
         'abbreviations' => ['mk'],
@@ -1265,6 +1306,7 @@ return [
         ],
     ],
     42 => [
+        'number' => 43,
         'name' => 'Luke',
         'identifier' => 'LUK',
         'abbreviations' => ['lk'],
@@ -1296,6 +1338,7 @@ return [
         ],
     ],
     43 => [
+        'number' => 44,
         'name' => 'John',
         'identifier' => 'JHN',
         'abbreviations' => ['jn', 'jhn'],
@@ -1324,6 +1367,7 @@ return [
         ],
     ],
     44 => [
+        'number' => 45,
         'name' => 'Acts',
         'identifier' => 'ACT',
         'abbreviations' => ['act'],
@@ -1359,6 +1403,7 @@ return [
         ],
     ],
     45 => [
+        'number' => 46,
         'name' => 'Romans',
         'identifier' => 'ROM',
         'abbreviations' => ['rom'],
@@ -1382,6 +1427,7 @@ return [
         ],
     ],
     46 => [
+        'number' => 47,
         'name' => '1 Corinthians',
         'identifier' => '1CO',
         'abbreviations' => ['1 cor', '1st cor', '1st corinthians', 'first corinthians', 'i corinthians', 'i cor'],
@@ -1405,6 +1451,7 @@ return [
         ],
     ],
     47 => [
+        'number' => 48,
         'name' => '2 Corinthians',
         'identifier' => '2CO',
         'abbreviations' => ['2 cor', '2nd cor', '2nd corinthians', 'second corinthians', 'ii corinthians', 'ii cor'],
@@ -1425,6 +1472,7 @@ return [
         ],
     ],
     48 => [
+        'number' => 49,
         'name' => 'Galatians',
         'identifier' => 'GAL',
         'abbreviations' => ['gal'],
@@ -1438,6 +1486,7 @@ return [
         ],
     ],
     49 => [
+        'number' => 50,
         'name' => 'Ephesians',
         'identifier' => 'EPH',
         'abbreviations' => ['eph'],
@@ -1451,6 +1500,7 @@ return [
         ],
     ],
     50 => [
+        'number' => 51,
         'name' => 'Philippians',
         'identifier' => 'PHP',
         'abbreviations' => ['phil'],
@@ -1462,6 +1512,7 @@ return [
         ],
     ],
     51 => [
+        'number' => 52,
         'name' => 'Colossians',
         'identifier' => 'COL',
         'abbreviations' => ['col'],
@@ -1473,6 +1524,7 @@ return [
         ],
     ],
     52 => [
+        'number' => 53,
         'name' => '1 Thessalonians',
         'identifier' => '1TH',
         'abbreviations' => ['1 thess', '1st thess', '1st thessalonians', 'first thessalonians', 'i thessalonians'],
@@ -1485,6 +1537,7 @@ return [
         ],
     ],
     53 => [
+        'number' => 54,
         'name' => '2 Thessalonians',
         'identifier' => '2TH',
         'abbreviations' => ['2 thess', '2nd thess', '2nd thessalonians', 'second thessalonians', 'ii thessalonians'],
@@ -1495,6 +1548,7 @@ return [
         ],
     ],
     54 => [
+        'number' => 55,
         'name' => '1 Timothy',
         'identifier' => '1TI',
         'abbreviations' => ['1 tim', '1st tim', '1st timothy', 'first timothy', 'i timothy'],
@@ -1508,6 +1562,7 @@ return [
         ],
     ],
     55 => [
+        'number' => 56,
         'name' => '2 Timothy',
         'identifier' => '2TI',
         'abbreviations' => ['2 tim', '2nd tim', '2nd timothy', 'second timothy', 'ii timothy'],
@@ -1519,6 +1574,7 @@ return [
         ],
     ],
     56 => [
+        'number' => 57,
         'name' => 'Titus',
         'identifier' => 'TIT',
         'abbreviations' => [],
@@ -1529,6 +1585,7 @@ return [
         ],
     ],
     57 => [
+        'number' => 58,
         'name' => 'Philemon',
         'identifier' => 'PHM',
         'abbreviations' => ['phlm'],
@@ -1537,6 +1594,7 @@ return [
         ],
     ],
     58 => [
+        'number' => 59,
         'name' => 'Hebrews',
         'identifier' => 'HEB',
         'abbreviations' => ['heb'],
@@ -1557,6 +1615,7 @@ return [
         ],
     ],
     59 => [
+        'number' => 60,
         'name' => 'James',
         'identifier' => 'JAS',
         'abbreviations' => ['jas'],
@@ -1569,6 +1628,7 @@ return [
         ],
     ],
     60 => [
+        'number' => 61,
         'name' => '1 Peter',
         'identifier' => '1PE',
         'abbreviations' => ['1 pet', '1st pet', '1st peter', 'first peter', 'i peter'],
@@ -1581,6 +1641,7 @@ return [
         ],
     ],
     61 => [
+        'number' => 62,
         'name' => '2 Peter',
         'identifier' => '2PE',
         'abbreviations' => ['2 pet', '2nd pet', '2nd peter', 'second peter', 'ii peter'],
@@ -1591,6 +1652,7 @@ return [
         ],
     ],
     62 => [
+        'number' => 63,
         'name' => '1 John',
         'identifier' => '1JN',
         'abbreviations' => ['1st john', 'first john', 'i john'],
@@ -1603,6 +1665,7 @@ return [
         ],
     ],
     63 => [
+        'number' => 64,
         'name' => '2 John',
         'identifier' => '2JN',
         'abbreviations' => ['2nd john', 'second john', 'ii john'],
@@ -1611,6 +1674,7 @@ return [
         ],
     ],
     64 => [
+        'number' => 65,
         'name' => '3 John',
         'identifier' => '3JN',
         'abbreviations' => ['3rd john', 'third john', 'iii john'],
@@ -1619,6 +1683,7 @@ return [
         ],
     ],
     65 => [
+        'number' => 66,
         'name' => 'Jude',
         'identifier' => 'JUD',
         'abbreviations' => [],
@@ -1627,6 +1692,7 @@ return [
         ],
     ],
     66 => [
+        'number' => 67,
         'name' => 'Revelation',
         'identifier' => 'REV',
         'abbreviations' => ['rev'],

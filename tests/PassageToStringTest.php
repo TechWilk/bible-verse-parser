@@ -15,9 +15,10 @@ class PassageToStringTest extends TestCase
     {
         $structure = require __DIR__.'/../data/bibleStructure.php';
 
-        foreach ($structure as $bookNumber => $bookData) {
+        foreach ($structure as $index => $bookData) {
             $book = new Book(
-                $bookNumber,
+                $index,
+                $bookData['number'],
                 $bookData['identifier'],
                 $bookData['name'],
                 $bookData['singularName'] ?? $bookData['name'],
