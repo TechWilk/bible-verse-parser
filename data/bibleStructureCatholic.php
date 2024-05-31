@@ -1880,7 +1880,7 @@ return [
         'number' => 45,
         'name' => 'Acts',
         'identifier' => 'ACT',
-        'abbreviations' => ['act'],
+        'abbreviations' => ['act', 'acts of the apostles'],
         'chapterStructure' => [
             1 => 26,
             2 => 47,
