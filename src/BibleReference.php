@@ -55,9 +55,14 @@ class BibleReference
         return $this->fragment;
     }
 
-    public function integerNotation(): int
+    public function integerNotationUSFM(): int
     {
-        return (1000000 * $this->book->number()) + (1000 * $this->chapter) + $this->verse;
+        return (1000000 * $this->book->numberUSFM()) + (1000 * $this->chapter) + $this->verse;
+    }
+
+    public function integerNotationChronological(): int
+    {
+        return (1000000 * $this->book->numberChronological()) + (1000 * $this->chapter) + $this->verse;
     }
 
     public function formatAsUSFM(): string

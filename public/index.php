@@ -78,14 +78,14 @@ Passages:
 </p>
 <?php endforeach ?>
 
-<h3>USFM reference</h3>
+<h3><a href="https://ubsicap.github.io/usfm/linking/index.html#general-syntax">USFM</a> reference</h3>
 <?php foreach ($passages as $passage): ?>
 <p>
 	<?= htmlentities($passage->formatAsUSFM()) ?>
 </p>
 <?php endforeach ?>
 
-<h3>URL-safe USFM reference</h3>
+<h3>URL-safe USFM-style reference</h3>
 <?php foreach ($passages as $passage): ?>
 <p>
 	<?= htmlentities($passage->formatAsURLSafeUSFM()) ?>
