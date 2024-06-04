@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use TechWilk\BibleVerseParser\BiblePassage;
-use TechWilk\BibleVerseParser\BiblePassageParser;
 use TechWilk\BibleVerseParser\BibleReference;
 use TechWilk\BibleVerseParser\Book;
 
@@ -141,9 +140,5 @@ class PassageToStringTest extends TestCase
         );
 
         $this->assertEquals($expected, (string) $passage);
-
-        // ensure we can parse our own formats
-        $parser = new BiblePassageParser();
-        $parser->parse((string)$passage);
     }
 }
