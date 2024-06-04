@@ -595,7 +595,7 @@ return [
     ],
     20 => [
         'number' => 78,
-        'name' => '1 Maccaebees',
+        'name' => '1 Maccabees',
         'identifier' => '1MA',
         'abbreviations' => ['1 mac'],
         'chapterStructure' => [
@@ -604,7 +604,7 @@ return [
     ],
     21 => [
         'number' => 79,
-        'name' => '2 Maccaebees',
+        'name' => '2 Maccabees',
         'identifier' => 'REV',
         'abbreviations' => ['1 mac'],
         'chapterStructure' => [
