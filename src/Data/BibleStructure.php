@@ -17,6 +17,15 @@ class BibleStructure
         return $books;
     }
 
+    public static function getBibleStructureCatholic(): array
+    {
+        $structure = require __DIR__.'/../../data/bibleStructureCatholic.php';
+
+        $books = self::convertArrayToBooks($structure);
+
+        return $books;
+    }
+
     public static function convertArrayToBooks(array $structure): array
     {
         $books = [];
