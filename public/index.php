@@ -69,14 +69,24 @@ Passages:
 </p>
 <?php endforeach ?>
 
-<h3>Integer</h3>
+<h3>Integer (<a href="https://ubsicap.github.io/usfm/linking/index.html#general-syntax">USFM</a> numbering)</h3>
 <?php foreach ($passages as $passage): ?>
 <p>
-	<?= htmlentities((string) $passage->from()->integerNotation()) ?>
+	<?= htmlentities((string) $passage->from()->integerNotationUSFM()) ?>
 	to
-	<?= htmlentities((string) $passage->to()->integerNotation()) ?>
+	<?= htmlentities((string) $passage->to()->integerNotationUSFM()) ?>
 </p>
 <?php endforeach ?>
+
+<h3>Integer (chronological numbering)</h3>
+<?php foreach ($passages as $passage): ?>
+<p>
+	<?= htmlentities((string) $passage->from()->integerNotationChronological()) ?>
+	to
+	<?= htmlentities((string) $passage->to()->integerNotationChronological()) ?>
+</p>
+<?php endforeach ?>
+
 
 <h3><a href="https://ubsicap.github.io/usfm/linking/index.html#general-syntax">USFM</a> reference</h3>
 <?php foreach ($passages as $passage): ?>
