@@ -21,8 +21,9 @@ class BiblePassageParser
     /**
      * @param array<Book>|null $structure
      * @param string[]|null    $separators
+     * @param "usfm"|"chronological"    $numberingType
      */
-    public function __construct(?array $structure = null, ?array $separators = null)
+    public function __construct(?array $structure = null, ?array $separators = null, $numberingType = 'chronological')
     {
         if ($structure === null) {
             $structure = BibleStructure::getBibleStructure();
@@ -32,14 +33,18 @@ class BiblePassageParser
             if (! $book instanceof Book) {
                 throw new InvalidArgumentException('Invalid book');
             }
+            $bookNumber = match ($numberingType) {
+                'chronological' => $book->numberChronological(),
+                default => $book->numberUSFM(),
+            };
 
-            $this->bookAbbreviations[$this->standardiseString($book->name())] = $book->numberChronological();
-            $this->bookAbbreviations[$this->standardiseString($book->identifier())] = $book->numberChronological();
+            $this->bookAbbreviations[$this->standardiseString($book->name())] = $bookNumber;
+            $this->bookAbbreviations[$this->standardiseString($book->identifier())] = $bookNumber;
             foreach ($book->abbreviations() as $abbreviation) {
-                $this->bookAbbreviations[$this->standardiseString($abbreviation)] = $book->numberChronological();
+                $this->bookAbbreviations[$this->standardiseString($abbreviation)] = $bookNumber;
             }
 
-            $this->books[$book->numberChronological()] = $book;
+            $this->books[$bookNumber] = $book;
         }
 
         if ($separators !== null) {
