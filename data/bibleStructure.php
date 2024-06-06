@@ -803,7 +803,7 @@ return [
     ],
     22 => [
         'name' => 'Song of Solomon',
-        'abbreviations' => ['song', 'song of songs'],
+        'abbreviations' => ['song', 'song of songs', 'the song of solomon'],
         'chapterStructure' => [
             1 => 17,
             2 => 17,
