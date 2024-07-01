@@ -552,6 +552,12 @@ class ParserTest extends TestCase
                     ['John 3:16', 'John 3:17'],
                 ]
             ],
+            'ch standing for chronicles not chapter' => [
+                '2 CH 13  v 01',
+                [
+                    ['2 Chronicles 13:1', '2 Chronicles 13:1'],
+                ]
+            ],
         ];
     }
 
