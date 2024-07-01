@@ -478,7 +478,7 @@ return [
         'number' => 14,
         'name' => '2 Chronicles',
         'identifier' => '2CH',
-        'abbreviations' => ['2 chr', '2 chron', '2nd chr',  '2nd chron','2nd chronicles', 'second chronicles', '2 ch', '2 chron', 'ii chronicles'],
+        'abbreviations' => ['2 chr', '2 chron', '2nd chr',  '2nd chron', '2nd chronicles', 'second chronicles', '2 ch', '2 chron', 'ii chronicles'],
         'chapterStructure' => [
             1 => 17,
             2 => 18,
@@ -1918,8 +1918,5 @@ return [
             22 => 21,
         ],
     ],
-
-
-
 
 ];
