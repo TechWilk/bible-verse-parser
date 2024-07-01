@@ -275,9 +275,13 @@ class BiblePassageParser
         }
 
         // remove " ch" (chapter shorthand) if caught in the book capture group
+        // unless the user has abbreviated "chronicles" to "ch", in which case leave them
         $chPosition = strlen($matches['book']) - 3;
-        if (strpos($matches['book'], ' ch') === $chPosition) {
-            $matches['book'] = str_split($matches['book'], $chPosition)[0];
+        if ($chPosition >= 0 && strpos($matches['book'], ' ch', $chPosition) === $chPosition) {
+            $trimmedBook = str_split($matches['book'], $chPosition)[0];
+            if (preg_match('/[A-Za-z]+/', $trimmedBook)) {
+                $matches['book'] = $trimmedBook;
+            }
         }
 
         return $matches;
