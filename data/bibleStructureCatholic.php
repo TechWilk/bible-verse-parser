@@ -441,7 +441,7 @@ return [
         'number' => 13,
         'name' => '1 Chronicles',
         'identifier' => '1CH',
-        'abbreviations' => ['1 chr', '1st chr', '1st chronicles', 'first chronicles', '1 ch', 'i chronicles'],
+        'abbreviations' => ['1 chr', '1 chron', '1st chr', '1st chron', '1st chronicles', 'first chronicles', '1 ch', 'i chronicles'],
         'chapterStructure' => [
             1 => 54,
             2 => 55,
@@ -478,7 +478,7 @@ return [
         'number' => 14,
         'name' => '2 Chronicles',
         'identifier' => '2CH',
-        'abbreviations' => ['2 chr', '2nd chr', '2nd chronicles', 'second chronicles', '2 ch', '2 chron', 'ii chronicles'],
+        'abbreviations' => ['2 chr', '2 chron', '2nd chr',  '2nd chron','2nd chronicles', 'second chronicles', '2 ch', '2 chron', 'ii chronicles'],
         'chapterStructure' => [
             1 => 17,
             2 => 18,
