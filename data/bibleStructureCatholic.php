@@ -1105,7 +1105,7 @@ return [
         'number' => 72,
         'name' => 'Sirach',
         'identifier' => 'SIR',
-        'abbreviations' => ['sir'],
+        'abbreviations' => ['sir', 'wisdom of sirach'],
         'chapterStructure' => [
             1 => 30,
             2 => 18,
