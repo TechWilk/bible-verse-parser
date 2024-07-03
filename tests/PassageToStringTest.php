@@ -23,7 +23,8 @@ class PassageToStringTest extends TestCase
                 $bookData['name'],
                 $bookData['singularName'] ?? $bookData['name'],
                 $bookData['abbreviations'],
-                $bookData['chapterStructure']
+                $bookData['chapterStructure'],
+                $bookData['transformations'] ?? []
             );
 
             $this->books[$bookData['name']] = $book;
