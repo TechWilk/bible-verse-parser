@@ -558,32 +558,32 @@ class ParserCatholicStructureTest extends TestCase
                 '2 CH 13  v 01',
                 [
                     ['2 Chronicles 13:1', '2 Chronicles 13:1'],
-                ]
+                ],
             ],
             // catholic specific tests
             'esther additions' => [
                 'Esther 1:1a',
                 [
                     ['Esther (Greek) 11:2', 'Esther (Greek) 11:2'],
-                ]
+                ],
             ],
             'esther additions' => [
                 'Esther 1:1r',
                 [
                     ['Esther (Greek) 12:6', 'Esther (Greek) 12:6'],
-                ]
+                ],
             ],
             'esther additions double letter' => [
                 'Esther 4:17aa',
                 [
                     ['Esther (Greek) 14:15', 'Esther (Greek) 14:15'],
-                ]
+                ],
             ],
             'esther additions biggest double letter' => [
                 'Esther 4:17ee',
                 [
                     ['Esther (Greek) 14:19', 'Esther (Greek) 14:19'],
-                ]
+                ],
             ],
             // 'esther additions double letter passage' => [
             //     'Esther 4:17a-17ee',
@@ -601,13 +601,13 @@ class ParserCatholicStructureTest extends TestCase
                 'Daniel 3:24',
                 [
                     ['Daniel (Greek) 3:24', 'Daniel (Greek) 3:24'],
-                ]
+                ],
             ],
             'daniel additions ambiguous' => [
                 'Daniel 3:24', // this could mean either 24 in either Hebrew or Greek Daniel
                 [
                     ['Daniel (Greek) 3:24', 'Daniel (Greek) 3:24'],
-                ]
+                ],
             ],
             // 'daniel additions dual verse numbers' => [
             //     'Daniel 3:24/91',
