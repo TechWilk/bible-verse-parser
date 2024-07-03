@@ -1078,7 +1078,7 @@ return [
         'number' => 71,
         'name' => 'Wisdom of Solomon',
         'identifier' => 'WIS',
-        'abbreviations' => ['wos'],
+        'abbreviations' => ['wos', 'wisdom of sol', 'the wisdom of sol', 'the wisdom of solomon'],
         'chapterStructure' => [
             1 => 16,
             2 => 24,
