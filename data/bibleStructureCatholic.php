@@ -1062,7 +1062,7 @@ return [
         'number' => 22,
         'name' => 'Song of Solomon',
         'identifier' => 'SNG',
-        'abbreviations' => ['song', 'song of songs', 'the song of songs', 'the song of solomon'],
+        'abbreviations' => ['song', 'song of songs', 'the song of songs', 'song of sol', 'the song of solomon'],
         'chapterStructure' => [
             1 => 17,
             2 => 17,
