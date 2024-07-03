@@ -283,6 +283,19 @@ class BiblePassageParser
                 $matches['book'] = $trimmedBook;
             }
         }
+        // remove " v" (verse shorthand) if caught in the book capture group
+        // unless it is the only character found
+        $vPosition = strlen($matches['book']) - 2;
+        if ($vPosition >= 0 && strpos($matches['book'], ' v', $vPosition) === $vPosition) {
+            $trimmedBook = str_split($matches['book'], $vPosition)[0];
+            if (preg_match('/[A-Za-z]+/', $trimmedBook)) {
+                $matches['book'] = $trimmedBook;
+                if (empty($matches['verse'])) {
+                    $matches['verse'] = $matches['chapter_or_verse'];
+                    $matches['chapter_or_verse'] = 1;
+                }
+            }
+        }
 
         return $matches;
     }
