@@ -161,6 +161,11 @@ class Book
 
     public function normalise(string $chapter, string $verse): ?array
     {
+        $chapter = trim($chapter);
+        $chapter = ltrim($chapter, '0');
+        $verse = trim($verse);
+        $verse = ltrim($verse, '0');
+
         if (!array_key_exists($chapter, $this->transformations)) {
             return null;
         }
