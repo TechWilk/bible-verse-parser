@@ -16,6 +16,7 @@ class Book implements JsonSerializable
     protected $singularName;
     protected $abbreviations;
     protected $chapterStructure;
+    protected $transformations;
 
     /**
      * @param $index      Position of book in the bible (1-indexed)
@@ -31,7 +32,8 @@ class Book implements JsonSerializable
         string $name,
         string $singularName,
         array $abbreviations,
-        array $chapterStructure
+        array $chapterStructure,
+        array $transformations
     ) {
         if ($index <= 0) {
             throw new InvalidArgumentException('Invalid index');
@@ -52,6 +54,7 @@ class Book implements JsonSerializable
         $this->singularName = $singularName;
         $this->abbreviations = $abbreviations;
         $this->chapterStructure = $chapterStructure;
+        $this->transformations = $transformations;
     }
 
     /**
@@ -60,8 +63,8 @@ class Book implements JsonSerializable
      * This can vary based on the type of bible.
      * For example:
      * - Revelations is book 66 in the Protestant bible
-     * - Revelations is book 69 in the Catholic bible
-     * - Revelations is book 73 in the Orthadox bible
+     * - Revelations is book 73 in the Catholic bible
+     * - Revelations is book ? in the Orthadox bible
      *
      * @see numberUSFM() if you want a numerical value which doesn't change based on position
      */
@@ -159,5 +162,18 @@ class Book implements JsonSerializable
         }
 
         return $this->chapterStructure[$chapter];
+    }
+
+    public function normalise(string $chapter, string $verse): ?array
+    {
+        if (!array_key_exists($chapter, $this->transformations)) {
+            return null;
+        }
+
+        if (!array_key_exists($verse, $this->transformations[$chapter])) {
+            return null;
+        }
+
+        return $this->transformations[$chapter][$verse];
     }
 }

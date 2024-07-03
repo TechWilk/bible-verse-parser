@@ -37,7 +37,8 @@ class BibleStructure
                 $bookData['name'],
                 $bookData['singularName'] ?? $bookData['name'],
                 $bookData['abbreviations'],
-                $bookData['chapterStructure']
+                $bookData['chapterStructure'],
+                $bookData['transformations'] ?? []
             );
         }
 

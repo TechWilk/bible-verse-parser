@@ -25,6 +25,7 @@ class PassageJsonSerialiseTest extends TestCase
                 $bookData['singularName'] ?? $bookData['name'],
                 $bookData['abbreviations'],
                 $bookData['chapterStructure'],
+                $bookData['transformations'] ?? []
             );
 
             $this->books[$bookData['name']] = $book;
