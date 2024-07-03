@@ -20,10 +20,9 @@ class BiblePassageParser
     protected $lettersAreFragments;
 
     /**
-     * @param array<Book>|null $structure
-     * @param string[]|null    $separators
-     * @param "usfm"|"chronological"    $numberingType
-     * @param bool    $lettersAreFragments
+     * @param array<Book>|null       $structure
+     * @param string[]|null          $separators
+     * @param "usfm"|"chronological" $numberingType
      */
     public function __construct(
         ?array $structure = null,
@@ -36,7 +35,7 @@ class BiblePassageParser
         }
 
         foreach ($structure as $book) {
-            if (! $book instanceof Book) {
+            if (!$book instanceof Book) {
                 throw new InvalidArgumentException('Invalid book');
             }
             $bookNumber = match ($numberingType) {
@@ -244,13 +243,12 @@ class BiblePassageParser
 
         $startBookObject = $this->getBookFromAbbreviation($book);
         // try the transformations
-        $normalisedPassage = $startBookObject->normalise((string)$chapter ?? "1", (string)$verse ?? "1");
+        $normalisedPassage = $startBookObject->normalise((string) $chapter ?? '1', (string) $verse ?? '1');
         if ($normalisedPassage) {
             $startBookObject = $this->getBookFromNumber($normalisedPassage[0]);
             $chapter = $normalisedPassage[1];
             $verse = $normalisedPassage[2];
         }
-
 
         $chapter = is_numeric($chapter) ? (int) $chapter : null;
         $verse = is_numeric($verse) ? (int) $verse : null;
@@ -337,32 +335,23 @@ class BiblePassageParser
     {
         // should this be USFM book number, or book index? We should have some kind of settings to control this
 
-
-
-
-
-
-
-
-
-
         $reference = trim($reference);
-        if (! is_numeric($reference)) {
+        if (!is_numeric($reference)) {
             throw new UnableToParseException('Unable to parse reference');
         }
 
-        if (((int)$reference) < 1001001) {
+        if (((int) $reference) < 1001001) {
             throw new UnableToParseException('Unable to parse reference');
         }
 
         $bookNumber = floor($reference / 1000000);
-        $chapter = floor(($reference - ($bookNumber*1000000)) / 1000);
-        $verse = $reference - ($bookNumber*1000000) - ($chapter*1000);
+        $chapter = floor(($reference - ($bookNumber * 1000000)) / 1000);
+        $verse = $reference - ($bookNumber * 1000000) - ($chapter * 1000);
 
         return [
-            'book' => (string)$this->books[$bookNumber],
-            'chapter_or_verse' => (string)$chapter,
-            'verse' => (string)$verse,
+            'book' => (string) $this->books[$bookNumber],
+            'chapter_or_verse' => (string) $chapter,
+            'verse' => (string) $verse,
         ];
     }
 
