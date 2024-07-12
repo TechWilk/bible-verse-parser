@@ -544,19 +544,19 @@ class ParserTest extends TestCase
                 'Obadiah v 01',
                 [
                     ['Obadiah 1:1', 'Obadiah 1:1'],
-                ]
+                ],
             ],
             'single chapter books can omit chapter variant' => [
                 'Obadiah verse 01',
                 [
                     ['Obadiah 1:1', 'Obadiah 1:1'],
-                ]
+                ],
             ],
             'single chapter books can omit chapter variant larger verse' => [
                 'Obadiah verse 15',
                 [
                     ['Obadiah 1:15', 'Obadiah 1:15'],
-                ]
+                ],
             ],
         ];
     }
