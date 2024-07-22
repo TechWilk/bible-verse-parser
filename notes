@@ -1,0 +1,48 @@
+"+" could mean "and"
+
+or it could mean "onwards", such as "21+" === "21-end"
+
+
+Also support the word "onwards"
+
+
+(we do already support this)
+Support period marking abbreviated book name, e.g.
+Matt. 6:1
+Eph. 3:8
+
+
+
+
+
+
+Ability to reason with the passages, such as:
+- how many verses are between x and y
+
+
+Support USFM
+MAT 3:16
+
+Also youversion's interpretation of USFM with periods
+MAT.3.16
+
+Also support without spaces
+1Ch1:1
+
+
+
+- Refactor formatting to use the BibleReference formatting where appropriate
+- Fix parsing whitespace issues (e.g. identifiers being ignored)
+- add catholic bible structure
+
+
+Single chapter books
+- Ability for Obadiah 1 to mean verse 1
+- Ability for Obadiah 1 to mean chapter 1
+- Ability for Obadiah 5 to succeed as chapter 1 verse 5
+- Ability for Obadiah 5 to fail on invalid chapter 5
+Same with formatting passages
+- Ability for `Obadiah 1` to mean chapter 1 verse 1
+- Ability for `Obadiah 1:1` to mean chapter 1 verse 1
+- Ability for `Obadiah 5` to mean chapter 1 verse 5
+- Ability for `Obadiah 1:5` to mean chapter 1 verse 5
