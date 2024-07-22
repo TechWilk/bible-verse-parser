@@ -1282,7 +1282,7 @@ return [
     ],
     44 => [
         'name' => 'Acts',
-        'abbreviations' => ['act'],
+        'abbreviations' => ['act', 'acts of the apostles'],
         'chapterStructure' => [
             1 => 26,
             2 => 47,
