@@ -369,6 +369,11 @@ class BiblePassageParser
         ];
     }
 
+    // protected function transformChapterAndVerse($book, $chapter, $verse): array
+    // {
+    //     if ()
+    // }
+
     protected function getBookFromAbbreviation(string $bookAbbreviation): Book
     {
         $bookNumber = $this->getBookNumber($bookAbbreviation);
