@@ -127,12 +127,18 @@ John 3 16
 John c3 v16
 John ch3 v16
 John chapter 3 verse 16
+Jn 3:16
+JHN 3:16
+JHN.3.16
 ```
 
 ### Whole chapter
 
 ``` text
 John 3
+Jh 3
+JHN 3
+JHN.3
 ```
 
 ### Combinations of the above / multiples

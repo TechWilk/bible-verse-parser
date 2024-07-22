@@ -530,6 +530,31 @@ class ParserCatholicStructureTest extends TestCase
                     ['John 2:1', 'John 2:25'],
                 ],
             ],
+            'single chapter books can omit chapter' => [
+                'Obadiah v 01',
+                [
+                    ['Obadiah 1:1', 'Obadiah 1:1'],
+                ]
+            ],
+            'single chapter books can omit chapter variant' => [
+                'Obadiah verse 01',
+                [
+                    ['Obadiah 1:1', 'Obadiah 1:1'],
+
+                ]
+            ],
+            'single chapter books can omit chapter variant larger verse' => [
+                'Obadiah verse 15',
+                [
+                    ['Obadiah 1:15', 'Obadiah 1:15'],
+
+                ]
+            ],
+            // this also applies to philemon, 2 john, 3 john, jude
+
+
+
+
             // 'single integer' => [
             //     '50003016',
             //     [
