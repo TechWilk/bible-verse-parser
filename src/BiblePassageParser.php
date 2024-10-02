@@ -244,7 +244,9 @@ class BiblePassageParser
 
         $startBookObject = $this->getBookFromAbbreviation($book);
         // try the transformations
-        $normalisedPassage = $startBookObject->normalise((string)$chapter ?? "1", (string)$verse ?? "1");
+        // but don't override $lastVerse if we don't actually have a verse
+        $verseIsNull = is_null($verse);
+        $normalisedPassage = $startBookObject->normalise((string)($chapter ?? "1"), (string)($verse ?? "1"));
         if ($normalisedPassage) {
             $startBookObject = $this->getBookFromNumber($normalisedPassage[0]);
             $chapter = $normalisedPassage[1];
@@ -257,7 +259,7 @@ class BiblePassageParser
 
         $lastBook = $startBookObject->name();
         $lastChapter = $chapter;
-        $lastVerse = $verse;
+        $lastVerse = $verseIsNull ? null : $verse;
         $lastFragment = $fragment;
 
         $fromReference = new BibleReference(
