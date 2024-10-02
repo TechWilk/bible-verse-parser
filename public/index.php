@@ -7,6 +7,7 @@ use TechWilk\BibleVerseParser\Data\BibleStructure;
 use TechWilk\BibleVerseParser\Enum\NumberingType;
 
 $userText = trim($_POST['passage'] ?? '');
+$userBibleStructure = trim($_POST['bible-structure'] ?? '');
 $userIntegerInterpretation = trim($_POST['integer-interpretation'] ?? '');
 
 $numberingType = match ($userIntegerInterpretation) {
@@ -14,10 +15,17 @@ $numberingType = match ($userIntegerInterpretation) {
     default => NumberingType::USFM,
 };
 
-$parser = new BiblePassageParser(
-    BibleStructure::getBibleStructure(),
-    numberingType: $numberingType,
-);
+$parser = match ($userBibleStructure) {
+    "catholic" => new BiblePassageParser(
+        BibleStructure::getBibleStructureCatholic(),
+        numberingType: $numberingType,
+        lettersAreFragments: false,
+    ),
+    default => new BiblePassageParser(
+        BibleStructure::getBibleStructure(),
+        numberingType: $numberingType,
+    ),
+};
 
 $error = '';
 $passages = [];
@@ -74,6 +82,14 @@ input[type="text"] {
 Passages:
 <input type="text" name="passage" value="<?= htmlentities($userText, ENT_QUOTES) ?>" />
 </label>
+<label>
+Bible Structure:
+<select name="bible-structure">
+    <option value="protestant" <?= $userBibleStructure === 'protestant' ? 'selected' : '' ?>>Protestant</option>
+    <option value="catholic" <?= $userBibleStructure === 'catholic' ? 'selected' : '' ?>>Catholic</option>
+</select>
+</label>
+<label>
 Interpret integers as:
 <select name="integer-interpretation">
     <option value="usfm" <?= $userIntegerInterpretation === 'usfm' ? 'selected' : '' ?>>USFM</option>
