@@ -3,11 +3,31 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use TechWilk\BibleVerseParser\BiblePassageParser;
+use TechWilk\BibleVerseParser\Data\BibleStructure;
 
 
-$parser = new BiblePassageParser();
 
 $userText = trim($_POST['passage'] ?? '');
+$userBibleStructure = trim($_POST['bible-structure'] ?? '');
+$userIntegerInterpretation = trim($_POST['integer-interpretation'] ?? '');
+
+$numberingType = match ($userIntegerInterpretation) {
+    'chronological' => 'chronological',
+    default => 'usfm',
+};
+
+$parser = match ($userBibleStructure) {
+    "catholic" => new BiblePassageParser(
+        BibleStructure::getBibleStructureCatholic(),
+        numberingType: $numberingType,
+        lettersAreFragments: false,
+    ),
+    default => new BiblePassageParser(
+        BibleStructure::getBibleStructure(),
+        numberingType: $numberingType,
+    ),
+};
+
 $error = '';
 $passages = [];
 try {
@@ -39,6 +59,20 @@ body {
 <label>
 Passages:
 <input type="text" name="passage" value="<?= htmlentities($userText, ENT_QUOTES) ?>" />
+</label>
+<label>
+Bible Structure:
+<select name="bible-structure">
+    <option value="protestant" <?= $userBibleStructure === 'protestant' ? 'selected' : '' ?>>Protestant</option>
+    <option value="catholic" <?= $userBibleStructure === 'catholic' ? 'selected' : '' ?>>Catholic</option>
+</select>
+</label>
+<label>
+Interpret integers as:
+<select name="integer-interpretation">
+    <option value="usfm" <?= $userIntegerInterpretation === 'usfm' ? 'selected' : '' ?>>USFM</option>
+    <option value="chronological" <?= $userIntegerInterpretation === 'chronological' ? 'selected' : '' ?>>Chronological</option>
+</select>
 </label>
 <input type="submit" value="Parse" />
 </form>
