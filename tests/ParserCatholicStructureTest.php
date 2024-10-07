@@ -634,6 +634,12 @@ class ParserCatholicStructureTest extends TestCase
                     ['Daniel (Greek) 3:24', 'Daniel (Greek) 3:24'],
                 ]
             ],
+            'daniel additions greek numbers' => [
+                'Daniel 3:89-90',
+                [
+                    ['Daniel (Greek) 3:89', 'Daniel (Greek) 3:90'],
+                ]
+            ],
             'daniel additions greek no verse' => [
                 'Daniel 13',
                 [
@@ -658,12 +664,12 @@ class ParserCatholicStructureTest extends TestCase
                     ['Daniel (Greek) 13:1', 'Daniel (Greek) 13:1'],
                 ]
             ],
-            // 'daniel additions dual verse numbers' => [
-            //     'Daniel 3:24/91',
-            //     [
-            //         ['Daniel (Greek) 3:24', 'Daniel (Greek) 3:24'],
-            //     ]
-            // ],
+            'daniel additions dual verse numbers' => [
+                'Daniel 3:24/91',
+                [
+                    ['Daniel 3:24', 'Daniel 3:24'],
+                ]
+            ],
         ];
     }
 
