@@ -117,18 +117,23 @@ class BiblePassage
      * JHN 3:16-17
      * JHN 3:16-4:1
      * JHN 3:16 - ACT 1:1 // always has a verse
+     *
+     * @param bool $alwaysIncludeChapter ensures a chapter number is present in the output, regardless of whether it is considered superfluous
+     * @param bool $alwaysIncludeVerse ensures a verse number is present in the output, regardless of whether it is considered superfluous
      */
-    public function formatAsUSFM(): string
-    {
+    public function formatAsUSFM(
+        bool $alwaysIncludeChapter = false,
+        bool $alwaysIncludeVerse = false,
+    ): string {
         // Format "John", "Psalms"
-        if ($this->isWholeBook()) {
+        if ($this->isWholeBook() && !$alwaysIncludeChapter && !$alwaysIncludeVerse) {
             return $this->from->book()->identifier();
         }
 
         $trailer = ' '.$this->from->chapter();
 
         // Format "John 3", "Psalm 3"
-        if ($this->isWholeChapter()) {
+        if ($this->isWholeChapter() && !$alwaysIncludeVerse) {
             return $this->from->book()->identifier().$trailer;
         }
 
@@ -153,7 +158,7 @@ class BiblePassage
         }
 
         // Format "Psalms 120-134"
-        if ($this->isMultipleWholeChapters()) {
+        if ($this->isMultipleWholeChapters() && !$alwaysIncludeVerse) {
             return $this->from->book()->identifier().' '.$this->from->chapter().'-'.$this->to->chapter();
         }
 
@@ -169,18 +174,23 @@ class BiblePassage
      * JHN.3.16-17
      * JHN.3.16-4:1
      * JHN.3.16-ACT.1.1 // always has a verse
+     *
+     * @param bool $alwaysIncludeChapter ensures a chapter number is present in the output, regardless of whether it is considered superfluous
+     * @param bool $alwaysIncludeVerse ensures a verse number is present in the output, regardless of whether it is considered superfluous
      */
-    public function formatAsURLSafeUSFM(): string
-    {
+    public function formatAsURLSafeUSFM(
+        bool $alwaysIncludeChapter = false,
+        bool $alwaysIncludeVerse = false,
+    ): string {
         // Format "John", "Psalms"
-        if ($this->isWholeBook()) {
+        if ($this->isWholeBook() && !$alwaysIncludeChapter && !$alwaysIncludeVerse) {
             return $this->from->book()->identifier();
         }
 
         $trailer = '.'.$this->from->chapter();
 
         // Format "John 3", "Psalm 3"
-        if ($this->isWholeChapter()) {
+        if ($this->isWholeChapter() && !$alwaysIncludeVerse) {
             return $this->from->book()->identifier().$trailer;
         }
 
@@ -205,7 +215,7 @@ class BiblePassage
         }
 
         // Format "Psalms 120-134"
-        if ($this->isMultipleWholeChapters()) {
+        if ($this->isMultipleWholeChapters() && !$alwaysIncludeVerse) {
             return $this->from->book()->identifier().'.'.$this->from->chapter().'-'.$this->to->chapter();
         }
 
@@ -221,11 +231,16 @@ class BiblePassage
      * John 3:16-17
      * John 3:16-4:1
      * John 3:16 - Acts 1:1 // always has a verse
+     *
+     * @param bool $alwaysIncludeChapter ensures a chapter number is present in the output, regardless of whether it is considered superfluous
+     * @param bool $alwaysIncludeVerse ensures a verse number is present in the output, regardless of whether it is considered superfluous
      */
-    public function formatAsString(): string
-    {
+    public function formatAsString(
+        bool $alwaysIncludeChapter = false,
+        bool $alwaysIncludeVerse = false,
+    ): string {
         // Format "John", "Psalms"
-        if ($this->isWholeBook()) {
+        if ($this->isWholeBook() && !$alwaysIncludeChapter && !$alwaysIncludeVerse) {
 
             return $this->from->book()->name();
         }
@@ -233,7 +248,7 @@ class BiblePassage
         $trailer = ' '.$this->from->chapter();
 
         // Format "John 3", "Psalm 3"
-        if ($this->isWholeChapter()) {
+        if ($this->isWholeChapter() && !$alwaysIncludeVerse) {
 
             return $this->from->book()->singularName().$trailer;
         }
@@ -259,7 +274,7 @@ class BiblePassage
         }
 
         // Format "Psalms 120-134"
-        if ($this->isMultipleWholeChapters()) {
+        if ($this->isMultipleWholeChapters() && !$alwaysIncludeVerse) {
             return $this->from->book().' '.$this->from->chapter().'-'.$this->to->chapter();
         }
 
