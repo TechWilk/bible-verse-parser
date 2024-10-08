@@ -121,7 +121,7 @@ class BiblePassage implements JsonSerializable
      * JHN 3:16 - ACT 1:1 // always has a verse
      *
      * @param bool $alwaysIncludeChapter ensures a chapter number is present in the output, regardless of whether it is considered superfluous
-     * @param bool $alwaysIncludeVerse ensures a verse number is present in the output, regardless of whether it is considered superfluous
+     * @param bool $alwaysIncludeVerse   ensures a verse number is present in the output, regardless of whether it is considered superfluous
      */
     public function formatAsUSFM(
         bool $alwaysIncludeChapter = false,
@@ -155,7 +155,7 @@ class BiblePassage implements JsonSerializable
         $toString = $this->to->chapter().':'.$this->to->verse().$this->to->fragment();
 
         // Format "John 3:16 - Acts 1:1"
-        if (! $this->isSameBook()) {
+        if (!$this->isSameBook()) {
             return $this->from->book()->identifier().$trailer.' - '.$this->to->book()->identifier().' '.$toString;
         }
 
@@ -178,7 +178,7 @@ class BiblePassage implements JsonSerializable
      * JHN.3.16-ACT.1.1 // always has a verse
      *
      * @param bool $alwaysIncludeChapter ensures a chapter number is present in the output, regardless of whether it is considered superfluous
-     * @param bool $alwaysIncludeVerse ensures a verse number is present in the output, regardless of whether it is considered superfluous
+     * @param bool $alwaysIncludeVerse   ensures a verse number is present in the output, regardless of whether it is considered superfluous
      */
     public function formatAsURLSafeUSFM(
         bool $alwaysIncludeChapter = false,
@@ -212,7 +212,7 @@ class BiblePassage implements JsonSerializable
         $toString = $this->to->chapter().'.'.$this->to->verse().$this->to->fragment();
 
         // Format "John 3:16 - Acts 1:1"
-        if (! $this->isSameBook()) {
+        if (!$this->isSameBook()) {
             return $this->from->book()->identifier().$trailer.'-'.$this->to->book()->identifier().'.'.$toString;
         }
 
@@ -235,7 +235,7 @@ class BiblePassage implements JsonSerializable
      * John 3:16 - Acts 1:1 // always has a verse
      *
      * @param bool $alwaysIncludeChapter ensures a chapter number is present in the output, regardless of whether it is considered superfluous
-     * @param bool $alwaysIncludeVerse ensures a verse number is present in the output, regardless of whether it is considered superfluous
+     * @param bool $alwaysIncludeVerse   ensures a verse number is present in the output, regardless of whether it is considered superfluous
      */
     public function formatAsString(
         bool $alwaysIncludeChapter = false,
@@ -243,7 +243,6 @@ class BiblePassage implements JsonSerializable
     ): string {
         // Format "John", "Psalms"
         if ($this->isWholeBook() && !$alwaysIncludeChapter && !$alwaysIncludeVerse) {
-
             return $this->from->book()->name();
         }
 
@@ -251,7 +250,6 @@ class BiblePassage implements JsonSerializable
 
         // Format "John 3", "Psalm 3"
         if ($this->isWholeChapter() && !$alwaysIncludeVerse) {
-
             return $this->from->book()->singularName().$trailer;
         }
 
@@ -271,7 +269,7 @@ class BiblePassage implements JsonSerializable
         $toString = $this->to->chapter().':'.$this->to->verse().$this->to->fragment();
 
         // Format "John 3:16 - Acts 1:1"
-        if (! $this->isSameBook()) {
+        if (!$this->isSameBook()) {
             return $this->from->book().$trailer.' - '.$this->to->book().' '.$toString;
         }
 

@@ -18,9 +18,10 @@ class Book implements JsonSerializable
     protected $chapterStructure;
 
     /**
-     * @param $index Position of book in the bible (1-indexed)
-     * @param $number USFM Book Number
+     * @param $index      Position of book in the bible (1-indexed)
+     * @param $number     USFM Book Number
      * @param $identifier USFM Identifier
+     *
      * @see https://ubsicap.github.io/usfm/identification/books.html
      */
     public function __construct(
@@ -54,7 +55,7 @@ class Book implements JsonSerializable
     }
 
     /**
-     * Chronological position in the bible
+     * Chronological position in the bible.
      *
      * This can vary based on the type of bible.
      * For example:
@@ -70,16 +71,14 @@ class Book implements JsonSerializable
     }
 
     /**
-     * USFM Book Number
+     * USFM Book Number.
      *
      * A standardised number which remains the same, regardless of the book's position in the bible
      * For example:
      * - Revelations is USFM book 67
      *
      * @see https://ubsicap.github.io/usfm/identification/books.html
-     *
      * @see numberChronological() if you want the position of the book in the bible
-     *
      */
     public function numberUSFM(): int
     {
@@ -87,7 +86,7 @@ class Book implements JsonSerializable
     }
 
     /**
-     * USFM 3-letter Book Identifier
+     * USFM 3-letter Book Identifier.
      *
      * @see https://ubsicap.github.io/usfm/identification/books.html
      */
