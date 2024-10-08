@@ -6,6 +6,7 @@ namespace TechWilk\BibleVerseParser;
 
 use InvalidArgumentException;
 use TechWilk\BibleVerseParser\Data\BibleStructure;
+use TechWilk\BibleVerseParser\Enum\NumberingType;
 use TechWilk\BibleVerseParser\Exception\InvalidBookException;
 use TechWilk\BibleVerseParser\Exception\UnableToParseException;
 use TechWilk\BibleVerseParser\Traits\StringManipulationTrait;
@@ -20,14 +21,15 @@ class BiblePassageParser
     protected $lettersAreFragments;
 
     /**
-     * @param array<Book>|null       $structure
-     * @param string[]|null          $separators
-     * @param "usfm"|"chronological" $numberingType
+     * @param array<Book>|null $structure
+     * @param string[]|null    $separators
+     * @param NumberingType    $numberingType
+     * @param bool             $lettersAreFragments
      */
     public function __construct(
         ?array $structure = null,
         ?array $separators = null,
-        string $numberingType = 'chronological',
+        NumberingType $numberingType = NumberingType::Chronological,
         bool $lettersAreFragments = true
     ) {
         if ($structure === null) {
@@ -39,8 +41,8 @@ class BiblePassageParser
                 throw new InvalidArgumentException('Invalid book');
             }
             $bookNumber = match ($numberingType) {
-                'chronological' => $book->numberChronological(),
-                default => $book->numberUSFM(),
+                NumberingType::Chronological => $book->numberChronological(),
+                NumberingType::USFM => $book->numberUSFM(),
             };
 
             $this->bookAbbreviations[$this->standardiseString($book->name())] = $bookNumber;

@@ -4,16 +4,15 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use TechWilk\BibleVerseParser\BiblePassageParser;
 use TechWilk\BibleVerseParser\Data\BibleStructure;
-
-
+use TechWilk\BibleVerseParser\Enum\NumberingType;
 
 $userText = trim($_POST['passage'] ?? '');
 $userBibleStructure = trim($_POST['bible-structure'] ?? '');
 $userIntegerInterpretation = trim($_POST['integer-interpretation'] ?? '');
 
 $numberingType = match ($userIntegerInterpretation) {
-    'chronological' => 'chronological',
-    default => 'usfm',
+    'chronological' => NumberingType::Chronological,
+    default => NumberingType::USFM,
 };
 
 $parser = match ($userBibleStructure) {
