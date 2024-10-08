@@ -247,13 +247,12 @@ class BiblePassageParser
         // try the transformations
         // but don't override $lastVerse if we don't actually have a verse
         $verseIsNull = is_null($verse);
-        $normalisedPassage = $startBookObject->normalise((string)($chapter ?? "1"), (string)($verse ?? "1"));
+        $normalisedPassage = $startBookObject->normalise((string) ($chapter ?? '1'), (string) ($verse ?? '1'));
         if ($normalisedPassage) {
             $startBookObject = $this->getBookFromNumber($normalisedPassage[0]);
             $chapter = $normalisedPassage[1];
             $verse = $normalisedPassage[2];
         }
-
 
         $chapter = is_numeric($chapter) ? (int) $chapter : null;
         $verse = is_numeric($verse) ? (int) $verse : null;
