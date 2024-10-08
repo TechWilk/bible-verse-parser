@@ -47,6 +47,26 @@ try {
 <style>
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+h2, footer {
+    margin-top: 2rem;
+}
+h4 {
+    margin-left: 1rem;
+}
+p {
+    margin-left: 2rem;
+}
+label {
+    display: block;
+    margin: 0.5rem 0;
+}
+input[type="text"] {
+    width: 100%;
+    padding: 0.4em;
 }
 </style>
 </head>
@@ -88,12 +108,13 @@ Interpret integers as:
 <?php if ($passages): ?>
 <h2>Passages:</h2>
 
-<h3>Shorthand</h3>
+<h3>Common forms</h3>
+<h4>Shorthand</h4>
 <?php foreach ($passages as $passage): ?>
 <p><?= htmlentities((string) $passage) ?></p>
 <?php endforeach ?>
 
-<h3>Longhand</h3>
+<h4>Longhand</h4>
 <?php foreach ($passages as $passage): ?>
 <p>
 	<?= htmlentities((string) $passage->from()) ?>
@@ -102,7 +123,8 @@ Interpret integers as:
 </p>
 <?php endforeach ?>
 
-<h3>Integer (<a href="https://ubsicap.github.io/usfm/linking/index.html#general-syntax">USFM</a> numbering)</h3>
+<h3>Integer forms</h3>
+<h4><a href="https://ubsicap.github.io/usfm/linking/index.html#general-syntax">USFM</a> numbering</h4>
 <?php foreach ($passages as $passage): ?>
 <p>
 	<?= htmlentities((string) $passage->from()->integerNotationUSFM()) ?>
@@ -111,7 +133,7 @@ Interpret integers as:
 </p>
 <?php endforeach ?>
 
-<h3>Integer (chronological numbering)</h3>
+<h4>Chronological numbering</h4>
 <?php foreach ($passages as $passage): ?>
 <p>
 	<?= htmlentities((string) $passage->from()->integerNotationChronological()) ?>
@@ -121,14 +143,15 @@ Interpret integers as:
 <?php endforeach ?>
 
 
-<h3><a href="https://ubsicap.github.io/usfm/linking/index.html#general-syntax">USFM</a> reference</h3>
+<h3>Standards-based forms</h3>
+<h4><a href="https://ubsicap.github.io/usfm/linking/index.html#general-syntax">USFM</a> reference</h4>
 <?php foreach ($passages as $passage): ?>
 <p>
 	<?= htmlentities($passage->formatAsUSFM()) ?>
 </p>
 <?php endforeach ?>
 
-<h3>URL-safe USFM-style reference</h3>
+<h4><a href="https://standards.bible/standards/uusr">UUSR</a>  reference</h4>
 <?php foreach ($passages as $passage): ?>
 <p>
 	<?= htmlentities($passage->formatAsURLSafeUSFM()) ?>
