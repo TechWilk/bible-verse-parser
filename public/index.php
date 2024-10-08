@@ -3,11 +3,22 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use TechWilk\BibleVerseParser\BiblePassageParser;
-
-
-$parser = new BiblePassageParser();
+use TechWilk\BibleVerseParser\Data\BibleStructure;
+use TechWilk\BibleVerseParser\Enum\NumberingType;
 
 $userText = trim($_POST['passage'] ?? '');
+$userIntegerInterpretation = trim($_POST['integer-interpretation'] ?? '');
+
+$numberingType = match ($userIntegerInterpretation) {
+    'chronological' => NumberingType::Chronological,
+    default => NumberingType::USFM,
+};
+
+$parser = new BiblePassageParser(
+    BibleStructure::getBibleStructure(),
+    numberingType: $numberingType,
+);
+
 $error = '';
 $passages = [];
 try {
@@ -39,6 +50,12 @@ body {
 <label>
 Passages:
 <input type="text" name="passage" value="<?= htmlentities($userText, ENT_QUOTES) ?>" />
+</label>
+Interpret integers as:
+<select name="integer-interpretation">
+    <option value="usfm" <?= $userIntegerInterpretation === 'usfm' ? 'selected' : '' ?>>USFM</option>
+    <option value="chronological" <?= $userIntegerInterpretation === 'chronological' ? 'selected' : '' ?>>Chronological</option>
+</select>
 </label>
 <input type="submit" value="Parse" />
 </form>
