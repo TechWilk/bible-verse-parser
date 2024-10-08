@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use TechWilk\BibleVerseParser\BiblePassage;
 use TechWilk\BibleVerseParser\BiblePassageParser;
 use TechWilk\BibleVerseParser\Data\BibleStructure;
+use TechWilk\BibleVerseParser\Enum\NumberingType;
 use TechWilk\BibleVerseParser\Exception\InvalidBookException;
 use TechWilk\BibleVerseParser\Exception\UnableToParseException;
 
@@ -16,7 +17,11 @@ class ParserCatholicStructureTest extends TestCase
     public function setUp(): void
     {
         $structure = BibleStructure::getBibleStructureCatholic();
-        $this->parser = new BiblePassageParser($structure, numberingType: 'usfm', lettersAreFragments: false);
+        $this->parser = new BiblePassageParser(
+            $structure,
+            numberingType: NumberingType::USFM,
+            lettersAreFragments: false,
+        );
     }
 
     public function providerVerses(): array

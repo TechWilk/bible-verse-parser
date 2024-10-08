@@ -24,7 +24,7 @@ class BiblePassageParser
      * @param array<Book>|null $structure
      * @param string[]|null    $separators
      * @param NumberingType    $numberingType
-     * @param bool    $lettersAreFragments
+     * @param bool             $lettersAreFragments
      */
     public function __construct(
         ?array $structure = null,
