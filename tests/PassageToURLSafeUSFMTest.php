@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use TechWilk\BibleVerseParser\BiblePassage;
-use TechWilk\BibleVerseParser\BiblePassageParser;
 use TechWilk\BibleVerseParser\BibleReference;
 use TechWilk\BibleVerseParser\Book;
 
@@ -14,7 +13,7 @@ class PassageToURLSafeUSFMTest extends TestCase
 
     public function setUp(): void
     {
-        $structure = require __DIR__ . '/../data/bibleStructure.php';
+        $structure = require __DIR__.'/../data/bibleStructure.php';
 
         foreach ($structure as $index => $bookData) {
             $book = new Book(
