@@ -45,6 +45,9 @@ try {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bible Verse Parser demo</title>
 <style>
+* {
+    box-sizing: border-box;
+}
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   max-width: 800px;
