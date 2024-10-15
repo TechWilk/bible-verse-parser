@@ -19,6 +19,7 @@ class BiblePassageParser
     protected $books = [];
     protected $bookAbbreviations = [];
     protected $lettersAreFragments;
+    protected $singleChapterBooksCanOmitChapter;
 
     /**
      * @param array<Book>|null $structure
@@ -30,7 +31,8 @@ class BiblePassageParser
         ?array $structure = null,
         ?array $separators = null,
         NumberingType $numberingType = NumberingType::Chronological,
-        bool $lettersAreFragments = true
+        bool $lettersAreFragments = true,
+        bool $singleChapterBooksCanOmitChapter = false,
     ) {
         if ($structure === null) {
             $structure = BibleStructure::getBibleStructure();
@@ -59,6 +61,7 @@ class BiblePassageParser
             $this->separators = (fn (string ...$separators) => $separators)(...$separators);
         }
         $this->lettersAreFragments = $lettersAreFragments;
+        $this->singleChapterBooksCanOmitChapter = $singleChapterBooksCanOmitChapter;
     }
 
     public function parse(string $versesString): array
@@ -256,6 +259,17 @@ class BiblePassageParser
 
         $chapter = is_numeric($chapter) ? (int) $chapter : null;
         $verse = is_numeric($verse) ? (int) $verse : null;
+
+        if (
+            $this->singleChapterBooksCanOmitChapter
+            && 1 === $startBookObject->chaptersInBook()
+            && is_null($verse)
+            && !is_null($chapter)
+        ) {
+            $verse = $chapter;
+            $chapter = 1;
+            $verseIsNull = false;
+        }
 
         $lastBook = $startBookObject->name();
         $lastChapter = $chapter;
