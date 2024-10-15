@@ -1430,7 +1430,7 @@ return [
         'number' => 47,
         'name' => '1 Corinthians',
         'identifier' => '1CO',
-        'abbreviations' => ['1 cor', 'i cor', '1st cor', 'first cor', 'i corinthians', '1st corinthians', 'first corinthians', '1 co', 'i co', '1st co', 'first co',],
+        'abbreviations' => ['1 cor', 'i cor', '1st cor', 'first cor', 'i corinthians', '1st corinthians', 'first corinthians', '1 co', 'i co', '1st co', 'first co'],
         'chapterStructure' => [
             1 => 31,
             2 => 16,
@@ -1454,7 +1454,7 @@ return [
         'number' => 48,
         'name' => '2 Corinthians',
         'identifier' => '2CO',
-        'abbreviations' => ['2 cor', 'ii cor', '2nd cor', 'second cor', 'ii corinthians', '2nd corinthians', 'second corinthians', '2 co', 'ii co', '2nd co', 'second co',],
+        'abbreviations' => ['2 cor', 'ii cor', '2nd cor', 'second cor', 'ii corinthians', '2nd corinthians', 'second corinthians', '2 co', 'ii co', '2nd co', 'second co'],
         'chapterStructure' => [
             1 => 24,
             2 => 17,
