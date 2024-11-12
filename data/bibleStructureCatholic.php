@@ -1118,6 +1118,7 @@ return [
         'identifier' => 'SIR',
         'abbreviations' => ['sir', 'wisdom of sirach'],
         'chapterStructure' => [
+            0 => 1, // prologue
             1 => 30,
             2 => 18,
             3 => 31,
@@ -1169,6 +1170,11 @@ return [
             49 => 16,
             50 => 29,
             51 => 30,
+        ],
+        'transformations' => [
+            '1' => [
+                '0' => [72, 0, 1], // Alternative prologue reference
+            ],
         ],
     ],
     29 => [
