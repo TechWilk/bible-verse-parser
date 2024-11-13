@@ -111,7 +111,7 @@ class BiblePassageParser
 
             if (1 === count($splitSection)) {
                 $endBookObject = $this->getBookFromAbbreviation($lastBook);
-                $endChapterForReference = (int) ($lastChapter ?? $endBookObject->chaptersInBook());
+                $endChapterForReference = (int) ($lastChapter ?? array_key_last($endBookObject->chapterStructure()));
                 $toReference = new BibleReference(
                     $endBookObject,
                     $endChapterForReference,
