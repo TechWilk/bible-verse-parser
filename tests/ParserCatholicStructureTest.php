@@ -684,6 +684,12 @@ class ParserCatholicStructureTest extends TestCase
                     ['Sirach 0:1', 'Sirach 0:1'],
                 ],
             ],
+            // 'sirach whole book including prologue' => [
+            //     'Sirach',
+            //     [
+            //         ['Sirach 0:1', 'Sirach 51:30'],
+            //     ],
+            // ],
         ];
     }
 
