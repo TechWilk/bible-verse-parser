@@ -171,6 +171,16 @@ class Book implements JsonSerializable
         $verse = trim($verse);
         $verse = ltrim($verse, '0');
 
+        if (strlen($chapter) < 1) {
+            // prologues are usually represented as chapter 0
+            $chapter = '0';
+        }
+
+        if (strlen($verse) < 1) {
+            // prologues may be represented as verse 0
+            $verse = '0';
+        }
+
         if (!array_key_exists($chapter, $this->transformations)) {
             return null;
         }
