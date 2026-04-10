@@ -125,16 +125,16 @@ class PassageJsonSerialiseTest extends TestCase
 
         $expected = [
             'from' => [
-                 'book' => $from[0],
-                 'chapter' => $from[1],
-                 'verse' => $from[2],
-                 'fragment' => $from[3] ?? '',
+                'book' => $from[0],
+                'chapter' => $from[1],
+                'verse' => $from[2],
+                'fragment' => $from[3] ?? '',
             ],
             'to' => [
                 'book' => $to[0],
-                 'chapter' => $to[1],
-                 'verse' => $to[2],
-                 'fragment' => $to[3] ?? '',
+                'chapter' => $to[1],
+                'verse' => $to[2],
+                'fragment' => $to[3] ?? '',
             ],
         ];
 
