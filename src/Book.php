@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace TechWilk\BibleVerseParser;
 
 use InvalidArgumentException;
+use JsonSerializable;
 
-class Book
+class Book implements JsonSerializable
 {
     protected $index;
     protected $number;
@@ -98,6 +99,11 @@ class Book
     }
 
     public function __toString(): string
+    {
+        return $this->name;
+    }
+
+    public function jsonSerialize(): mixed
     {
         return $this->name;
     }

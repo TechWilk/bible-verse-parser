@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace TechWilk\BibleVerseParser;
 
 use InvalidArgumentException;
+use JsonSerializable;
 
-class BibleReference
+class BibleReference implements JsonSerializable
 {
     protected $book;
     protected $chapter;
@@ -95,5 +96,15 @@ class BibleReference
     public function __toString(): string
     {
         return $this->formatAsString();
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'book' => $this->book->jsonSerialize(),
+            'chapter' => $this->chapter,
+            'verse' => $this->verse,
+            'fragment' => $this->fragment,
+        ];
     }
 }
