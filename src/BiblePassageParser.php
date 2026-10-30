@@ -67,6 +67,8 @@ class BiblePassageParser
     public function parse(string $versesString): array
     {
         $substitutions = [
+            // drop alternate numbering in parentheses, such as Vulgate psalms: "90(89)" -> "90"
+            '/(\d)\s*\(\d+\)/' => '$1',
             // en and em dashes into hyphen "-"
             '/(—|–)/' => '-',
             // "to" into hyphen "-"

@@ -164,6 +164,15 @@ Deut 6: 4-9, 16-end & Luke 15: 1-10
 1 John 3:1-4:12
 ```
 
+### Alternate psalm numbering
+
+The number in parentheses is ignored.
+
+``` text
+Ps 90(89):3-4
+Ps 95 (94):1-2
+```
+
 ## Roadmap
 -   ~Parse many formats into book / chapter / verse ranges~
 -   ~Validate book names~
