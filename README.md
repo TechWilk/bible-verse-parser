@@ -139,6 +139,8 @@ John 3
 
 ``` text
 John 3, 4
+Luke 24:36b-48
+Psalm 95:7c, 8a
 John 3:16-18, 19-22
 Gen 1:1; 4:26
 John 3:16 & Isiah 22

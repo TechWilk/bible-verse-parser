@@ -58,8 +58,8 @@ class BiblePassageParser
             '/[^a-z]to[^a-z]/i' => '-',
             // "chapter" into "ch"
             '/([^a-z])chapter([^a-z])/i' => '$1ch$2',
-            // "c" into "ch"
-            '/([^a-z])c([^a-z])/i' => '$1ch$2',
+            // "c" into "ch", but not a verse fragment ("7c")
+            '/([^a-z0-9])c([^a-z])/i' => '$1ch$2',
             // "verse" or "verses" into "v"
             '/([^a-z])verses?([^a-z])/i' => '$1v$2',
             // add space between book number and book name

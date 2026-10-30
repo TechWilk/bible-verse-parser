@@ -558,6 +558,25 @@ class ParserTest extends TestCase
                     ['Obadiah 1:15', 'Obadiah 1:15'],
                 ],
             ],
+            'verse fragment c in a range' => [
+                'John 3:16c-17',
+                [
+                    ['John 3:16c', 'John 3:17'],
+                ],
+            ],
+            'verse fragment c through a later verse' => [
+                'Psalm 95:7c-9',
+                [
+                    ['Psalms 95:7c', 'Psalms 95:9'],
+                ],
+            ],
+            'verse fragment c before another verse part' => [
+                'Psalm 95:7c, 8a',
+                [
+                    ['Psalms 95:7c', 'Psalms 95:7c'],
+                    ['Psalms 95:8a', 'Psalms 95:8a'],
+                ],
+            ],
         ];
     }
 
