@@ -149,6 +149,8 @@ JHN.3
 John 3, 4
 Luke 24:36b-48
 Psalm 95:7c, 8a
+Ps 90(89):3-4
+Ps 95 (94):1-2
 John 3:16-18, 19-22
 Gen 1:1; 4:26
 John 3:16 & Isiah 22

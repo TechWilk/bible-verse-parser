@@ -621,6 +621,18 @@ trait VerseTestsTrait
                     ['Revelation 13:1', 'Revelation 13:1'],
                 ],
             ],
+            'parenthetical alternate chapter number' => [
+                'Ps 90(89):3-4',
+                [
+                    ['Psalms 90:3', 'Psalms 90:4'],
+                ],
+            ],
+            'parenthetical alternate chapter number with space' => [
+                'Ps 95 (94):1-2',
+                [
+                    ['Psalms 95:1', 'Psalms 95:2'],
+                ],
+            ],
         ];
     }
 }
