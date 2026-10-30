@@ -83,6 +83,7 @@ class BiblePassageParser
             '/(^|;\ *|\-)([\d])(?![abc]\b)([a-zA-Z])/i' => '$1 $2 $3',
         ];
         $versesString = preg_replace(array_keys($substitutions), array_values($substitutions), $versesString);
+        $versesString = $this->convertDottedVerseSeparators($versesString);
 
         $sections = $this->splitOnSeparators($this->separators, $versesString);
 
@@ -418,5 +419,21 @@ class BiblePassageParser
         $bookNumber = $this->bookAbbreviations[$bookAbbreviation];
 
         return $bookNumber;
+    }
+
+    /**
+     * After a chapter colon, "3-4. 5-6" is a list. "John 3.16" is one verse.
+     * The list ends at a separator, so "John 3:16, 4. 5" is still John 4:5.
+     */
+    protected function convertDottedVerseSeparators(string $text): string
+    {
+        return preg_replace_callback(
+            '/:[\d\s\-abc.]+/i',
+            fn (array $matches) => implode(
+                ' '.$this->separators[0].' ',
+                preg_split('/\.\s+(?=\d)/', $matches[0])
+            ),
+            $text
+        );
     }
 }
