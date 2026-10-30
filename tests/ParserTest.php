@@ -601,6 +601,31 @@ class ParserTest extends TestCase
                     ['Psalms 95:8a', 'Psalms 95:8a'],
                 ],
             ],
+            'single digit verse fragment after hyphen' => [
+                'Psalm 95:6-7b',
+                [
+                    ['Psalms 95:6', 'Psalms 95:7b'],
+                ],
+            ],
+            'single digit verse fragment a after hyphen' => [
+                'John 3:6-8a',
+                [
+                    ['John 3:6', 'John 3:8a'],
+                ],
+            ],
+            'single digit verse fragment after semicolon' => [
+                'John 3:16; 7b',
+                [
+                    ['John 3:16', 'John 3:16'],
+                    ['John 3:7b', 'John 3:7b'],
+                ],
+            ],
+            'single letter book abbreviation after hyphen' => [
+                '1 Kings 1-2K 3',
+                [
+                    ['1 Kings 1:1', '2 Kings 3:27'],
+                ],
+            ],
         ];
     }
 

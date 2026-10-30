@@ -146,6 +146,7 @@ JHN.3
 ``` text
 Luke 24:36b-48
 John 3:16c-17
+Psalm 95:6-7b
 Psalm 95:7c, 8a
 ```
 
