@@ -53,6 +53,34 @@ class ParserTest extends TestCase
         $this->assertEquals($expectedParsedVerses, $parsedVerses);
     }
 
+    public static function providerVersesWithCustomSeparators(): array
+    {
+        return [
+            'dotted verse groups' => [
+                [';', '&'],
+                'Ps 90:3-4. 5-6',
+                [
+                    ['Psalms 90:3', 'Psalms 90:4'],
+                    ['Psalms 90:5', 'Psalms 90:6'],
+                ],
+            ],
+        ];
+    }
+
+    #[DataProvider('providerVersesWithCustomSeparators')]
+    public function testParseVersesWithCustomSeparators(array $separators, string $verses, array $expectedParsedVerses): void
+    {
+        $parser = new BiblePassageParser(null, $separators);
+        $parsedVerses = $parser->parse($verses);
+
+        $parsedVerses = array_map(fn (BiblePassage $passage) => [
+            (string) $passage->from(),
+            (string) $passage->to(),
+        ], $parsedVerses);
+
+        $this->assertEquals($expectedParsedVerses, $parsedVerses);
+    }
+
     /**
      * https://ubsicap.github.io/usfm/identification/books.html
      * https://ubsicap.github.io/usx/vocabularies.html#usx-vocab-bookcode

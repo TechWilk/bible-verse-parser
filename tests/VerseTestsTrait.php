@@ -633,6 +633,72 @@ trait VerseTestsTrait
                     ['Psalms 95:1', 'Psalms 95:2'],
                 ],
             ],
+            'dotted verse groups' => [
+                'Ps 90:3-4. 5-6',
+                [
+                    ['Psalms 90:3', 'Psalms 90:4'],
+                    ['Psalms 90:5', 'Psalms 90:6'],
+                ],
+            ],
+            'dotted verse groups in one chapter' => [
+                'Ps 90:3-4. 5-6. 12-13. 14, 17',
+                [
+                    ['Psalms 90:3', 'Psalms 90:4'],
+                    ['Psalms 90:5', 'Psalms 90:6'],
+                    ['Psalms 90:12', 'Psalms 90:13'],
+                    ['Psalms 90:14', 'Psalms 90:14'],
+                    ['Psalms 90:17', 'Psalms 90:17'],
+                ],
+            ],
+            'dotted verse groups in another book' => [
+                'John 3:16-18. 19-22',
+                [
+                    ['John 3:16', 'John 3:18'],
+                    ['John 3:19', 'John 3:22'],
+                ],
+            ],
+            'spaced period remains a chapter verse delimiter' => [
+                'John 3. 16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'dotted verse groups with verse parts' => [
+                'Psalm 95:1-2. 6-7b. 7c-9',
+                [
+                    ['Psalms 95:1', 'Psalms 95:2'],
+                    ['Psalms 95:6', 'Psalms 95:7b'],
+                    ['Psalms 95:7c', 'Psalms 95:9'],
+                ],
+            ],
+            'dotted verse groups end at a comma' => [
+                'John 3:16, 4. 5',
+                [
+                    ['John 3:16', 'John 3:16'],
+                    ['John 4:5', 'John 4:5'],
+                ],
+            ],
+            'dotted verse groups end at an ampersand' => [
+                'John 3:16 & 4. 5',
+                [
+                    ['John 3:16', 'John 3:16'],
+                    ['John 4:5', 'John 4:5'],
+                ],
+            ],
+            'dotted verse groups across chapters' => [
+                'Rom 1:16. 2:4',
+                [
+                    ['Romans 1:16', 'Romans 1:16'],
+                    ['Romans 2:4', 'Romans 2:4'],
+                ],
+            ],
+            'spaced period after another book' => [
+                'John 3:16 & Isaiah 22. 5',
+                [
+                    ['John 3:16', 'John 3:16'],
+                    ['Isaiah 22:5', 'Isaiah 22:5'],
+                ],
+            ],
         ];
     }
 }
