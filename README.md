@@ -141,6 +141,14 @@ JHN 3
 JHN.3
 ```
 
+### Part verses
+
+``` text
+Luke 24:36b-48
+John 3:16c-17
+Psalm 95:7c, 8a
+```
+
 ### Combinations of the above / multiples
 
 ``` text
