@@ -141,6 +141,15 @@ JHN 3
 JHN.3
 ```
 
+### Part verses
+
+``` text
+Luke 24:36b-48
+John 3:16c-17
+Psalm 95:6-7b
+Psalm 95:7c, 8a
+```
+
 ### Combinations of the above / multiples
 
 ``` text
@@ -153,6 +162,16 @@ Deut 6: 4-9, 16-end & Luke 15: 1-10
 1 Peter 2, 5 & Job 34
 1 Peter 2:15-16, 18-20
 1 John 3:1-4:12
+Ps 90:3-4. 5-6. 12-13. 14, 17
+```
+
+### Alternate psalm numbering
+
+The number in parentheses is ignored.
+
+``` text
+Ps 90(89):3-4
+Ps 95 (94):1-2
 ```
 
 ## Roadmap

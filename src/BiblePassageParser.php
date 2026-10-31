@@ -67,20 +67,23 @@ class BiblePassageParser
     public function parse(string $versesString): array
     {
         $substitutions = [
+            // drop alternate numbering in parentheses, such as Vulgate psalms: "90(89)" -> "90"
+            '/(\d)\s*\(\d+\)/' => '$1',
             // en and em dashes into hyphen "-"
             '/(—|–)/' => '-',
             // "to" into hyphen "-"
             '/[^a-z]to[^a-z]/i' => '-',
             // "chapter" into "ch"
             '/([^a-z])chapter([^a-z])/i' => '$1ch$2',
-            // "c" into "ch"
-            '/([^a-z])c([^a-z])/i' => '$1ch$2',
+            // "c" into "ch", but not a verse fragment ("7c")
+            '/([^a-z0-9])c([^a-z])/i' => '$1ch$2',
             // "verse" or "verses" into "v"
             '/([^a-z])verses?([^a-z])/i' => '$1v$2',
-            // add space between book number and book name
-            '/(^|;\ *|\-)([\d])([a-zA-Z])/i' => '$1 $2 $3',
+            // add space between book number and book name, but not a verse fragment ("-7b")
+            '/(^|;\ *|\-)([\d])(?![abc]\b)([a-zA-Z])/i' => '$1 $2 $3',
         ];
         $versesString = preg_replace(array_keys($substitutions), array_values($substitutions), $versesString);
+        $versesString = $this->convertDottedVerseSeparators($versesString);
 
         $sections = $this->splitOnSeparators($this->separators, $versesString);
 
@@ -90,100 +93,123 @@ class BiblePassageParser
         $lastVerse = null;
 
         foreach ($sections as $section) {
-            $splitSection = explode('-', $section);
-
-            if (count($splitSection) > 2) {
-                throw new UnableToParseException('Range is too complex');
-            }
-
-            // Start reference stuff
-
             [
-                $fromReference,
-                $startVerse,
+                $passages[],
                 $lastBook,
                 $lastChapter,
                 $lastVerse,
-                $lastFragment,
-            ] = $this->parseStartReference($splitSection[0], $lastBook, $lastChapter, $lastVerse);
-
-            // End reference stuff
-
-            if (1 === count($splitSection)) {
-                $endBookObject = $this->getBookFromAbbreviation($lastBook);
-                $endChapterForReference = (int) ($lastChapter ?? array_key_last($endBookObject->chapterStructure()));
-                $toReference = new BibleReference(
-                    $endBookObject,
-                    $endChapterForReference,
-                    $lastVerse ?? $endBookObject->versesInChapter($endChapterForReference),
-                    $lastFragment ?? ''
-                );
-            } else {
-                try {
-                    $matches = $this->parseReferenceAsInteger($splitSection[1]);
-                } catch (UnableToParseException) {
-                    $matches = $this->parseReference($splitSection[1]);
-                }
-
-                $endBook = '';
-                $endChapter = null;
-                $endVerse = null;
-
-                if ('' !== $matches['book']) {
-                    $endBook = (string) $matches['book'];
-                }
-                $endBookObject = $this->getBookFromAbbreviation($endBook !== '' ? $endBook : $lastBook);
-
-                if ('' !== $matches['chapter_or_verse']) {
-                    if (
-                        null !== $startVerse
-                        && '' === $matches['verse']
-                    ) {
-                        if ('end' === $matches['chapter_or_verse']) {
-                            $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
-                        } else {
-                            $endFragment = in_array($matches['chapter_or_verse'][-1], ['a', 'b', 'c']) ? $matches['chapter_or_verse'][-1] : null;
-                        }
-                        $endVerse = (int) $matches['chapter_or_verse'];
-                    } else {
-                        if ('end' === $matches['chapter_or_verse']) {
-                            $matches['chapter_or_verse'] = $endBookObject->chaptersInBook();
-                        }
-                        $endChapter = (int) $matches['chapter_or_verse'];
-                    }
-                }
-
-                if ('' !== $matches['verse']) {
-                    $endVerse = (int) $matches['verse'];
-                    $endFragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
-                }
-
-                $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->chaptersInBook();
-
-                $lastBook = $endBookObject->name();
-                $lastChapter = $endChapter ?? $lastChapter;
-                $lastVerse = $endVerse;
-
-                $toReference = new BibleReference(
-                    $endBookObject,
-                    $endChapterForReference,
-                    $endVerse ?? $endBookObject->versesInChapter($endChapterForReference),
-                    $endFragment ?? ''
-                );
-            }
-
-            if ($fromReference->integerNotationUSFM() > $toReference->integerNotationUSFM()) {
-                // reference are reversed
-                throw new UnableToParseException('References end is before beginning');
-            }
-
-            $passages[] = new BiblePassage(
-                $fromReference,
-                $toReference
-            );
+            ] = $this->parseSection($section, $lastBook, $lastChapter, $lastVerse);
         }
 
         return $passages;
+    }
+
+    protected function parseSection(
+        string $section,
+        string $lastBook,
+        ?int $lastChapter,
+        ?int $lastVerse
+    ): array {
+        $splitSection = explode('-', $section);
+
+        if (count($splitSection) > 2) {
+            throw new UnableToParseException('Range is too complex');
+        }
+
+        // Start reference stuff
+
+        [
+            $fromReference,
+            $startVerse,
+            $lastBook,
+            $lastChapter,
+            $lastVerse,
+            $lastFragment,
+        ] = $this->parseStartReference($splitSection[0], $lastBook, $lastChapter, $lastVerse);
+
+        // End reference stuff
+
+        $endFragment = null;
+
+        if (1 === count($splitSection)) {
+            $endBookObject = $this->getBookFromAbbreviation($lastBook);
+            $endChapterForReference = (int) ($lastChapter ?? array_key_last($endBookObject->chapterStructure()));
+            $toReference = new BibleReference(
+                $endBookObject,
+                $endChapterForReference,
+                $lastVerse ?? $endBookObject->versesInChapter($endChapterForReference),
+                $lastFragment ?? ''
+            );
+        } else {
+            try {
+                $matches = $this->parseReferenceAsInteger($splitSection[1]);
+            } catch (UnableToParseException) {
+                $matches = $this->parseReference($splitSection[1]);
+            }
+
+            $endBook = '';
+            $endChapter = null;
+            $endVerse = null;
+
+            if ('' !== $matches['book']) {
+                $endBook = (string) $matches['book'];
+            }
+            $endBookObject = $this->getBookFromAbbreviation($endBook !== '' ? $endBook : $lastBook);
+
+            if ('' !== $matches['chapter_or_verse']) {
+                if (
+                    null !== $startVerse
+                    && '' === $matches['verse']
+                ) {
+                    if ('end' === $matches['chapter_or_verse']) {
+                        $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
+                    } else {
+                        $endFragment = in_array($matches['chapter_or_verse'][-1], ['a', 'b', 'c']) ? $matches['chapter_or_verse'][-1] : null;
+                    }
+                    $endVerse = (int) $matches['chapter_or_verse'];
+                } else {
+                    if ('end' === $matches['chapter_or_verse']) {
+                        $matches['chapter_or_verse'] = $endBookObject->chaptersInBook();
+                    }
+                    $endChapter = (int) $matches['chapter_or_verse'];
+                }
+            }
+
+            if ('' !== $matches['verse']) {
+                $endVerse = (int) $matches['verse'];
+                $endFragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
+            }
+
+            $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->chaptersInBook();
+
+            $lastBook = $endBookObject->name();
+            $lastChapter = $endChapter ?? $lastChapter;
+            $lastVerse = $endVerse;
+
+            $toReference = new BibleReference(
+                $endBookObject,
+                $endChapterForReference,
+                $endVerse ?? $endBookObject->versesInChapter($endChapterForReference),
+                $endFragment ?? ''
+            );
+        }
+
+        if ($fromReference->integerNotationUSFM() > $toReference->integerNotationUSFM()) {
+            // reference are reversed
+            throw new UnableToParseException('References end is before beginning');
+        }
+
+        $passage = new BiblePassage(
+            $fromReference,
+            $toReference
+        );
+
+        return [
+            $passage,
+            $lastBook,
+            $lastChapter,
+            $lastVerse,
+        ];
     }
 
     protected function parseStartReference(
@@ -416,5 +442,21 @@ class BiblePassageParser
         $bookNumber = $this->bookAbbreviations[$bookAbbreviation];
 
         return $bookNumber;
+    }
+
+    /**
+     * After a chapter colon, "3-4. 5-6" is a list. "John 3.16" is one verse.
+     * The list ends at a separator, so "John 3:16, 4. 5" is still John 4:5.
+     */
+    protected function convertDottedVerseSeparators(string $text): string
+    {
+        return preg_replace_callback(
+            '/:[\d\s\-abc.]+/i',
+            fn (array $matches) => implode(
+                ' '.$this->separators[0].' ',
+                preg_split('/\.\s+(?=\d)/', $matches[0])
+            ),
+            $text
+        );
     }
 }
