@@ -582,6 +582,62 @@ class ParserTest extends TestCase
                     ['John 3:16', 'John 3:17'],
                 ],
             ],
+            'verse fragment c in a range' => [
+                'John 3:16c-17',
+                [
+                    ['John 3:16c', 'John 3:17'],
+                ],
+            ],
+            'verse fragment c through a later verse' => [
+                'Psalm 95:7c-9',
+                [
+                    ['Psalms 95:7c', 'Psalms 95:9'],
+                ],
+            ],
+            'verse fragment c before another verse part' => [
+                'Psalm 95:7c, 8a',
+                [
+                    ['Psalms 95:7c', 'Psalms 95:7c'],
+                    ['Psalms 95:8a', 'Psalms 95:8a'],
+                ],
+            ],
+            'single digit verse fragment after hyphen' => [
+                'Psalm 95:6-7b',
+                [
+                    ['Psalms 95:6', 'Psalms 95:7b'],
+                ],
+            ],
+            'single digit verse fragment a after hyphen' => [
+                'John 3:6-8a',
+                [
+                    ['John 3:6', 'John 3:8a'],
+                ],
+            ],
+            'single digit verse fragment after semicolon' => [
+                'John 3:16; 7b',
+                [
+                    ['John 3:16', 'John 3:16'],
+                    ['John 3:7b', 'John 3:7b'],
+                ],
+            ],
+            'single letter book abbreviation after hyphen' => [
+                '1 Kings 1-2K 3',
+                [
+                    ['1 Kings 1:1', '2 Kings 3:27'],
+                ],
+            ],
+            'parenthetical alternate chapter number' => [
+                'Ps 90(89):3-4',
+                [
+                    ['Psalms 90:3', 'Psalms 90:4'],
+                ],
+            ],
+            'parenthetical alternate chapter number with space' => [
+                'Ps 95 (94):1-2',
+                [
+                    ['Psalms 95:1', 'Psalms 95:2'],
+                ],
+            ],
         ];
     }
 
