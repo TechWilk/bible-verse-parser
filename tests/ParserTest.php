@@ -4,7 +4,6 @@ namespace TechWilk\BibleVerseParser\Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use TechWilk\BibleVerseParser\BiblePassage;
 use TechWilk\BibleVerseParser\BiblePassageParser;
 use TechWilk\BibleVerseParser\Enum\NumberingType;
 use TechWilk\BibleVerseParser\Exception\InvalidBookException;
@@ -26,15 +25,7 @@ class ParserTest extends TestCase
     #[DataProvider('providerVersesIntegerCanonOrderNumbering')]
     public function testParseVersesWithCanonOrderNumbering(string $verses, array $expectedParsedVerses): void
     {
-        $parsedVerses = $this->parser->parse($verses);
-
-        // test as strings for now
-        $parsedVerses = array_map(fn (BiblePassage $passage) => [
-            (string) $passage->from(),
-            (string) $passage->to(),
-        ], $parsedVerses);
-
-        $this->assertEquals($expectedParsedVerses, $parsedVerses);
+        $this->assertEquals($expectedParsedVerses, $this->passagesAsArrays($this->parser->parse($verses)));
     }
 
     #[DataProvider('providerVerses')]
@@ -42,15 +33,7 @@ class ParserTest extends TestCase
     public function testParseVersesWithUSFMNumbering(string $verses, array $expectedParsedVerses): void
     {
         $parser = new BiblePassageParser(numberingType: NumberingType::USFM);
-        $parsedVerses = $parser->parse($verses);
-
-        // test as strings for now
-        $parsedVerses = array_map(fn (BiblePassage $passage) => [
-            (string) $passage->from(),
-            (string) $passage->to(),
-        ], $parsedVerses);
-
-        $this->assertEquals($expectedParsedVerses, $parsedVerses);
+        $this->assertEquals($expectedParsedVerses, $this->passagesAsArrays($parser->parse($verses)));
     }
 
     public static function providerVersesWithCustomSeparators(): array
@@ -64,6 +47,14 @@ class ParserTest extends TestCase
                     ['Psalms 90:5', 'Psalms 90:6'],
                 ],
             ],
+            'responsorial refrain verse' => [
+                [';', '&'],
+                'Psalm 90:17 ℟1',
+                [
+                    ['Psalms 90:17', 'Psalms 90:17', 'stanza 1'],
+                    ['Psalms 90:1', 'Psalms 90:1', 'refrain'],
+                ],
+            ],
         ];
     }
 
@@ -71,14 +62,8 @@ class ParserTest extends TestCase
     public function testParseVersesWithCustomSeparators(array $separators, string $verses, array $expectedParsedVerses): void
     {
         $parser = new BiblePassageParser(null, $separators);
-        $parsedVerses = $parser->parse($verses);
 
-        $parsedVerses = array_map(fn (BiblePassage $passage) => [
-            (string) $passage->from(),
-            (string) $passage->to(),
-        ], $parsedVerses);
-
-        $this->assertEquals($expectedParsedVerses, $parsedVerses);
+        $this->assertEquals($expectedParsedVerses, $this->passagesAsArrays($parser->parse($verses)));
     }
 
     /**

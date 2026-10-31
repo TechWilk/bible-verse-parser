@@ -79,25 +79,69 @@ class BiblePassageParser
             '/(^|;\ *|\-)([\d])(?![abc]\b)([a-zA-Z])/i' => '$1 $2 $3',
         ];
         $versesString = preg_replace(array_keys($substitutions), array_values($substitutions), $versesString);
-        $versesString = $this->convertDottedVerseSeparators($versesString);
 
-        $sections = $this->splitOnSeparators($this->separators, $versesString);
+        return array_merge(...array_map($this->parseCitation(...), $this->splitOnBooks($versesString)));
+    }
+
+    /**
+     * In a responsorial citation, periods separate numbered stanzas and "℟" starts the refrain.
+     * Each citation starts with a book, so no state is carried between citations.
+     */
+    protected function parseCitation(string $citation): array
+    {
+        [$body, $refrainText] = array_pad(preg_split('/\.?\s*℟\s*/u', $citation, 2), 2, null);
+        $responsorial = null !== $refrainText;
 
         $passages = [];
         $lastBook = '';
         $lastChapter = null;
         $lastVerse = null;
-
-        foreach ($sections as $section) {
+        foreach ($this->splitDottedVerseGroups($body, $responsorial) as $index => $group) {
             [
-                $passages[],
+                $groupPassages,
+                $lastBook,
+                $lastChapter,
+                $lastVerse,
+            ] = $this->parseSections($group, $lastBook, $lastChapter, $lastVerse, $responsorial ? $index + 1 : null);
+            array_push($passages, ...$groupPassages);
+        }
+
+        if ($responsorial) {
+            $refrainText = preg_replace('/^cf\.?\s*/i', '', $refrainText, 1, $comparisonCount);
+            [$refrain] = $this->parseSections($refrainText, $lastBook, $lastChapter, $lastVerse, null, true, $comparisonCount > 0);
+            array_push($passages, ...$refrain);
+        }
+
+        return $passages;
+    }
+
+    protected function parseSections(
+        string $text,
+        string $lastBook,
+        ?int $lastChapter,
+        ?int $lastVerse,
+        ?int $stanza = null,
+        bool $refrain = false,
+        bool $comparison = false
+    ): array {
+        $passages = [];
+
+        foreach ($this->splitOnSeparators($this->separators, $text) as $section) {
+            [
+                $passage,
                 $lastBook,
                 $lastChapter,
                 $lastVerse,
             ] = $this->parseSection($section, $lastBook, $lastChapter, $lastVerse);
+            $passages[] = new BiblePassage($passage->from(), $passage->to(), $stanza, $refrain, $comparison);
         }
 
-        return $passages;
+        return [
+            $passages,
+            $lastBook,
+            $lastChapter,
+            $lastVerse,
+        ];
     }
 
     protected function parseSection(
@@ -476,18 +520,49 @@ class BiblePassageParser
     }
 
     /**
-     * After a chapter colon, "3-4. 5-6" is a list. "John 3.16" is one verse.
-     * The list ends at a separator, so "John 3:16, 4. 5" is still John 4:5.
+     * A section naming a book starts a new citation: "Ps 90:3-4. ℟1 & John 3:16".
+     *
+     * @return string[]
      */
-    protected function convertDottedVerseSeparators(string $text): string
+    protected function splitOnBooks(string $text): array
     {
-        return preg_replace_callback(
-            '/:[\d\s\-abc.]+/i',
-            fn (array $matches) => implode(
-                ' '.$this->separators[0].' ',
-                preg_split('/\.\s+(?=\d)/', $matches[0])
-            ),
+        $separators = array_map(fn (string $separator) => preg_quote($separator, '/'), $this->separators);
+        $tokens = preg_split('/('.implode('|', $separators).')/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+        $citations = [array_shift($tokens)];
+        foreach (array_chunk($tokens, 2) as [$separator, $section]) {
+            if ($this->startsWithBook($section)) {
+                $citations[] = $section;
+            } else {
+                $citations[count($citations) - 1] .= $separator.$section;
+            }
+        }
+
+        return $citations;
+    }
+
+    protected function startsWithBook(string $section): bool
+    {
+        $book = $this->parseReference(preg_split('/[\-.]/', $section)[0])['book'];
+
+        return '' !== $book && array_key_exists($this->standardiseString($book), $this->bookAbbreviations);
+    }
+
+    /**
+     * After a chapter colon, "3-4. 5-6" is a list of verse groups. "John 3.16" is one verse.
+     * The list ends at a separator, so "John 3:16, 4. 5" is still John 4:5, unless
+     * $acrossSeparators is set, as for the stanzas of a responsorial psalm.
+     *
+     * @return string[]
+     */
+    protected function splitDottedVerseGroups(string $text, bool $acrossSeparators = false): array
+    {
+        $verseList = $acrossSeparators ? '/:.*/s' : '/:[\d\s\-abc.]+/i';
+
+        return explode("\0", preg_replace_callback(
+            $verseList,
+            fn (array $matches) => preg_replace('/\.\s+(?=\d)/', "\0", $matches[0]),
             $text
-        );
+        ));
     }
 }
