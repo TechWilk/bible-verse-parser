@@ -154,7 +154,7 @@ class BiblePassageParser
                                 $matches['chapter_or_verse'] = $normalisedPassage[2];
                                 $endFragment = '';
                             } else {
-                                $endFragment = in_array($matches['chapter_or_verse'][-1], ['a', 'b', 'c']) ? $matches['chapter_or_verse'][-1] : null;
+                                $endFragment = $this->verseFragment($matches['chapter_or_verse']);
                             }
                         }
                         $endVerse = (int) $matches['chapter_or_verse'];
@@ -179,7 +179,7 @@ class BiblePassageParser
                         $endFragment = '';
                     } else {
                         $endVerse = (int) $matches['verse'];
-                        $endFragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
+                        $endFragment = $this->verseFragment($matches['verse']);
                     }
                 }
 
@@ -245,7 +245,7 @@ class BiblePassageParser
             } else {
                 $verse = $matches['chapter_or_verse'];
                 if ($this->lettersAreFragments) {
-                    $fragment = in_array($matches['chapter_or_verse'][-1], ['a', 'b', 'c']) ? $matches['chapter_or_verse'][-1] : null;
+                    $fragment = $this->verseFragment($matches['chapter_or_verse']);
                     $verse = (int) $matches['chapter_or_verse'];
                 }
             }
@@ -261,7 +261,7 @@ class BiblePassageParser
             } else {
                 $verse = $matches['verse'];
                 if ($this->lettersAreFragments) {
-                    $fragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
+                    $fragment = $this->verseFragment($matches['verse']);
                     $verse = (int) $matches['verse'];
                 }
             }
@@ -389,6 +389,11 @@ class BiblePassageParser
         }
 
         return $matches;
+    }
+
+    protected function verseFragment(string $verse): ?string
+    {
+        return in_array($verse[-1], ['a', 'b', 'c']) ? $verse[-1] : null;
     }
 
     protected function parseReferenceAsInteger(string $reference): array
