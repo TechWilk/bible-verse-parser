@@ -174,6 +174,16 @@ Ps 90(89):3-4
 Ps 95 (94):1-2
 ```
 
+### Responsorial psalms
+
+`℟` marks the refrain, which is sung before, between and after the stanzas. A period separates stanzas, and any other separator joins verses within a stanza. Each passage is returned once, in the order cited. Stanza passages return their stanza number from `stanza()`, starting at 1, and refrain passages return true from `isRefrain()`. `cf.` before the refrain verses means the refrain is adapted from them rather than quoted, and those passages return true from `isComparison()`.
+
+``` text
+Ps 90(89):3-4. 5-6. 12-13. 14, 17. ℟1
+Ps 95(94):1-2. 6-7b. 7c-9. ℟7c, 8a
+Ps 113(112):1-2. 3-4. 5-6. 7-8. ℟ cf. 8
+```
+
 ## Roadmap
 -   ~Parse many formats into book / chapter / verse ranges~
 -   ~Validate book names~
