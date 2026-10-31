@@ -582,21 +582,298 @@ class ParserTest extends TestCase
                     ['John 3:16', 'John 3:17'],
                 ],
             ],
+            'verse fragment c in a range' => [
+                'John 3:16c-17',
+                [
+                    ['John 3:16c', 'John 3:17'],
+                ],
+            ],
+            'verse fragment c through a later verse' => [
+                'Psalm 95:7c-9',
+                [
+                    ['Psalms 95:7c', 'Psalms 95:9'],
+                ],
+            ],
+            'verse fragment c before another verse part' => [
+                'Psalm 95:7c, 8a',
+                [
+                    ['Psalms 95:7c', 'Psalms 95:7c'],
+                    ['Psalms 95:8a', 'Psalms 95:8a'],
+                ],
+            ],
+            'single digit verse fragment after hyphen' => [
+                'Psalm 95:6-7b',
+                [
+                    ['Psalms 95:6', 'Psalms 95:7b'],
+                ],
+            ],
+            'single digit verse fragment a after hyphen' => [
+                'John 3:6-8a',
+                [
+                    ['John 3:6', 'John 3:8a'],
+                ],
+            ],
+            'single digit verse fragment after semicolon' => [
+                'John 3:16; 7b',
+                [
+                    ['John 3:16', 'John 3:16'],
+                    ['John 3:7b', 'John 3:7b'],
+                ],
+            ],
+            'single letter book abbreviation after hyphen' => [
+                '1 Kings 1-2K 3',
+                [
+                    ['1 Kings 1:1', '2 Kings 3:27'],
+                ],
+            ],
+            'parenthetical alternate chapter number' => [
+                'Ps 90(89):3-4',
+                [
+                    ['Psalms 90:3', 'Psalms 90:4'],
+                ],
+            ],
+            'parenthetical alternate chapter number with space' => [
+                'Ps 95 (94):1-2',
+                [
+                    ['Psalms 95:1', 'Psalms 95:2'],
+                ],
+            ],
+            'dotted verse groups in one chapter' => [
+                'Ps 90:3-4. 5-6. 12-13. 14, 17',
+                [
+                    ['Psalms 90:3', 'Psalms 90:4'],
+                    ['Psalms 90:5', 'Psalms 90:6'],
+                    ['Psalms 90:12', 'Psalms 90:13'],
+                    ['Psalms 90:14', 'Psalms 90:14'],
+                    ['Psalms 90:17', 'Psalms 90:17'],
+                ],
+            ],
+            'dotted verse groups in another book' => [
+                'John 3:16-18. 19-22',
+                [
+                    ['John 3:16', 'John 3:18'],
+                    ['John 3:19', 'John 3:22'],
+                ],
+            ],
+            'spaced period remains a chapter verse delimiter' => [
+                'John 3. 16',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'dotted verse groups with verse parts' => [
+                'Psalm 95:1-2. 6-7b. 7c-9',
+                [
+                    ['Psalms 95:1', 'Psalms 95:2'],
+                    ['Psalms 95:6', 'Psalms 95:7b'],
+                    ['Psalms 95:7c', 'Psalms 95:9'],
+                ],
+            ],
+            'dotted verse groups end at a comma' => [
+                'John 3:16, 4. 5',
+                [
+                    ['John 3:16', 'John 3:16'],
+                    ['John 4:5', 'John 4:5'],
+                ],
+            ],
+            'dotted verse groups end at an ampersand' => [
+                'John 3:16 & 4. 5',
+                [
+                    ['John 3:16', 'John 3:16'],
+                    ['John 4:5', 'John 4:5'],
+                ],
+            ],
+            'dotted verse groups across chapters' => [
+                'Rom 1:16. 2:4',
+                [
+                    ['Romans 1:16', 'Romans 1:16'],
+                    ['Romans 2:4', 'Romans 2:4'],
+                ],
+            ],
+            'spaced period after another book' => [
+                'John 3:16 & Isaiah 22. 5',
+                [
+                    ['John 3:16', 'John 3:16'],
+                    ['Isaiah 22:5', 'Isaiah 22:5'],
+                ],
+            ],
+            'end fragment does not carry into the next range' => [
+                'John 3:1-12a, 14-end',
+                [
+                    ['John 3:1', 'John 3:12a'],
+                    ['John 3:14', 'John 3:36'],
+                ],
+            ],
+            'responsorial refrain verse' => [
+                'Psalm 90:17 ℟1',
+                [
+                    ['Psalms 90:17', 'Psalms 90:17', 'stanza 1'],
+                    ['Psalms 90:1', 'Psalms 90:1', 'refrain'],
+                ],
+            ],
+            'responsorial refrain after a dotted group' => [
+                'Psalm 90:14, 17. ℟1',
+                [
+                    ['Psalms 90:14', 'Psalms 90:14', 'stanza 1'],
+                    ['Psalms 90:17', 'Psalms 90:17', 'stanza 1'],
+                    ['Psalms 90:1', 'Psalms 90:1', 'refrain'],
+                ],
+            ],
+            'universalis responsorial psalm 90' => [
+                'Ps 90(89):3-4. 5-6. 12-13. 14, 17. ℟1',
+                [
+                    ['Psalms 90:3', 'Psalms 90:4', 'stanza 1'],
+                    ['Psalms 90:5', 'Psalms 90:6', 'stanza 2'],
+                    ['Psalms 90:12', 'Psalms 90:13', 'stanza 3'],
+                    ['Psalms 90:14', 'Psalms 90:14', 'stanza 4'],
+                    ['Psalms 90:17', 'Psalms 90:17', 'stanza 4'],
+                    ['Psalms 90:1', 'Psalms 90:1', 'refrain'],
+                ],
+            ],
+            'universalis responsorial psalm 95' => [
+                'Ps 95(94):1-2. 6-7b. 7c-9. ℟7c, 8a',
+                [
+                    ['Psalms 95:1', 'Psalms 95:2', 'stanza 1'],
+                    ['Psalms 95:6', 'Psalms 95:7b', 'stanza 2'],
+                    ['Psalms 95:7c', 'Psalms 95:9', 'stanza 3'],
+                    ['Psalms 95:7c', 'Psalms 95:7c', 'refrain'],
+                    ['Psalms 95:8a', 'Psalms 95:8a', 'refrain'],
+                ],
+            ],
+            'responsorial comma inside an early stanza' => [
+                'Ps 86:1, 2. 3-4. 5. ℟1',
+                [
+                    ['Psalms 86:1', 'Psalms 86:1', 'stanza 1'],
+                    ['Psalms 86:2', 'Psalms 86:2', 'stanza 1'],
+                    ['Psalms 86:3', 'Psalms 86:4', 'stanza 2'],
+                    ['Psalms 86:5', 'Psalms 86:5', 'stanza 3'],
+                    ['Psalms 86:1', 'Psalms 86:1', 'refrain'],
+                ],
+            ],
+            'responsorial ampersand inside a stanza' => [
+                'Ps 90:3-4. 14 & 17. ℟1',
+                [
+                    ['Psalms 90:3', 'Psalms 90:4', 'stanza 1'],
+                    ['Psalms 90:14', 'Psalms 90:14', 'stanza 2'],
+                    ['Psalms 90:17', 'Psalms 90:17', 'stanza 2'],
+                    ['Psalms 90:1', 'Psalms 90:1', 'refrain'],
+                ],
+            ],
+            'responsorial refrain joined by an ampersand' => [
+                'Ps 95(94):1-2. 6-7b. ℟7c & 8a',
+                [
+                    ['Psalms 95:1', 'Psalms 95:2', 'stanza 1'],
+                    ['Psalms 95:6', 'Psalms 95:7b', 'stanza 2'],
+                    ['Psalms 95:7c', 'Psalms 95:7c', 'refrain'],
+                    ['Psalms 95:8a', 'Psalms 95:8a', 'refrain'],
+                ],
+            ],
+            'responsorial stanzas across chapters' => [
+                'Ps 1:1-2. 2:1. ℟1:1',
+                [
+                    ['Psalms 1:1', 'Psalms 1:2', 'stanza 1'],
+                    ['Psalms 2:1', 'Psalms 2:1', 'stanza 2'],
+                    ['Psalms 1:1', 'Psalms 1:1', 'refrain'],
+                ],
+            ],
+            'responsorial canticle' => [
+                'Ex 15:1-2. 3-4. ℟1',
+                [
+                    ['Exodus 15:1', 'Exodus 15:2', 'stanza 1'],
+                    ['Exodus 15:3', 'Exodus 15:4', 'stanza 2'],
+                    ['Exodus 15:1', 'Exodus 15:1', 'refrain'],
+                ],
+            ],
+            'responsorial refrain adapted with cf' => [
+                'Ps 113(112):1-2. 3-4. 5-6. 7-8. ℟ cf. 8',
+                [
+                    ['Psalms 113:1', 'Psalms 113:2', 'stanza 1'],
+                    ['Psalms 113:3', 'Psalms 113:4', 'stanza 2'],
+                    ['Psalms 113:5', 'Psalms 113:6', 'stanza 3'],
+                    ['Psalms 113:7', 'Psalms 113:8', 'stanza 4'],
+                    ['Psalms 113:8', 'Psalms 113:8', 'refrain', 'cf'],
+                ],
+            ],
+            'responsorial citation before a normal reference' => [
+                'Ps 90:3-4. 5-6. ℟1 & John 3:16',
+                [
+                    ['Psalms 90:3', 'Psalms 90:4', 'stanza 1'],
+                    ['Psalms 90:5', 'Psalms 90:6', 'stanza 2'],
+                    ['Psalms 90:1', 'Psalms 90:1', 'refrain'],
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'responsorial citation after a normal reference' => [
+                'John 3:16, 4. 5 & Ps 90:3-4. 5-6. ℟1',
+                [
+                    ['John 3:16', 'John 3:16'],
+                    ['John 4:5', 'John 4:5'],
+                    ['Psalms 90:3', 'Psalms 90:4', 'stanza 1'],
+                    ['Psalms 90:5', 'Psalms 90:6', 'stanza 2'],
+                    ['Psalms 90:1', 'Psalms 90:1', 'refrain'],
+                ],
+            ],
+            'two responsorial citations' => [
+                'Ps 95:1-2. ℟7c & Ps 90:3-4. 5-6. ℟1',
+                [
+                    ['Psalms 95:1', 'Psalms 95:2', 'stanza 1'],
+                    ['Psalms 95:7c', 'Psalms 95:7c', 'refrain'],
+                    ['Psalms 90:3', 'Psalms 90:4', 'stanza 1'],
+                    ['Psalms 90:5', 'Psalms 90:6', 'stanza 2'],
+                    ['Psalms 90:1', 'Psalms 90:1', 'refrain'],
+                ],
+            ],
         ];
     }
 
     /** @dataProvider providerVerses */
     public function testParseVerses(string $verses, array $expectedParsedVerses): void
     {
-        $parsedVerses = $this->parser->parse($verses);
+        $this->assertEquals($expectedParsedVerses, $this->passagesAsArrays($this->parser->parse($verses)));
+    }
 
+    public function providerVersesWithCustomSeparators(): array
+    {
+        return [
+            'dotted verse groups' => [
+                [';', '&'],
+                'Ps 90:3-4. 5-6',
+                [
+                    ['Psalms 90:3', 'Psalms 90:4'],
+                    ['Psalms 90:5', 'Psalms 90:6'],
+                ],
+            ],
+            'responsorial refrain verse' => [
+                [';', '&'],
+                'Psalm 90:17 ℟1',
+                [
+                    ['Psalms 90:17', 'Psalms 90:17', 'stanza 1'],
+                    ['Psalms 90:1', 'Psalms 90:1', 'refrain'],
+                ],
+            ],
+        ];
+    }
+
+    /** @dataProvider providerVersesWithCustomSeparators */
+    public function testParseVersesWithCustomSeparators(array $separators, string $verses, array $expectedParsedVerses): void
+    {
+        $parser = new BiblePassageParser(null, $separators);
+
+        $this->assertEquals($expectedParsedVerses, $this->passagesAsArrays($parser->parse($verses)));
+    }
+
+    /**
+     * @param BiblePassage[] $passages
+     */
+    protected function passagesAsArrays(array $passages): array
+    {
         // test as strings for now
-        $parsedVerses = array_map(fn (BiblePassage $passage) => [
-            (string) $passage->from(),
-            (string) $passage->to(),
-        ], $parsedVerses);
-
-        $this->assertEquals($expectedParsedVerses, $parsedVerses);
+        return array_map(fn (BiblePassage $passage) => array_merge(
+            [(string) $passage->from(), (string) $passage->to()],
+            null !== $passage->stanza() ? ['stanza '.$passage->stanza()] : [],
+            $passage->isRefrain() ? ['refrain'] : [],
+            $passage->isComparison() ? ['cf'] : []
+        ), $passages);
     }
 
     public function providerInvalidVerses(): array

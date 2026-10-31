@@ -67,123 +67,223 @@ class BiblePassageParser
     public function parse(string $versesString): array
     {
         $substitutions = [
+            // drop alternate numbering in parentheses, such as Vulgate psalms: "90(89)" -> "90"
+            '/(\d)\s*\(\d+\)/' => '$1',
             // en and em dashes into hyphen "-"
             '/(—|–)/' => '-',
             // "to" into hyphen "-"
             '/[^a-z]to[^a-z]/i' => '-',
             // "chapter" into "ch"
             '/([^a-z])chapter([^a-z])/i' => '$1ch$2',
-            // "c" into "ch"
-            '/([^a-z])c([^a-z])/i' => '$1ch$2',
+            // "c" into "ch", but not a verse fragment ("7c")
+            '/([^a-z0-9])c([^a-z])/i' => '$1ch$2',
             // "verse" or "verses" into "v"
             '/([^a-z])verses?([^a-z])/i' => '$1v$2',
-            // add space between book number and book name
-            '/(^|;\ *|\-)([\d])([a-zA-Z])/i' => '$1 $2 $3',
+            // add space between book number and book name, but not a verse fragment ("-7b")
+            '/(^|;\ *|\-)([\d])(?![abc]\b)([a-zA-Z])/i' => '$1 $2 $3',
         ];
         $versesString = preg_replace(array_keys($substitutions), array_values($substitutions), $versesString);
-
-        $sections = $this->splitOnSeparators($this->separators, $versesString);
 
         $passages = [];
         $lastBook = '';
         $lastChapter = null;
         $lastVerse = null;
 
-        foreach ($sections as $section) {
-            $splitSection = explode('-', $section);
-
-            if (count($splitSection) > 2) {
-                throw new UnableToParseException('Range is too complex');
-            }
-
-            // Start reference stuff
-
+        foreach ($this->splitOnBooks($versesString) as $citation) {
             [
-                $fromReference,
-                $startVerse,
+                $citationPassages,
                 $lastBook,
                 $lastChapter,
                 $lastVerse,
-                $lastFragment,
-            ] = $this->parseStartReference($splitSection[0], $lastBook, $lastChapter, $lastVerse);
-
-            // End reference stuff
-
-            if (1 === count($splitSection)) {
-                $endBookObject = $this->getBookFromAbbreviation($lastBook);
-                $endChapterForReference = (int) ($lastChapter ?? array_key_last($endBookObject->chapterStructure()));
-                $toReference = new BibleReference(
-                    $endBookObject,
-                    $endChapterForReference,
-                    $lastVerse ?? $endBookObject->versesInChapter($endChapterForReference),
-                    $lastFragment ?? ''
-                );
-            } else {
-                try {
-                    $matches = $this->parseReferenceAsInteger($splitSection[1]);
-                } catch (UnableToParseException) {
-                    $matches = $this->parseReference($splitSection[1]);
-                }
-
-                $endBook = '';
-                $endChapter = null;
-                $endVerse = null;
-
-                if ('' !== $matches['book']) {
-                    $endBook = (string) $matches['book'];
-                }
-                $endBookObject = $this->getBookFromAbbreviation($endBook !== '' ? $endBook : $lastBook);
-
-                if ('' !== $matches['chapter_or_verse']) {
-                    if (
-                        null !== $startVerse
-                        && '' === $matches['verse']
-                    ) {
-                        if ('end' === $matches['chapter_or_verse']) {
-                            $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
-                        } else {
-                            $endFragment = in_array($matches['chapter_or_verse'][-1], ['a', 'b', 'c']) ? $matches['chapter_or_verse'][-1] : null;
-                        }
-                        $endVerse = (int) $matches['chapter_or_verse'];
-                    } else {
-                        if ('end' === $matches['chapter_or_verse']) {
-                            $matches['chapter_or_verse'] = $endBookObject->chaptersInBook();
-                        }
-                        $endChapter = (int) $matches['chapter_or_verse'];
-                    }
-                }
-
-                if ('' !== $matches['verse']) {
-                    $endVerse = (int) $matches['verse'];
-                    $endFragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
-                }
-
-                $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->chaptersInBook();
-
-                $lastBook = $endBookObject->name();
-                $lastChapter = $endChapter ?? $lastChapter;
-                $lastVerse = $endVerse;
-
-                $toReference = new BibleReference(
-                    $endBookObject,
-                    $endChapterForReference,
-                    $endVerse ?? $endBookObject->versesInChapter($endChapterForReference),
-                    $endFragment ?? ''
-                );
-            }
-
-            if ($fromReference->integerNotationUSFM() > $toReference->integerNotationUSFM()) {
-                // reference are reversed
-                throw new UnableToParseException('References end is before beginning');
-            }
-
-            $passages[] = new BiblePassage(
-                $fromReference,
-                $toReference
-            );
+            ] = $this->parseCitation($citation, $lastBook, $lastChapter, $lastVerse);
+            array_push($passages, ...$citationPassages);
         }
 
         return $passages;
+    }
+
+    /**
+     * In a responsorial citation, periods separate numbered stanzas and "℟" starts the refrain.
+     */
+    protected function parseCitation(
+        string $citation,
+        string $lastBook,
+        ?int $lastChapter,
+        ?int $lastVerse
+    ): array {
+        [$body, $refrainText] = array_pad(preg_split('/\.?\s*℟\s*/u', $citation, 2), 2, null);
+        $responsorial = null !== $refrainText;
+
+        $passages = [];
+        foreach ($this->splitDottedVerseGroups($body, $responsorial) as $index => $group) {
+            [
+                $groupPassages,
+                $lastBook,
+                $lastChapter,
+                $lastVerse,
+            ] = $this->parseSections($group, $lastBook, $lastChapter, $lastVerse, $responsorial ? $index + 1 : null);
+            array_push($passages, ...$groupPassages);
+        }
+
+        if ($responsorial) {
+            $refrainText = preg_replace('/^cf\.?\s*/i', '', $refrainText, 1, $comparisonCount);
+            [
+                $refrain,
+                $lastBook,
+                $lastChapter,
+                $lastVerse,
+            ] = $this->parseSections($refrainText, $lastBook, $lastChapter, $lastVerse, null, true, $comparisonCount > 0);
+            array_push($passages, ...$refrain);
+        }
+
+        return [
+            $passages,
+            $lastBook,
+            $lastChapter,
+            $lastVerse,
+        ];
+    }
+
+    protected function parseSections(
+        string $text,
+        string $lastBook,
+        ?int $lastChapter,
+        ?int $lastVerse,
+        ?int $stanza = null,
+        bool $refrain = false,
+        bool $comparison = false
+    ): array {
+        $passages = [];
+
+        foreach ($this->splitOnSeparators($this->separators, $text) as $section) {
+            [
+                $passages[],
+                $lastBook,
+                $lastChapter,
+                $lastVerse,
+            ] = $this->parseSection($section, $lastBook, $lastChapter, $lastVerse, $stanza, $refrain, $comparison);
+        }
+
+        return [
+            $passages,
+            $lastBook,
+            $lastChapter,
+            $lastVerse,
+        ];
+    }
+
+    protected function parseSection(
+        string $section,
+        string $lastBook,
+        ?int $lastChapter,
+        ?int $lastVerse,
+        ?int $stanza = null,
+        bool $refrain = false,
+        bool $comparison = false
+    ): array {
+        $splitSection = explode('-', $section);
+
+        if (count($splitSection) > 2) {
+            throw new UnableToParseException('Range is too complex');
+        }
+
+        // Start reference stuff
+
+        [
+            $fromReference,
+            $startVerse,
+            $lastBook,
+            $lastChapter,
+            $lastVerse,
+            $lastFragment,
+        ] = $this->parseStartReference($splitSection[0], $lastBook, $lastChapter, $lastVerse);
+
+        // End reference stuff
+
+        $endFragment = null;
+
+        if (1 === count($splitSection)) {
+            $endBookObject = $this->getBookFromAbbreviation($lastBook);
+            $endChapterForReference = (int) ($lastChapter ?? array_key_last($endBookObject->chapterStructure()));
+            $toReference = new BibleReference(
+                $endBookObject,
+                $endChapterForReference,
+                $lastVerse ?? $endBookObject->versesInChapter($endChapterForReference),
+                $lastFragment ?? ''
+            );
+        } else {
+            try {
+                $matches = $this->parseReferenceAsInteger($splitSection[1]);
+            } catch (UnableToParseException) {
+                $matches = $this->parseReference($splitSection[1]);
+            }
+
+            $endBook = '';
+            $endChapter = null;
+            $endVerse = null;
+
+            if ('' !== $matches['book']) {
+                $endBook = (string) $matches['book'];
+            }
+            $endBookObject = $this->getBookFromAbbreviation($endBook !== '' ? $endBook : $lastBook);
+
+            if ('' !== $matches['chapter_or_verse']) {
+                if (
+                    null !== $startVerse
+                    && '' === $matches['verse']
+                ) {
+                    if ('end' === $matches['chapter_or_verse']) {
+                        $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
+                    } else {
+                        $endFragment = $this->verseFragment($matches['chapter_or_verse']);
+                    }
+                    $endVerse = (int) $matches['chapter_or_verse'];
+                } else {
+                    if ('end' === $matches['chapter_or_verse']) {
+                        $matches['chapter_or_verse'] = $endBookObject->chaptersInBook();
+                    }
+                    $endChapter = (int) $matches['chapter_or_verse'];
+                }
+            }
+
+            if ('' !== $matches['verse']) {
+                $endVerse = (int) $matches['verse'];
+                $endFragment = $this->verseFragment($matches['verse']);
+            }
+
+            $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->chaptersInBook();
+
+            $lastBook = $endBookObject->name();
+            $lastChapter = $endChapter ?? $lastChapter;
+            $lastVerse = $endVerse;
+
+            $toReference = new BibleReference(
+                $endBookObject,
+                $endChapterForReference,
+                $endVerse ?? $endBookObject->versesInChapter($endChapterForReference),
+                $endFragment ?? ''
+            );
+        }
+
+        if ($fromReference->integerNotationUSFM() > $toReference->integerNotationUSFM()) {
+            // reference are reversed
+            throw new UnableToParseException('References end is before beginning');
+        }
+
+        $passage = new BiblePassage(
+            $fromReference,
+            $toReference,
+            $stanza,
+            $refrain,
+            $comparison
+        );
+
+        return [
+            $passage,
+            $lastBook,
+            $lastChapter,
+            $lastVerse,
+        ];
     }
 
     protected function parseStartReference(
@@ -220,7 +320,7 @@ class BiblePassageParser
             } else {
                 $verse = $matches['chapter_or_verse'];
                 if ($this->lettersAreFragments) {
-                    $fragment = in_array($matches['chapter_or_verse'][-1], ['a', 'b', 'c']) ? $matches['chapter_or_verse'][-1] : null;
+                    $fragment = $this->verseFragment($matches['chapter_or_verse']);
                     $verse = (int) $matches['chapter_or_verse'];
                 }
             }
@@ -236,7 +336,7 @@ class BiblePassageParser
             } else {
                 $verse = $matches['verse'];
                 if ($this->lettersAreFragments) {
-                    $fragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
+                    $fragment = $this->verseFragment($matches['verse']);
                     $verse = (int) $matches['verse'];
                 }
             }
@@ -362,6 +462,11 @@ class BiblePassageParser
         return $matches;
     }
 
+    protected function verseFragment(string $verse): ?string
+    {
+        return in_array($verse[-1], ['a', 'b', 'c']) ? $verse[-1] : null;
+    }
+
     protected function parseReferenceAsInteger(string $reference): array
     {
         $reference = trim($reference);
@@ -416,5 +521,52 @@ class BiblePassageParser
         $bookNumber = $this->bookAbbreviations[$bookAbbreviation];
 
         return $bookNumber;
+    }
+
+    /**
+     * A section naming a book starts a new citation: "Ps 90:3-4. ℟1 & John 3:16".
+     *
+     * @return string[]
+     */
+    protected function splitOnBooks(string $text): array
+    {
+        $separators = array_map(fn (string $separator) => preg_quote($separator, '/'), $this->separators);
+        $tokens = preg_split('/('.implode('|', $separators).')/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+        $citations = [array_shift($tokens)];
+        foreach (array_chunk($tokens, 2) as [$separator, $section]) {
+            if ($this->startsWithBook($section)) {
+                $citations[] = $section;
+            } else {
+                $citations[count($citations) - 1] .= $separator.$section;
+            }
+        }
+
+        return $citations;
+    }
+
+    protected function startsWithBook(string $section): bool
+    {
+        $book = $this->parseReference(preg_split('/[\-.]/', $section)[0])['book'];
+
+        return '' !== $book && array_key_exists($this->standardiseString($book), $this->bookAbbreviations);
+    }
+
+    /**
+     * After a chapter colon, "3-4. 5-6" is a list of verse groups. "John 3.16" is one verse.
+     * The list ends at a separator, so "John 3:16, 4. 5" is still John 4:5, unless
+     * $acrossSeparators is set, as for the stanzas of a responsorial psalm.
+     *
+     * @return string[]
+     */
+    protected function splitDottedVerseGroups(string $text, bool $acrossSeparators = false): array
+    {
+        $verseList = $acrossSeparators ? '/:.*/s' : '/:[\d\s\-abc.]+/i';
+
+        return explode("\0", preg_replace_callback(
+            $verseList,
+            fn (array $matches) => preg_replace('/\.\s+(?=\d)/', "\0", $matches[0]),
+            $text
+        ));
     }
 }
