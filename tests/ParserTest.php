@@ -565,6 +565,24 @@ class ParserTest extends TestCase
                     ['Obadiah 1:15', 'Obadiah 1:15'],
                 ],
             ],
+            'no space between book number and book name' => [
+                '1Kings',
+                [
+                    ['1 Kings 1:1', '1 Kings 22:53'],
+                ],
+            ],
+            'no space between book and passage' => [
+                'Mt5:3',
+                [
+                    ['Matthew 5:3', 'Matthew 5:3'],
+                ],
+            ],
+            'no space between book, book number or passage' => [
+                '1Kings1:1',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:1'],
+                ],
+            ],
             'verse fragment c in a range' => [
                 'John 3:16c-17',
                 [
