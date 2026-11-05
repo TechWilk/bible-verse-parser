@@ -319,6 +319,12 @@ class ParserTest extends TestCase
                     ['John 3:16b', 'John 3:17a'],
                 ],
             ],
+            'end fragment with numbered book' => [
+                '1CH 19:1-2a',
+                [
+                    ['1 Chronicles 19:1', '1 Chronicles 19:2a'],
+                ],
+            ],
             'numbered book without white space between book number and book name, without chapter and verse' => [
                 '1Kings',
                 [
