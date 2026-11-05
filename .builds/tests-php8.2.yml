@@ -1,6 +1,6 @@
-image: debian/bullseye
+image: debian/stable
 repositories:
-  sury: https://packages.sury.org/php/ bullseye main 0x15058500a0235d97f5d10063b188e2b695bd4743
+  sury: https://packages.sury.org/php/ trixie main 0x15058500a0235d97f5d10063b188e2b695bd4743
 packages:
   - php8.2-cli
   - php8.2-dom

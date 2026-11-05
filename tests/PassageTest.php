@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use TechWilk\BibleVerseParser\BiblePassage;
 use TechWilk\BibleVerseParser\BibleReference;
@@ -28,7 +29,7 @@ class PassageTest extends TestCase
         }
     }
 
-    public function providerVerses(): array
+    public static function providerVerses(): array
     {
         return [
             'readme example a' => [
@@ -119,7 +120,7 @@ class PassageTest extends TestCase
         ];
     }
 
-    /** @dataProvider providerVerses */
+    #[DataProvider('providerVerses')]
     public function testStringifyPassage(array $from, array $to, string $expected): void
     {
         $passage = new BiblePassage(
