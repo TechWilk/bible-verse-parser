@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use TechWilk\BibleVerseParser\BiblePassage;
 use TechWilk\BibleVerseParser\BiblePassageParser;
@@ -24,7 +25,7 @@ class ParserCatholicStructureTest extends TestCase
         );
     }
 
-    public function providerVerses(): array
+    public static function providerVerses(): array
     {
         return [
             'readme example' => [
@@ -693,7 +694,7 @@ class ParserCatholicStructureTest extends TestCase
         ];
     }
 
-    /** @dataProvider providerVerses */
+    #[DataProvider('providerVerses')]
     public function testParseVerses(string $verses, array $expectedParsedVerses): void
     {
         $parsedVerses = $this->parser->parse($verses);
@@ -707,7 +708,7 @@ class ParserCatholicStructureTest extends TestCase
         $this->assertEquals($expectedParsedVerses, $parsedVerses);
     }
 
-    public function providerInvalidVerses(): array
+    public static function providerInvalidVerses(): array
     {
         return [
             'empty string' => [
@@ -719,14 +720,14 @@ class ParserCatholicStructureTest extends TestCase
         ];
     }
 
-    /** @dataProvider providerInvalidVerses */
+    #[DataProvider('providerInvalidVerses')]
     public function testParseInvalidVerses(string $invalidVerse): void
     {
         $this->expectException(UnableToParseException::class);
         $this->parser->parse($invalidVerse);
     }
 
-    public function providerInvalidVerseBooks(): array
+    public static function providerInvalidVerseBooks(): array
     {
         return [
             ['Bob'],
@@ -734,7 +735,7 @@ class ParserCatholicStructureTest extends TestCase
         ];
     }
 
-    /** @dataProvider providerInvalidVerseBooks */
+    #[DataProvider('providerInvalidVerseBooks')]
     public function testParseInvalidVerseBooks(string $invalidVerse): void
     {
         $this->expectException(InvalidBookException::class);
