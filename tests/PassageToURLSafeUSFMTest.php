@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use TechWilk\BibleVerseParser\BiblePassage;
 use TechWilk\BibleVerseParser\BibleReference;
@@ -30,7 +31,7 @@ class PassageToURLSafeUSFMTest extends TestCase
         }
     }
 
-    public function providerVerses(): array
+    public static function providerVerses(): array
     {
         return [
             'readme example a' => [
@@ -121,7 +122,7 @@ class PassageToURLSafeUSFMTest extends TestCase
         ];
     }
 
-    /** @dataProvider providerVerses */
+    #[DataProvider('providerVerses')]
     public function testStringifyPassage(array $from, array $to, string $expected): void
     {
         $passage = new BiblePassage(
@@ -142,7 +143,7 @@ class PassageToURLSafeUSFMTest extends TestCase
         $this->assertEquals($expected, $passage->formatAsURLSafeUSFM());
     }
 
-    public function providerVersesWithSuperfluousData(): array
+    public static function providerVersesWithSuperfluousData(): array
     {
         return [
             'readme example c' => [
@@ -197,7 +198,7 @@ class PassageToURLSafeUSFMTest extends TestCase
         ];
     }
 
-    /** @dataProvider providerVersesWithSuperfluousData */
+    #[DataProvider('providerVersesWithSuperfluousData')]
     public function testStringifyPassageWithSuperfluousData(
         array $from,
         array $to,
