@@ -644,6 +644,10 @@ class ParserTest extends TestCase
         $this->assertEquals($expectedParsedVerses, $parsedVerses);
     }
 
+    /**
+     * https://ubsicap.github.io/usfm/identification/books.html
+     * https://ubsicap.github.io/usx/vocabularies.html#usx-vocab-bookcode
+     */
     public static function providerUsfmBookCodes(): array
     {
         return [
