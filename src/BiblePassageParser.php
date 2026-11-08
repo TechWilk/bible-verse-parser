@@ -111,7 +111,7 @@ class BiblePassageParser
 
             if (1 === count($splitSection)) {
                 $endBookObject = $this->getBookFromAbbreviation($lastBook);
-                $endChapterForReference = (int) ($lastChapter ?? array_key_last($endBookObject->chapterStructure()));
+                $endChapterForReference = (int) ($lastChapter ?? $endBookObject->lastChapter());
                 $toReference = new BibleReference(
                     $endBookObject,
                     $endChapterForReference,
@@ -147,7 +147,7 @@ class BiblePassageParser
                         $endVerse = (int) $matches['chapter_or_verse'];
                     } else {
                         if ('end' === $matches['chapter_or_verse']) {
-                            $matches['chapter_or_verse'] = $endBookObject->chaptersInBook();
+                            $matches['chapter_or_verse'] = $endBookObject->lastChapter();
                         }
                         $endChapter = (int) $matches['chapter_or_verse'];
                     }
@@ -158,7 +158,7 @@ class BiblePassageParser
                     $endFragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
                 }
 
-                $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->chaptersInBook();
+                $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->lastChapter();
 
                 $lastBook = $endBookObject->name();
                 $lastChapter = $endChapter ?? $lastChapter;
@@ -250,7 +250,7 @@ class BiblePassageParser
         // try the transformations
         // but don't override $lastVerse if we don't actually have a verse
         $verseIsNull = is_null($verse);
-        $normalisedPassage = $startBookObject->normalise((string) ($chapter ?? '1'), (string) ($verse ?? '1'));
+        $normalisedPassage = $startBookObject->normalise((string) $chapter ?? $startBookObject->firstChapter(), (string) ($verse ?? '1'));
         if ($normalisedPassage) {
             $startBookObject = $this->getBookFromNumber($normalisedPassage[0]);
             $chapter = $normalisedPassage[1];
@@ -278,7 +278,7 @@ class BiblePassageParser
 
         $fromReference = new BibleReference(
             $startBookObject,
-            $chapter ?? 1,
+            $chapter ?? $startBookObject->firstChapter(),
             $verse ?? 1,
             $fragment ?? ''
         );

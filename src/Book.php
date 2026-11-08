@@ -155,6 +155,16 @@ class Book implements JsonSerializable
         return count($this->chapterStructure);
     }
 
+    public function firstChapter(): int
+    {
+        return array_key_first($this->chapterStructure);
+    }
+
+    public function lastChapter(): int
+    {
+        return array_key_last($this->chapterStructure);
+    }
+
     public function versesInChapter(int $chapter): int
     {
         if (!array_key_exists($chapter, $this->chapterStructure)) {

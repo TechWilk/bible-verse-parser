@@ -29,7 +29,7 @@ class BiblePassage implements JsonSerializable
 
     protected function isSameBook(): bool
     {
-        return $this->to->book() == $this->from->book();
+        return $this->to->book() === $this->from->book();
     }
 
     protected function isWholeBook(): bool
@@ -38,7 +38,7 @@ class BiblePassage implements JsonSerializable
             return false;
         }
 
-        if (1 !== $this->from->chapter()) {
+        if ($this->from->book()->firstChapter() !== $this->from->chapter()) {
             return false;
         }
 
@@ -46,7 +46,7 @@ class BiblePassage implements JsonSerializable
             return false;
         }
 
-        if ($this->to->book()->chaptersInBook() !== $this->to->chapter()) {
+        if ($this->to->book()->lastChapter() !== $this->to->chapter()) {
             return false;
         }
 

@@ -685,12 +685,36 @@ class ParserCatholicStructureTest extends TestCase
                     ['Sirach 0:1', 'Sirach 0:1'],
                 ],
             ],
-            // 'sirach whole book including prologue' => [
-            //     'Sirach',
-            //     [
-            //         ['Sirach 0:1', 'Sirach 51:30'],
-            //     ],
-            // ],
+            'sirach whole book including prologue' => [
+                'Sirach',
+                [
+                    ['Sirach 0:1', 'Sirach 51:30'],
+                ],
+            ],
+            'sirach to end' => [
+                'Sirach 50-end',
+                [
+                    ['Sirach 50:1', 'Sirach 51:30'],
+                ],
+            ],
+            'sirach prologue into chapter 1' => [
+                'Sirach 0:1-1:5',
+                [
+                    ['Sirach 0:1', 'Sirach 1:5'],
+                ],
+            ],
+            'esther greek whole book' => [
+                'ESG',
+                [
+                    ['Esther (Greek) 10:1', 'Esther (Greek) 16:24'],
+                ],
+            ],
+            'esther greek to end' => [
+                'ESG 15-end',
+                [
+                    ['Esther (Greek) 15:1', 'Esther (Greek) 16:24'],
+                ],
+            ],
         ];
     }
 
