@@ -6,6 +6,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use TechWilk\BibleVerseParser\BiblePassage;
 use TechWilk\BibleVerseParser\BiblePassageParser;
+use TechWilk\BibleVerseParser\Enum\NumberingType;
 use TechWilk\BibleVerseParser\Exception\InvalidBookException;
 use TechWilk\BibleVerseParser\Exception\UnableToParseException;
 
@@ -627,6 +628,18 @@ class ParserTest extends TestCase
                     ['1 Kings 1:1', '2 Kings 3:27'],
                 ],
             ],
+            'revelation 12:18 alternative numbering' => [
+                'REV 12:18',
+                [
+                    ['Revelation 13:1', 'Revelation 13:1'],
+                ],
+            ],
+        ];
+    }
+
+    public static function providerVersesIntegerCanonOrderNumbering(): array
+    {
+        return [
             'single integer' => [
                 '43003016',
                 [
@@ -654,10 +667,57 @@ class ParserTest extends TestCase
         ];
     }
 
+    public static function providerVersesIntegerUSFMNumbering(): array
+    {
+        return [
+            'single integer' => [
+                '44003016',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'integer range' => [
+                '44003016-44003017',
+                [
+                    ['John 3:16', 'John 3:17'],
+                ],
+            ],
+            'integer and regular' => [
+                '44003016-John 3:17',
+                [
+                    ['John 3:16', 'John 3:17'],
+                ],
+            ],
+            'integer and verse number' => [
+                '44003016-17',
+                [
+                    ['John 3:16', 'John 3:17'],
+                ],
+            ],
+        ];
+    }
+
     #[DataProvider('providerVerses')]
-    public function testParseVerses(string $verses, array $expectedParsedVerses): void
+    #[DataProvider('providerVersesIntegerCanonOrderNumbering')]
+    public function testParseVersesWithCanonOrderNumbering(string $verses, array $expectedParsedVerses): void
     {
         $parsedVerses = $this->parser->parse($verses);
+
+        // test as strings for now
+        $parsedVerses = array_map(fn (BiblePassage $passage) => [
+            (string) $passage->from(),
+            (string) $passage->to(),
+        ], $parsedVerses);
+
+        $this->assertEquals($expectedParsedVerses, $parsedVerses);
+    }
+
+    #[DataProvider('providerVerses')]
+    #[DataProvider('providerVersesIntegerUSFMNumbering')]
+    public function testParseVersesWithUSFMNumbering(string $verses, array $expectedParsedVerses): void
+    {
+        $parser = new BiblePassageParser(numberingType: NumberingType::USFM);
+        $parsedVerses = $parser->parse($verses);
 
         // test as strings for now
         $parsedVerses = array_map(fn (BiblePassage $passage) => [

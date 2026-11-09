@@ -715,11 +715,37 @@ class ParserCatholicStructureTest extends TestCase
                     ['Esther (Greek) 15:1', 'Esther (Greek) 16:24'],
                 ],
             ],
+            'revelation 12:18 alternative numbering' => [
+                'REV 12:18',
+                [
+                    ['Revelation 13:1', 'Revelation 13:1'],
+                ],
+            ],
         ];
     }
 
     #[DataProvider('providerVerses')]
-    public function testParseVerses(string $verses, array $expectedParsedVerses): void
+    public function testParseVersesWithCanonOrderNumbering(string $verses, array $expectedParsedVerses): void
+    {
+        $structure = BibleStructure::getBibleStructureCatholic();
+        $parser = new BiblePassageParser(
+            $structure,
+            numberingType: NumberingType::CanonOrder,
+            lettersAreFragments: false,
+        );
+    $parsedVerses = $parser->parse($verses);
+
+        // test as strings for now
+        $parsedVerses = array_map(fn (BiblePassage $passage) => [
+            (string) $passage->from(),
+            (string) $passage->to(),
+        ], $parsedVerses);
+
+        $this->assertEquals($expectedParsedVerses, $parsedVerses);
+    }
+
+    #[DataProvider('providerVerses')]
+    public function testParseVersesWithUSFMNumbering(string $verses, array $expectedParsedVerses): void
     {
         $parsedVerses = $this->parser->parse($verses);
 
