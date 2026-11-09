@@ -17,7 +17,6 @@ class BiblePassageParser
 
     protected $separators = ['&', ',', ';', 'and'];
     protected $books = [];
-    protected $booksByUSFMNumber = [];
     protected $bookAbbreviations = [];
     protected $lettersAreFragments;
     protected $singleChapterBooksCanOmitChapter;
@@ -55,7 +54,6 @@ class BiblePassageParser
             }
 
             $this->books[$bookNumber] = $book;
-            $this->booksByUSFMNumber[$book->numberUSFM()] = $book;
         }
 
         if ($separators !== null) {
@@ -254,8 +252,7 @@ class BiblePassageParser
         $verseIsNull = is_null($verse);
         $normalisedPassage = $startBookObject->normalise((string) $chapter ?? $startBookObject->firstChapter(), (string) ($verse ?? '1'));
         if ($normalisedPassage) {
-            // Transformations are all based on USFM book numbers, independent of $numberingType.
-            $startBookObject = $this->getBookFromUSFMNumber($normalisedPassage[0]);
+            $startBookObject = $this->getBookFromAbbreviation($this->standardiseString($normalisedPassage[0]));
             $chapter = $normalisedPassage[1];
             $verse = $normalisedPassage[2];
         }
@@ -406,15 +403,6 @@ class BiblePassageParser
         }
 
         return $this->books[$bookNumber];
-    }
-
-    protected function getBookFromUSFMNumber(int $bookNumber): Book
-    {
-        if (!array_key_exists($bookNumber, $this->booksByUSFMNumber)) {
-            throw new InvalidBookException('Invalid USFM book number "'.$bookNumber.'"');
-        }
-
-        return $this->booksByUSFMNumber[$bookNumber];
     }
 
     protected function getBookNumber(string $bookAbbreviation): int
