@@ -88,10 +88,10 @@ Ideal for storing in a database & querying with something like MySQL. The intege
 
 ```php
 foreach ($passages as $passage) {
-    echo $passage->from()->integerNotation();
+    echo $passage->from()->integerNotationCanonOrder();
     echo ' (' . (string)$passage->from() . ')' . PHP_EOL;
 
-    echo $passage->to()->integerNotation();
+    echo $passage->to()->integerNotationCanonOrder();
     echo ' (' . (string)$passage->to() . ')' . PHP_EOL;
 
     echo PHP_EOL;
@@ -110,6 +110,8 @@ outputs:
 17002001 (Esther 2:1)
 17002023 (Esther 2:23)
 ```
+
+We support two different integer notations, depending on if you need compatibility with other bible structures (canons) where there are a different number of books and/or they are in a different order (e.g. protestant vs catholic with the deuterocanon). Our `CanonOrder` numbering is based on the spine of the bible, so changes with a different book layout, whereas `USFM` book numbers stay consistent regardless of what order the books are in.
 
 ## Supported formats
 

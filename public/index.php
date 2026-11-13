@@ -10,7 +10,7 @@ $userText = trim($_POST['passage'] ?? '');
 $userIntegerInterpretation = trim($_POST['integer-interpretation'] ?? '');
 
 $numberingType = match ($userIntegerInterpretation) {
-    'chronological' => NumberingType::Chronological,
+    'canon-order' => NumberingType::CanonOrder,
     default => NumberingType::USFM,
 };
 
@@ -77,7 +77,7 @@ Passages:
 Interpret integers as:
 <select name="integer-interpretation">
     <option value="usfm" <?= $userIntegerInterpretation === 'usfm' ? 'selected' : '' ?>>USFM</option>
-    <option value="chronological" <?= $userIntegerInterpretation === 'chronological' ? 'selected' : '' ?>>Chronological</option>
+    <option value="canon-order" <?= $userIntegerInterpretation === 'canon-order' ? 'selected' : '' ?>>Canon order</option>
 </select>
 </label>
 <input type="submit" value="Parse" />
@@ -120,12 +120,12 @@ Interpret integers as:
 </p>
 <?php endforeach ?>
 
-<h4>Chronological numbering</h4>
+<h4>Canon order numbering</h4>
 <?php foreach ($passages as $passage): ?>
 <p>
-	<?= htmlentities((string) $passage->from()->integerNotationChronological()) ?>
+	<?= htmlentities((string) $passage->from()->integerNotationCanonOrder()) ?>
 	to
-	<?= htmlentities((string) $passage->to()->integerNotationChronological()) ?>
+	<?= htmlentities((string) $passage->to()->integerNotationCanonOrder()) ?>
 </p>
 <?php endforeach ?>
 

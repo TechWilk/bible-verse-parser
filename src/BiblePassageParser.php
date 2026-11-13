@@ -27,7 +27,7 @@ class BiblePassageParser
     public function __construct(
         ?array $structure = null,
         ?array $separators = null,
-        NumberingType $numberingType = NumberingType::Chronological,
+        NumberingType $numberingType = NumberingType::CanonOrder,
     ) {
         if ($structure === null) {
             $structure = BibleStructure::getBibleStructure();
@@ -38,7 +38,7 @@ class BiblePassageParser
                 throw new InvalidArgumentException('Invalid book');
             }
             $bookNumber = match ($numberingType) {
-                NumberingType::Chronological => $book->numberChronological(),
+                NumberingType::CanonOrder => $book->positionInCanon(),
                 NumberingType::USFM => $book->numberUSFM(),
             };
 

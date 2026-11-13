@@ -61,9 +61,9 @@ class BibleReference implements JsonSerializable
         return (1000000 * $this->book->numberUSFM()) + (1000 * $this->chapter) + $this->verse;
     }
 
-    public function integerNotationChronological(): int
+    public function integerNotationCanonOrder(): int
     {
-        return (1000000 * $this->book->numberChronological()) + (1000 * $this->chapter) + $this->verse;
+        return (1000000 * $this->book->positionInCanon()) + (1000 * $this->chapter) + $this->verse;
     }
 
     public function formatAsUSFM(): string

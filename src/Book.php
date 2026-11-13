@@ -55,7 +55,7 @@ class Book implements JsonSerializable
     }
 
     /**
-     * Chronological position in the bible.
+     * Position of the book in the bible canon.
      *
      * This can vary based on the type of bible.
      * For example:
@@ -65,7 +65,7 @@ class Book implements JsonSerializable
      *
      * @see numberUSFM() if you want a numerical value which doesn't change based on position
      */
-    public function numberChronological(): int
+    public function positionInCanon(): int
     {
         return $this->index;
     }
@@ -78,7 +78,7 @@ class Book implements JsonSerializable
      * - Revelations is USFM book 67
      *
      * @see https://ubsicap.github.io/usfm/identification/books.html
-     * @see numberChronological() if you want the position of the book in the bible
+     * @see positionInCanon() if you want the position of the book in the bible
      */
     public function numberUSFM(): int
     {
