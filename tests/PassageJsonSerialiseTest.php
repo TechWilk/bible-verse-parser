@@ -19,6 +19,8 @@ class PassageJsonSerialiseTest extends TestCase
         foreach ($structure as $index => $bookData) {
             $book = new Book(
                 $index,
+                $bookData['number'],
+                $bookData['identifier'],
                 $bookData['name'],
                 $bookData['singularName'] ?? $bookData['name'],
                 $bookData['abbreviations'],

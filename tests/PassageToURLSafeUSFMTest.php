@@ -8,7 +8,7 @@ use TechWilk\BibleVerseParser\BiblePassage;
 use TechWilk\BibleVerseParser\BibleReference;
 use TechWilk\BibleVerseParser\Book;
 
-class PassageTest extends TestCase
+class PassageToURLSafeUSFMTest extends TestCase
 {
     protected $books;
 
@@ -16,9 +16,11 @@ class PassageTest extends TestCase
     {
         $structure = require __DIR__.'/../data/bibleStructure.php';
 
-        foreach ($structure as $bookNumber => $bookData) {
+        foreach ($structure as $index => $bookData) {
             $book = new Book(
-                $bookNumber,
+                $index,
+                $bookData['number'],
+                $bookData['identifier'],
                 $bookData['name'],
                 $bookData['singularName'] ?? $bookData['name'],
                 $bookData['abbreviations'],
@@ -35,87 +37,87 @@ class PassageTest extends TestCase
             'readme example a' => [
                 ['1 John', 5, 4],
                 ['1 John', 5, 17],
-                '1 John 5:4-17',
+                '1JN.5.4-17',
             ],
             'readme example b' => [
                 ['1 John', 5, 19],
                 ['1 John', 5, 21],
-                '1 John 5:19-21',
+                '1JN.5.19-21',
             ],
             'readme example c' => [
                 ['Esther', 2, 1],
                 ['Esther', 2, 23],
-                'Esther 2',
+                'EST.2',
             ],
             'fragment' => [
                 ['Philippians', 2, 14],
                 ['Philippians', 2, 15, 'a'],
-                'Philippians 2:14-15a',
+                'PHP.2.14-15a',
             ],
             'another fragment' => [
                 ['Mark', 1, 4, 'b'],
                 ['Mark', 1, 15],
-                'Mark 1:4b-15',
+                'MRK.1.4b-15',
             ],
             'entire book' => [
                 ['John', 1, 1],
                 ['John', 21, 25],
-                'John',
+                'JHN',
             ],
             'whole chapter' => [
                 ['John', 3, 1],
                 ['John', 3, 36],
-                'John 3',
+                'JHN.3',
             ],
             'single verse' => [
                 ['John', 3, 16],
                 ['John', 3, 16],
-                'John 3:16',
+                'JHN.3.16',
             ],
             'multiple whole books' => [
                 ['Genesis', 1, 1],
                 ['Exodus', 40, 38],
-                'Genesis 1:1 - Exodus 40:38',
+                'GEN.1.1-EXO.40.38',
             ],
             'passage spanning different chapters' => [
                 ['Genesis', 1, 1],
                 ['Genesis', 4, 26],
-                'Genesis 1-4',
+                'GEN.1-4',
             ],
             'passage spanning different chapters with odd verses' => [
                 ['Genesis', 1, 5],
                 ['Genesis', 4, 10],
-                'Genesis 1:5-4:10',
+                'GEN.1.5-4.10',
             ],
             'passage spanning different book' => [
                 ['Genesis', 1, 1],
                 ['Exodus', 5, 2],
-                'Genesis 1:1 - Exodus 5:2',
+                'GEN.1.1-EXO.5.2',
             ],
             'singular Psalm' => [
                 ['Psalms', 1, 1],
                 ['Psalms', 1, 6],
-                'Psalm 1',
+                'PSA.1',
             ],
             'verses in a single Psalm' => [
                 ['Psalms', 1, 2],
                 ['Psalms', 1, 3],
-                'Psalm 1:2-3',
+                'PSA.1.2-3',
             ],
             'plural Psalms' => [
                 ['Psalms', 120, 1],
                 ['Psalms', 134, 3],
-                'Psalms 120-134',
+                'PSA.120-134',
             ],
             'All of Psalms' => [
                 ['Psalms', 1, 1],
                 ['Psalms', 150, 6],
-                'Psalms',
+                'PSA',
             ],
             'Psalm to Psalm' => [
                 ['Psalms', 117, 2],
                 ['Psalms', 118, 1],
-                'Psalm 117:2-118:1',
+                'PSA.117.2-118.1',
             ],
         ];
     }
@@ -138,6 +140,90 @@ class PassageTest extends TestCase
             )
         );
 
-        $this->assertEquals($expected, (string) $passage);
+        $this->assertEquals($expected, $passage->formatAsURLSafeUSFM());
+    }
+
+    public static function providerVersesWithSuperfluousData(): array
+    {
+        return [
+            'readme example c' => [
+                ['Esther', 2, 1],
+                ['Esther', 2, 23],
+                'EST.2',
+                'EST.2',
+                'EST.2.1-23',
+            ],
+            'entire book' => [
+                ['John', 1, 1],
+                ['John', 21, 25],
+                'JHN',
+                'JHN.1-21',
+                'JHN.1.1-21.25',
+            ],
+            'whole chapter' => [
+                ['John', 3, 1],
+                ['John', 3, 36],
+                'JHN.3',
+                'JHN.3',
+                'JHN.3.1-36',
+            ],
+            'passage spanning different chapters' => [
+                ['Genesis', 1, 1],
+                ['Genesis', 4, 26],
+                'GEN.1-4',
+                'GEN.1-4',
+                'GEN.1.1-4.26',
+            ],
+            'singular Psalm' => [
+                ['Psalms', 1, 1],
+                ['Psalms', 1, 6],
+                'PSA.1',
+                'PSA.1',
+                'PSA.1.1-6',
+            ],
+            'plural Psalms' => [
+                ['Psalms', 120, 1],
+                ['Psalms', 134, 3],
+                'PSA.120-134',
+                'PSA.120-134',
+                'PSA.120.1-134.3',
+            ],
+            'All of Psalms' => [
+                ['Psalms', 1, 1],
+                ['Psalms', 150, 6],
+                'PSA',
+                'PSA.1-150',
+                'PSA.1.1-150.6',
+            ],
+        ];
+    }
+
+    #[DataProvider('providerVersesWithSuperfluousData')]
+    public function testStringifyPassageWithSuperfluousData(
+        array $from,
+        array $to,
+        string $expected,
+        string $expectedWithChapters,
+        string $expectedWithVerses,
+    ): void {
+        $passage = new BiblePassage(
+            new BibleReference(
+                $this->books[$from[0]],
+                $from[1],
+                $from[2],
+                $from[3] ?? ''
+            ),
+            new BibleReference(
+                $this->books[$to[0]],
+                $to[1],
+                $to[2],
+                $to[3] ?? ''
+            )
+        );
+
+        $this->assertEquals($expected, $passage->formatAsURLSafeUSFM());
+        $this->assertEquals($expectedWithChapters, $passage->formatAsURLSafeUSFM(true));
+        $this->assertEquals($expectedWithVerses, $passage->formatAsURLSafeUSFM(true, true));
+        $this->assertEquals($expectedWithVerses, $passage->formatAsURLSafeUSFM(false, true));
     }
 }

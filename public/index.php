@@ -3,11 +3,22 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use TechWilk\BibleVerseParser\BiblePassageParser;
-
-
-$parser = new BiblePassageParser();
+use TechWilk\BibleVerseParser\Data\BibleStructure;
+use TechWilk\BibleVerseParser\Enum\NumberingType;
 
 $userText = trim($_POST['passage'] ?? '');
+$userIntegerInterpretation = trim($_POST['integer-interpretation'] ?? '');
+
+$numberingType = match ($userIntegerInterpretation) {
+    'chronological' => NumberingType::Chronological,
+    default => NumberingType::USFM,
+};
+
+$parser = new BiblePassageParser(
+    BibleStructure::getBibleStructure(),
+    numberingType: $numberingType,
+);
+
 $error = '';
 $passages = [];
 try {
@@ -26,8 +37,31 @@ try {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bible Verse Parser demo</title>
 <style>
+* {
+    box-sizing: border-box;
+}
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+h2, footer {
+    margin-top: 2rem;
+}
+h4 {
+    margin-left: 1rem;
+}
+p {
+    margin-left: 2rem;
+}
+label {
+    display: block;
+    margin: 0.5rem 0;
+}
+input[type="text"] {
+    width: 100%;
+    padding: 0.4em;
 }
 </style>
 </head>
@@ -39,6 +73,12 @@ body {
 <label>
 Passages:
 <input type="text" name="passage" value="<?= htmlentities($userText, ENT_QUOTES) ?>" />
+</label>
+Interpret integers as:
+<select name="integer-interpretation">
+    <option value="usfm" <?= $userIntegerInterpretation === 'usfm' ? 'selected' : '' ?>>USFM</option>
+    <option value="chronological" <?= $userIntegerInterpretation === 'chronological' ? 'selected' : '' ?>>Chronological</option>
+</select>
 </label>
 <input type="submit" value="Parse" />
 </form>
@@ -55,12 +95,13 @@ Passages:
 <?php if ($passages): ?>
 <h2>Passages:</h2>
 
-<h3>Shorthand</h3>
+<h3>Common forms</h3>
+<h4>Shorthand</h4>
 <?php foreach ($passages as $passage): ?>
 <p><?= htmlentities((string) $passage) ?></p>
 <?php endforeach ?>
 
-<h3>Longhand</h3>
+<h4>Longhand</h4>
 <?php foreach ($passages as $passage): ?>
 <p>
 	<?= htmlentities((string) $passage->from()) ?>
@@ -69,19 +110,45 @@ Passages:
 </p>
 <?php endforeach ?>
 
-<h3>Integer</h3>
+<h3>Integer forms</h3>
+<h4><a href="https://ubsicap.github.io/usfm/identification/books.html">USFM</a> numbering</h4>
 <?php foreach ($passages as $passage): ?>
 <p>
-	<?= htmlentities((string) $passage->from()->integerNotation()) ?>
+	<?= htmlentities((string) $passage->from()->integerNotationUSFM()) ?>
 	to
-	<?= htmlentities((string) $passage->to()->integerNotation()) ?>
+	<?= htmlentities((string) $passage->to()->integerNotationUSFM()) ?>
+</p>
+<?php endforeach ?>
+
+<h4>Chronological numbering</h4>
+<?php foreach ($passages as $passage): ?>
+<p>
+	<?= htmlentities((string) $passage->from()->integerNotationChronological()) ?>
+	to
+	<?= htmlentities((string) $passage->to()->integerNotationChronological()) ?>
+</p>
+<?php endforeach ?>
+
+
+<h3>Standards-based forms</h3>
+<h4><a href="https://ubsicap.github.io/usfm/linking/index.html#general-syntax">USFM</a> / <a href="https://ubsicap.github.io/usx/linking.html">USX</a> reference</h4>
+<?php foreach ($passages as $passage): ?>
+<p>
+	<?= htmlentities($passage->formatAsUSFM()) ?>
+</p>
+<?php endforeach ?>
+
+<h4><a href="https://standards.bible/standards/uusr">UUSR</a>  reference</h4>
+<?php foreach ($passages as $passage): ?>
+<p>
+	<?= htmlentities($passage->formatAsURLSafeUSFM()) ?>
 </p>
 <?php endforeach ?>
 <?php endif ?>
 
 <footer>
 <small>
-	View code on 
+	View code on
 	<a href="https://github.com/techwilk/bible-verse-parser">GitHub</a>
 	or
 	<a href="https://git.sr.ht/~techwilk/bible-verse-parser">Sourcehut</a>

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace TechWilk\BibleVerseParser;
 
+use InvalidArgumentException;
+use TechWilk\BibleVerseParser\Data\BibleStructure;
+use TechWilk\BibleVerseParser\Enum\NumberingType;
 use TechWilk\BibleVerseParser\Exception\InvalidBookException;
 use TechWilk\BibleVerseParser\Exception\UnableToParseException;
 use TechWilk\BibleVerseParser\Traits\StringManipulationTrait;
@@ -17,27 +20,32 @@ class BiblePassageParser
     protected $bookAbbreviations = [];
 
     /**
-     * @param array<int,array{name: string, singularName?: string, abbreviations: string[], chapterStructure: array<int, int>}>|null $structure
-     * @param string[]|null                                                                                                          $separators
+     * @param array<Book>|null $structure
+     * @param string[]|null    $separators
+     * @param NumberingType    $numberingType
      */
-    public function __construct(?array $structure = null, ?array $separators = null)
-    {
+    public function __construct(
+        ?array $structure = null,
+        ?array $separators = null,
+        NumberingType $numberingType = NumberingType::Chronological,
+    ) {
         if ($structure === null) {
-            $structure = require __DIR__.'/../data/bibleStructure.php';
+            $structure = BibleStructure::getBibleStructure();
         }
 
-        foreach ($structure as $bookNumber => $bookData) {
-            $book = new Book(
-                $bookNumber,
-                $bookData['name'],
-                $bookData['singularName'] ?? $bookData['name'],
-                $bookData['abbreviations'],
-                $bookData['chapterStructure']
-            );
+        foreach ($structure as $book) {
+            if (!$book instanceof Book) {
+                throw new InvalidArgumentException('Invalid book');
+            }
+            $bookNumber = match ($numberingType) {
+                NumberingType::Chronological => $book->numberChronological(),
+                NumberingType::USFM => $book->numberUSFM(),
+            };
 
-            $this->bookAbbreviations[$this->standardiseString($book->name())] = $book->number();
+            $this->bookAbbreviations[$this->standardiseString($book->name())] = $bookNumber;
+            $this->bookAbbreviations[$this->standardiseString($book->identifier())] = $bookNumber;
             foreach ($book->abbreviations() as $abbreviation) {
-                $this->bookAbbreviations[$this->standardiseString($abbreviation)] = $book->number();
+                $this->bookAbbreviations[$this->standardiseString($abbreviation)] = $bookNumber;
             }
 
             $this->books[$bookNumber] = $book;
@@ -104,7 +112,11 @@ class BiblePassageParser
                     $lastFragment ?? ''
                 );
             } else {
-                $matches = $this->parseReference($splitSection[1]);
+                try {
+                    $matches = $this->parseReferenceAsInteger($splitSection[1]);
+                } catch (UnableToParseException) {
+                    $matches = $this->parseReference($splitSection[1]);
+                }
 
                 $endBook = '';
                 $endChapter = null;
@@ -153,7 +165,7 @@ class BiblePassageParser
                 );
             }
 
-            if ($fromReference->integerNotation() > $toReference->integerNotation()) {
+            if ($fromReference->integerNotationUSFM() > $toReference->integerNotationUSFM()) {
                 // reference are reversed
                 throw new UnableToParseException('References end is before beginning');
             }
@@ -173,7 +185,11 @@ class BiblePassageParser
         ?int $lastChapter,
         ?int $lastVerse
     ): array {
-        $matches = $this->parseReference($textReference);
+        try {
+            $matches = $this->parseReferenceAsInteger($textReference);
+        } catch (UnableToParseException) {
+            $matches = $this->parseReference($textReference);
+        }
         $book = '';
         $chapter = null;
         $verse = null;
@@ -298,6 +314,28 @@ class BiblePassageParser
         }
 
         return $matches;
+    }
+
+    protected function parseReferenceAsInteger(string $reference): array
+    {
+        $reference = trim($reference);
+        if (!is_numeric($reference)) {
+            throw new UnableToParseException('Unable to parse reference');
+        }
+
+        if (((int) $reference) < 1001001) {
+            throw new UnableToParseException('Unable to parse reference');
+        }
+
+        $bookNumber = floor($reference / 1000000);
+        $chapter = floor(($reference - ($bookNumber * 1000000)) / 1000);
+        $verse = $reference - ($bookNumber * 1000000) - ($chapter * 1000);
+
+        return [
+            'book' => (string) $this->books[$bookNumber],
+            'chapter_or_verse' => (string) $chapter,
+            'verse' => (string) $verse,
+        ];
     }
 
     protected function getBookFromAbbreviation(string $bookAbbreviation): Book

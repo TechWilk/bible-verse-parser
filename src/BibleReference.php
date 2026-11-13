@@ -56,18 +56,47 @@ class BibleReference implements JsonSerializable
         return $this->fragment;
     }
 
-    public function integerNotation(): int
+    public function integerNotationUSFM(): int
     {
-        return (1000000 * $this->book->number()) + (1000 * $this->chapter) + $this->verse;
+        return (1000000 * $this->book->numberUSFM()) + (1000 * $this->chapter) + $this->verse;
     }
 
-    public function __toString(): string
+    public function integerNotationChronological(): int
+    {
+        return (1000000 * $this->book->numberChronological()) + (1000 * $this->chapter) + $this->verse;
+    }
+
+    public function formatAsUSFM(): string
+    {
+        if (!$this->verse) {
+            return "{$this->book->identifier()} {$this->chapter}";
+        }
+
+        return "{$this->book->identifier()} {$this->chapter}:{$this->verse}{$this->fragment}";
+    }
+
+    public function formatAsURLSafeUSFM(): string
+    {
+        if (!$this->verse) {
+            return "{$this->book->identifier()}.{$this->chapter}";
+        }
+
+        return "{$this->book->identifier()}.{$this->chapter}.{$this->verse}{$this->fragment}";
+    }
+
+    public function formatAsString(): string
     {
         if (!$this->verse) {
             return "{$this->book->name()} {$this->chapter}";
         }
 
         return "{$this->book->name()} {$this->chapter}:{$this->verse}{$this->fragment}";
+    }
+
+
+    public function __toString(): string
+    {
+        return $this->formatAsString();
     }
 
     public function jsonSerialize(): array
