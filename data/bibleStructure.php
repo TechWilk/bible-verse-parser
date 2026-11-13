@@ -1631,7 +1631,7 @@ return [
         'number' => 61,
         'name' => '1 Peter',
         'identifier' => '1PE',
-        'abbreviations' => ['i pet', '1 pet', '1st pet', 'first pet', 'i peter', '1st peter', 'first peter', 'i pet', '1 pet', '1st pet', 'first pet', 'i pe', '1 pe', '1st pe', 'first pe', 'i pt', '1 pt', '1st pt', 'first pt', 'i p', '1 p', '1st p', 'first p'],
+        'abbreviations' => ['i peter', '1st peter', 'first peter', 'i pet', '1 pet', '1st pet', 'first pet', 'i pe', '1 pe', '1st pe', 'first pe', 'i pt', '1 pt', '1st pt', 'first pt', 'i p', '1 p', '1st p', 'first p'],
         'chapterStructure' => [
             1 => 25,
             2 => 25,
@@ -1644,7 +1644,7 @@ return [
         'number' => 62,
         'name' => '2 Peter',
         'identifier' => '2PE',
-        'abbreviations' => ['ii pet', '2 pet', '2nd pet', 'second pet', 'ii peter', '2nd peter', 'second peter', 'ii pet', '2 pet', '2nd pet', 'second pet', 'ii pe', '2 pe', '2nd pe', 'second pe', 'ii pt', '2 pt', '2nd pt', 'second pt', 'i p', '2 p', '2nd p', 'first p'],
+        'abbreviations' => ['ii peter', '2nd peter', 'second peter', 'ii pet', '2 pet', '2nd pet', 'second pet', 'ii pe', '2 pe', '2nd pe', 'second pe', 'ii pt', '2 pt', '2nd pt', 'second pt', '2 p', '2nd p'],
         'chapterStructure' => [
             1 => 21,
             2 => 22,
