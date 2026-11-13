@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace TechWilk\BibleVerseParser;
 
-class BiblePassage
+use JsonSerializable;
+
+class BiblePassage implements JsonSerializable
 {
     protected $from;
     protected $to;
@@ -97,5 +99,13 @@ class BiblePassage
         }
 
         return $this->from->book()->singularName().$trailer.'-'.$toString;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'from' => $this->from->jsonSerialize(),
+            'to' => $this->to->jsonSerialize(),
+        ];
     }
 }
