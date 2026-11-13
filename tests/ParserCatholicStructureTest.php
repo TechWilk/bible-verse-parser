@@ -303,30 +303,36 @@ class ParserCatholicStructureTest extends TestCase
                     ['Philippians 2:14', 'Philippians 2:15a'],
                 ],
             ],
-            // 'start fragment' => [
-            //     'John 4:7b-4:8',
-            //     [
-            //         ['John 4:7b', 'John 4:8'],
-            //     ],
-            // ],
-            // 'start fragment with more letters' => [
-            //     'Mark 1v4b-15',
-            //     [
-            //         ['Mark 1:4b', 'Mark 1:15'],
-            //     ],
-            // ],
-            // 'single fragment' => [
-            //     'Acts 2:39a',
-            //     [
-            //         ['Acts 2:39a', 'Acts 2:39a'],
-            //     ],
-            // ],
-            // 'fragment to fragment' => [
-            //     'John 3:16b-17a',
-            //     [
-            //         ['John 3:16b', 'John 3:17a'],
-            //     ],
-            // ],
+            'start fragment' => [
+                'John 4:7b-4:8',
+                [
+                    ['John 4:7b', 'John 4:8'],
+                ],
+            ],
+            'start fragment with more letters' => [
+                'Mark 1v4b-15',
+                [
+                    ['Mark 1:4b', 'Mark 1:15'],
+                ],
+            ],
+            'single fragment' => [
+                'Acts 2:39a',
+                [
+                    ['Acts 2:39a', 'Acts 2:39a'],
+                ],
+            ],
+            'fragment to fragment' => [
+                'John 3:16b-17a',
+                [
+                    ['John 3:16b', 'John 3:17a'],
+                ],
+            ],
+            'end fragment with numbered book' => [
+                '1CH 19:1-2a',
+                [
+                    ['1 Chronicles 19:1', '1 Chronicles 19:2a'],
+                ],
+            ],
             'numbered book without white space between book number and book name, without chapter and verse' => [
                 '1Kings',
                 [
@@ -517,23 +523,35 @@ class ParserCatholicStructureTest extends TestCase
                     ['1 Corinthians 1:1', '2 Corinthians 13:14'],
                 ],
             ],
-            // 'double space and capital fragment issues/92' => [
-            //     'Luke 24  36B-48',
-            //     [
-            //         ['Luke 24:36b', 'Luke 24:48'],
-            //     ],
-            // ],
-            // 'capital fragment issues/92' => [
-            //     'Luke 24:36B-48',
-            //     [
-            //         ['Luke 24:36b', 'Luke 24:48'],
-            //     ],
-            // ],
+            'double space and capital fragment issues/92' => [
+                'Luke 24  36B-48',
+                [
+                    ['Luke 24:36b', 'Luke 24:48'],
+                ],
+            ],
+            'capital fragment issues/92' => [
+                'Luke 24:36B-48',
+                [
+                    ['Luke 24:36b', 'Luke 24:48'],
+                ],
+            ],
             'and separator issues/93' => [
                 'John 1 and 2',
                 [
                     ['John 1:1', 'John 1:51'],
                     ['John 2:1', 'John 2:25'],
+                ],
+            ],
+            'ch standing for both chronicles and chapter' => [
+                '2 CH ch 13  v 01',
+                [
+                    ['2 Chronicles 13:1', '2 Chronicles 13:1'],
+                ],
+            ],
+            'ch standing for chronicles not chapter' => [
+                '2 CH 13  v 01',
+                [
+                    ['2 Chronicles 13:1', '2 Chronicles 13:1'],
                 ],
             ],
             'single chapter books can omit chapter' => [
@@ -546,50 +564,92 @@ class ParserCatholicStructureTest extends TestCase
                 'Obadiah verse 01',
                 [
                     ['Obadiah 1:1', 'Obadiah 1:1'],
-
                 ],
             ],
             'single chapter books can omit chapter variant larger verse' => [
                 'Obadiah verse 15',
                 [
                     ['Obadiah 1:15', 'Obadiah 1:15'],
-
                 ],
             ],
             // this also applies to philemon, 2 john, 3 john, jude
 
-            // 'single integer' => [
-            //     '50003016',
-            //     [
-            //         ['John 3:16', 'John 3:16'],
-            //     ]
-            // ],
-            // 'integer range' => [
-            //     '50003016-50003017',
-            //     [
-            //         ['John 3:16', 'John 3:17'],
-            //     ]
-            // ],
-            // 'integer and regular' => [
-            //     '50003016-John 3:17',
-            //     [
-            //         ['John 3:16', 'John 3:17'],
-            //     ]
-            // ],
-            // 'integer and verse number' => [
-            //     '50003016-17',
-            //     [
-            //         ['John 3:16', 'John 3:17'],
-            //     ]
-            // ],
-            'ch standing for chronicles not chapter' => [
-                '2 CH 13  v 01',
+            'no space between book number and book name' => [
+                '1Kings',
                 [
-                    ['2 Chronicles 13:1', '2 Chronicles 13:1'],
+                    ['1 Kings 1:1', '1 Kings 22:53'],
                 ],
             ],
-            // catholic specific tests
-            'esther additions' => [
+            'no space between book and passage' => [
+                'Mt5:3',
+                [
+                    ['Matthew 5:3', 'Matthew 5:3'],
+                ],
+            ],
+            'no space between book, book number or passage' => [
+                '1Kings1:1',
+                [
+                    ['1 Kings 1:1', '1 Kings 1:1'],
+                ],
+            ],
+            'verse fragment c in a range' => [
+                'John 3:16c-17',
+                [
+                    ['John 3:16c', 'John 3:17'],
+                ],
+            ],
+            'verse fragment c through a later verse' => [
+                'Psalm 95:7c-9',
+                [
+                    ['Psalms 95:7c', 'Psalms 95:9'],
+                ],
+            ],
+            'verse fragment c before another verse part' => [
+                'Psalm 95:7c, 8a',
+                [
+                    ['Psalms 95:7c', 'Psalms 95:7c'],
+                    ['Psalms 95:8a', 'Psalms 95:8a'],
+                ],
+            ],
+            'single digit verse fragment after hyphen' => [
+                'Psalm 95:6-7b',
+                [
+                    ['Psalms 95:6', 'Psalms 95:7b'],
+                ],
+            ],
+            'single digit verse fragment a after hyphen' => [
+                'John 3:6-8a',
+                [
+                    ['John 3:6', 'John 3:8a'],
+                ],
+            ],
+            'single digit verse fragment after semicolon' => [
+                'John 3:16; 7b',
+                [
+                    ['John 3:16', 'John 3:16'],
+                    ['John 3:7b', 'John 3:7b'],
+                ],
+            ],
+            'single letter book abbreviation after hyphen' => [
+                '1 Kings 1-2K 3',
+                [
+                    ['1 Kings 1:1', '2 Kings 3:27'],
+                ],
+            ],
+            'revelation 12:18 alternative numbering' => [
+                'REV 12:18',
+                [
+                    ['Revelation 13:1', 'Revelation 13:1'],
+                ],
+            ],
+        ];
+    }
+
+    public static function providerVersesCatholicSpecific(): array
+    {
+        return [
+             // catholic specific tests
+             'esther additions' => [
                 'Esther 1:1a',
                 [
                     ['Esther (Greek) 11:2', 'Esther (Greek) 11:2'],
@@ -613,18 +673,18 @@ class ParserCatholicStructureTest extends TestCase
                     ['Esther (Greek) 14:19', 'Esther (Greek) 14:19'],
                 ],
             ],
-            // 'esther additions double letter passage' => [
-            //     'Esther 4:17a-17ee',
-            //     [
-            //         ['Esther (Greek) 13:8', 'Esther (Greek) 14:19'],
-            //     ]
-            // ],
-            // 'esther additions both double letter passage' => [
-            //     'Esther 4:17aa-17ee',
-            //     [
-            //         ['Esther (Greek) 14:15', 'Esther (Greek) 14:19'],
-            //     ]
-            // ],
+            'esther additions double letter passage' => [
+                'Esther 4:17a-17ee',
+                [
+                    ['Esther (Greek) 13:8', 'Esther (Greek) 14:19'],
+                ]
+            ],
+            'esther additions both double letter passage' => [
+                'Esther 4:17aa-17ee',
+                [
+                    ['Esther (Greek) 14:15', 'Esther (Greek) 14:19'],
+                ]
+            ],
             'daniel additions normal verse' => [
                 'Daniel 3:24',
                 [
@@ -715,16 +775,75 @@ class ParserCatholicStructureTest extends TestCase
                     ['Esther (Greek) 15:1', 'Esther (Greek) 16:24'],
                 ],
             ],
-            'revelation 12:18 alternative numbering' => [
-                'REV 12:18',
+        ];
+    }
+
+    public static function providerVersesIntegerCanonOrderNumbering(): array
+    {
+        return [
+
+            'single integer' => [
+                '50003016',
                 [
-                    ['Revelation 13:1', 'Revelation 13:1'],
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'integer range' => [
+                '50003016-50003017',
+                [
+                    ['John 3:16', 'John 3:17'],
+                ],
+            ],
+            'integer and regular' => [
+                '50003016-John 3:17',
+                [
+                    ['John 3:16', 'John 3:17'],
+                ],
+            ],
+            'integer and verse number' => [
+                '50003016-17',
+                [
+                    ['John 3:16', 'John 3:17'],
+                ],
+            ],
+        ];
+    }
+
+    public static function providerVersesIntegerUSFMNumbering(): array
+    {
+        return [
+
+            'single integer' => [
+                '50003016',
+                [
+                    ['John 3:16', 'John 3:16'],
+                ],
+            ],
+            'integer range' => [
+                '50003016-50003017',
+                [
+                    ['John 3:16', 'John 3:17'],
+                ],
+            ],
+            'integer and regular' => [
+                '50003016-John 3:17',
+                [
+                    ['John 3:16', 'John 3:17'],
+                ],
+            ],
+            'integer and verse number' => [
+                '50003016-17',
+                [
+                    ['John 3:16', 'John 3:17'],
                 ],
             ],
         ];
     }
 
     #[DataProvider('providerVerses')]
+    #[DataProvider('providerVersesCatholicSpecific')]
+    #[DataProvider('providerVersesIntegerCanonOrderNumbering')]
+
     public function testParseVersesWithCanonOrderNumbering(string $verses, array $expectedParsedVerses): void
     {
         $structure = BibleStructure::getBibleStructureCatholic();
@@ -745,6 +864,8 @@ class ParserCatholicStructureTest extends TestCase
     }
 
     #[DataProvider('providerVerses')]
+    #[DataProvider('providerVersesCatholicSpecific')]
+    #[DataProvider('providerVersesIntegerUSFMNumbering')]
     public function testParseVersesWithUSFMNumbering(string $verses, array $expectedParsedVerses): void
     {
         $parsedVerses = $this->parser->parse($verses);
