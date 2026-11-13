@@ -5,6 +5,8 @@ packages:
 sources:
   - https://git.sr.ht/~techwilk/bible-verse-parser
 tasks:
+  - enable-php-ext: |
+      echo "extension=iconv" | sudo tee /etc/php/conf.d/iconv.ini >/dev/null
   - setup: |
       cd bible-verse-parser
       composer install
