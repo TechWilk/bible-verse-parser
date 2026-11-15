@@ -105,6 +105,8 @@ class BiblePassageParser
                 $lastChapter,
                 $lastVerse,
                 $lastFragment,
+                $lastBookNotNormalised,
+                $lastChapterNotNormalised,
             ] = $this->parseStartReference($splitSection[0], $lastBook, $lastChapter, $lastVerse);
 
             // End reference stuff
@@ -142,7 +144,18 @@ class BiblePassageParser
                         if ('end' === $matches['chapter_or_verse']) {
                             $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
                         } else {
-                            $endFragment = in_array($matches['chapter_or_verse'][-1], ['a', 'b', 'c']) ? $matches['chapter_or_verse'][-1] : null;
+                            $normalisedPassage = $lastBookNotNormalised->normalise(
+                                (string) ($lastChapterNotNormalised ?? $lastBookNotNormalised->firstChapter()),
+                                (string) ($matches['chapter_or_verse'] ?? '1'),
+                            );
+                            if ($normalisedPassage) {
+                                $endBookObject = $this->getBookFromAbbreviation($this->standardiseString($normalisedPassage[0])); // USFM identifier
+                                $endChapter = $normalisedPassage[1];
+                                $matches['chapter_or_verse'] = $normalisedPassage[2];
+                                $endFragment = '';
+                            } else {
+                                $endFragment = in_array($matches['chapter_or_verse'][-1], ['a', 'b', 'c']) ? $matches['chapter_or_verse'][-1] : null;
+                            }
                         }
                         $endVerse = (int) $matches['chapter_or_verse'];
                     } else {
@@ -154,8 +167,20 @@ class BiblePassageParser
                 }
 
                 if ('' !== $matches['verse']) {
-                    $endVerse = (int) $matches['verse'];
-                    $endFragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
+                    $bookForNormalisation = ('' !== $endBook) ? $endBookObject : $lastBookNotNormalised;
+                    $normalisedPassage = $bookForNormalisation->normalise(
+                        (string) ($endChapter ?? $lastChapterNotNormalised),
+                        (string) ($matches['verse'] ?? '1'),
+                    );
+                    if ($normalisedPassage) {
+                        $endBookObject = $this->getBookFromAbbreviation($this->standardiseString($normalisedPassage[0])); // USFM identifier
+                        $endChapter = $normalisedPassage[1];
+                        $endVerse = $normalisedPassage[2];
+                        $endFragment = '';
+                    } else {
+                        $endVerse = (int) $matches['verse'];
+                        $endFragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
+                    }
                 }
 
                 $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->lastChapter();
@@ -247,6 +272,8 @@ class BiblePassageParser
         }
 
         $startBookObject = $this->getBookFromAbbreviation($book);
+        $lastBookNotNormalised = $startBookObject;
+        $lastChapterNotNormalised = is_numeric($chapter) ? (int) $chapter : null;
         // try the transformations
         // but don't override $lastVerse if we don't actually have a verse
         $verseIsNull = is_null($verse);
@@ -290,6 +317,8 @@ class BiblePassageParser
             $lastChapter,
             $lastVerse,
             $lastFragment,
+            $lastBookNotNormalised,
+            $lastChapterNotNormalised,
         ];
     }
 
