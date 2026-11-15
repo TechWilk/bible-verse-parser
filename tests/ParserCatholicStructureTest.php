@@ -649,13 +649,13 @@ class ParserCatholicStructureTest extends TestCase
     {
         return [
              // catholic specific tests
-             'esther additions' => [
+             'esther additions normalise 1a' => [
                 'Esther 1:1a',
                 [
                     ['Esther (Greek) 11:2', 'Esther (Greek) 11:2'],
                 ],
             ],
-            'esther additions' => [
+            'esther additions normalise 1r' => [
                 'Esther 1:1r',
                 [
                     ['Esther (Greek) 12:6', 'Esther (Greek) 12:6'],
