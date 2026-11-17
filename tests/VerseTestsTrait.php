@@ -699,6 +699,13 @@ trait VerseTestsTrait
                     ['Isaiah 22:5', 'Isaiah 22:5'],
                 ],
             ],
+            'end fragment does not carry into the next range' => [
+                'John 3:1-12a, 14-end',
+                [
+                    ['John 3:1', 'John 3:12a'],
+                    ['John 3:14', 'John 3:36'],
+                ],
+            ],
         ];
     }
 }

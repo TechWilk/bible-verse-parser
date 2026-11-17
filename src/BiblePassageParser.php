@@ -89,125 +89,148 @@ class BiblePassageParser
         $lastVerse = null;
 
         foreach ($sections as $section) {
-            $splitSection = explode('-', $section);
-
-            if (count($splitSection) > 2) {
-                throw new UnableToParseException('Range is too complex');
-            }
-
-            // Start reference stuff
-
             [
-                $fromReference,
-                $startVerse,
+                $passages[],
                 $lastBook,
                 $lastChapter,
                 $lastVerse,
-                $lastFragment,
-                $lastBookNotNormalised,
-                $lastChapterNotNormalised,
-            ] = $this->parseStartReference($splitSection[0], $lastBook, $lastChapter, $lastVerse);
-
-            // End reference stuff
-
-            if (1 === count($splitSection)) {
-                $endBookObject = $this->getBookFromAbbreviation($lastBook);
-                $endChapterForReference = (int) ($lastChapter ?? $endBookObject->lastChapter());
-                $toReference = new BibleReference(
-                    $endBookObject,
-                    $endChapterForReference,
-                    $lastVerse ?? $endBookObject->versesInChapter($endChapterForReference),
-                    $lastFragment ?? ''
-                );
-            } else {
-                try {
-                    $matches = $this->parseReferenceAsInteger($splitSection[1]);
-                } catch (UnableToParseException) {
-                    $matches = $this->parseReference($splitSection[1]);
-                }
-
-                $endBook = '';
-                $endChapter = null;
-                $endVerse = null;
-
-                if ('' !== $matches['book']) {
-                    $endBook = (string) $matches['book'];
-                }
-                $endBookObject = $this->getBookFromAbbreviation($endBook !== '' ? $endBook : $lastBook);
-
-                if ('' !== $matches['chapter_or_verse']) {
-                    if (
-                        null !== $startVerse
-                        && '' === $matches['verse']
-                    ) {
-                        if ('end' === $matches['chapter_or_verse']) {
-                            $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
-                        } else {
-                            $normalisedPassage = $lastBookNotNormalised->normalise(
-                                (string) ($lastChapterNotNormalised ?? $lastBookNotNormalised->firstChapter()),
-                                (string) ($matches['chapter_or_verse'] ?? '1'),
-                            );
-                            if ($normalisedPassage) {
-                                $endBookObject = $this->getBookFromAbbreviation($this->standardiseString($normalisedPassage[0])); // USFM identifier
-                                $endChapter = $normalisedPassage[1];
-                                $matches['chapter_or_verse'] = $normalisedPassage[2];
-                                $endFragment = '';
-                            } else {
-                                $endFragment = $this->verseFragment($matches['chapter_or_verse']);
-                            }
-                        }
-                        $endVerse = (int) $matches['chapter_or_verse'];
-                    } else {
-                        if ('end' === $matches['chapter_or_verse']) {
-                            $matches['chapter_or_verse'] = $endBookObject->lastChapter();
-                        }
-                        $endChapter = (int) $matches['chapter_or_verse'];
-                    }
-                }
-
-                if ('' !== $matches['verse']) {
-                    $bookForNormalisation = ('' !== $endBook) ? $endBookObject : $lastBookNotNormalised;
-                    $normalisedPassage = $bookForNormalisation->normalise(
-                        (string) ($endChapter ?? $lastChapterNotNormalised),
-                        (string) ($matches['verse'] ?? '1'),
-                    );
-                    if ($normalisedPassage) {
-                        $endBookObject = $this->getBookFromAbbreviation($this->standardiseString($normalisedPassage[0])); // USFM identifier
-                        $endChapter = $normalisedPassage[1];
-                        $endVerse = $normalisedPassage[2];
-                        $endFragment = '';
-                    } else {
-                        $endVerse = (int) $matches['verse'];
-                        $endFragment = $this->verseFragment($matches['verse']);
-                    }
-                }
-
-                $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->lastChapter();
-
-                $lastBook = $endBookObject->name();
-                $lastChapter = $endChapter ?? $lastChapter;
-                $lastVerse = $endVerse;
-
-                $toReference = new BibleReference(
-                    $endBookObject,
-                    $endChapterForReference,
-                    $endVerse ?? $endBookObject->versesInChapter($endChapterForReference),
-                    $endFragment ?? ''
-                );
-            }
-
-            if ($fromReference->integerNotationUSFM() > $toReference->integerNotationUSFM()) {
-                // reference are reversed
-                throw new UnableToParseException('References end is before beginning');
-            }
-
-            $passages[] = new BiblePassage(
-                $fromReference,
-                $toReference
-            );
+            ] = $this->parseSection($section, $lastBook, $lastChapter, $lastVerse);
         }
 
         return $passages;
+    }
+
+    protected function parseSection(
+        string $section,
+        string $lastBook,
+        ?int $lastChapter,
+        ?int $lastVerse
+    ): array {
+        $splitSection = explode('-', $section);
+
+        if (count($splitSection) > 2) {
+            throw new UnableToParseException('Range is too complex');
+        }
+
+        // Start reference stuff
+
+        [
+            $fromReference,
+            $startVerse,
+            $lastBook,
+            $lastChapter,
+            $lastVerse,
+            $lastFragment,
+            $lastBookNotNormalised,
+            $lastChapterNotNormalised,
+        ] = $this->parseStartReference($splitSection[0], $lastBook, $lastChapter, $lastVerse);
+
+        // End reference stuff
+
+        $endFragment = null;
+
+        if (1 === count($splitSection)) {
+            $endBookObject = $this->getBookFromAbbreviation($lastBook);
+            $endChapterForReference = (int) ($lastChapter ?? $endBookObject->lastChapter());
+            $toReference = new BibleReference(
+                $endBookObject,
+                $endChapterForReference,
+                $lastVerse ?? $endBookObject->versesInChapter($endChapterForReference),
+                $lastFragment ?? ''
+            );
+        } else {
+            try {
+                $matches = $this->parseReferenceAsInteger($splitSection[1]);
+            } catch (UnableToParseException) {
+                $matches = $this->parseReference($splitSection[1]);
+            }
+
+            $endBook = '';
+            $endChapter = null;
+            $endVerse = null;
+
+            if ('' !== $matches['book']) {
+                $endBook = (string) $matches['book'];
+            }
+            $endBookObject = $this->getBookFromAbbreviation($endBook !== '' ? $endBook : $lastBook);
+
+            if ('' !== $matches['chapter_or_verse']) {
+                if (
+                    null !== $startVerse
+                    && '' === $matches['verse']
+                ) {
+                    if ('end' === $matches['chapter_or_verse']) {
+                        $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
+                    } else {
+                        $normalisedPassage = $lastBookNotNormalised->normalise(
+                            (string) ($lastChapterNotNormalised ?? $lastBookNotNormalised->firstChapter()),
+                            (string) ($matches['chapter_or_verse'] ?? '1'),
+                        );
+                        if ($normalisedPassage) {
+                            $endBookObject = $this->getBookFromAbbreviation($this->standardiseString($normalisedPassage[0])); // USFM identifier
+                            $endChapter = $normalisedPassage[1];
+                            $matches['chapter_or_verse'] = $normalisedPassage[2];
+                            $endFragment = '';
+                        } else {
+                            $endFragment = $this->verseFragment($matches['chapter_or_verse']);
+                        }
+                    }
+                    $endVerse = (int) $matches['chapter_or_verse'];
+                } else {
+                    if ('end' === $matches['chapter_or_verse']) {
+                        $matches['chapter_or_verse'] = $endBookObject->lastChapter();
+                    }
+                    $endChapter = (int) $matches['chapter_or_verse'];
+                }
+            }
+
+            if ('' !== $matches['verse']) {
+                $bookForNormalisation = ('' !== $endBook) ? $endBookObject : $lastBookNotNormalised;
+                $normalisedPassage = $bookForNormalisation->normalise(
+                    (string) ($endChapter ?? $lastChapterNotNormalised),
+                    (string) ($matches['verse'] ?? '1'),
+                );
+                if ($normalisedPassage) {
+                    $endBookObject = $this->getBookFromAbbreviation($this->standardiseString($normalisedPassage[0])); // USFM identifier
+                    $endChapter = $normalisedPassage[1];
+                    $endVerse = $normalisedPassage[2];
+                    $endFragment = '';
+                } else {
+                    $endVerse = (int) $matches['verse'];
+                    $endFragment = $this->verseFragment($matches['verse']);
+                }
+            }
+
+            $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->lastChapter();
+
+            $lastBook = $endBookObject->name();
+            $lastChapter = $endChapter ?? $lastChapter;
+            $lastVerse = $endVerse;
+
+            $toReference = new BibleReference(
+                $endBookObject,
+                $endChapterForReference,
+                $endVerse ?? $endBookObject->versesInChapter($endChapterForReference),
+                $endFragment ?? ''
+            );
+        }
+
+        if ($fromReference->integerNotationUSFM() > $toReference->integerNotationUSFM()) {
+            // reference are reversed
+            throw new UnableToParseException('References end is before beginning');
+        }
+
+        $passage = new BiblePassage(
+            $fromReference,
+            $toReference
+        );
+
+        return [
+            $passage,
+            $lastBook,
+            $lastChapter,
+            $lastVerse,
+        ];
     }
 
     protected function parseStartReference(
