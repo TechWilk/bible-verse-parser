@@ -18,20 +18,17 @@ class BiblePassageParser
     protected $separators = ['&', ',', ';', 'and'];
     protected $books = [];
     protected $bookAbbreviations = [];
-    protected $lettersAreFragments;
     protected $singleChapterBooksCanOmitChapter;
 
     /**
      * @param array<Book>|null $structure
      * @param string[]|null    $separators
      * @param NumberingType    $numberingType
-     * @param bool             $lettersAreFragments
      */
     public function __construct(
         ?array $structure = null,
         ?array $separators = null,
         NumberingType $numberingType = NumberingType::CanonOrder,
-        bool $lettersAreFragments = true,
         bool $singleChapterBooksCanOmitChapter = false,
     ) {
         if ($structure === null) {
@@ -60,7 +57,6 @@ class BiblePassageParser
             // strict type check
             $this->separators = (fn (string ...$separators) => $separators)(...$separators);
         }
-        $this->lettersAreFragments = $lettersAreFragments;
         $this->singleChapterBooksCanOmitChapter = $singleChapterBooksCanOmitChapter;
     }
 
@@ -244,10 +240,6 @@ class BiblePassageParser
                 $lastVerse = null;
             } else {
                 $verse = $matches['chapter_or_verse'];
-                if ($this->lettersAreFragments) {
-                    $fragment = $this->verseFragment($matches['chapter_or_verse']);
-                    $verse = (int) $matches['chapter_or_verse'];
-                }
             }
         }
 
@@ -260,10 +252,6 @@ class BiblePassageParser
                 $chapter = $matches['verse'];
             } else {
                 $verse = $matches['verse'];
-                if ($this->lettersAreFragments) {
-                    $fragment = $this->verseFragment($matches['verse']);
-                    $verse = (int) $matches['verse'];
-                }
             }
         }
 
@@ -277,11 +265,20 @@ class BiblePassageParser
         // try the transformations
         // but don't override $lastVerse if we don't actually have a verse
         $verseIsNull = is_null($verse);
-        $normalisedPassage = $startBookObject->normalise((string) $chapter ?? $startBookObject->firstChapter(), (string) ($verse ?? '1'));
+
+        $normalisedPassage = $startBookObject->normalise(
+            (string) ($chapter ?? $startBookObject->firstChapter()),
+            (string) ($verse ?? '1'),
+        );
         if ($normalisedPassage) {
-            $startBookObject = $this->getBookFromAbbreviation($this->standardiseString($normalisedPassage[0]));
+            $startBookObject = $this->getBookFromAbbreviation($this->standardiseString($normalisedPassage[0])); // USFM identifier
             $chapter = $normalisedPassage[1];
             $verse = $normalisedPassage[2];
+        } elseif (is_string($verse) && !is_numeric($verse)) {
+            // verse contains a fragment letter
+            $fragment = $this->verseFragment($verse) ?? $fragment; // before we int the verse
+            $chapter = $lastChapterNotNormalised ?? $startBookObject->firstChapter();
+            $verse = (int) $verse;
         }
 
         $chapter = is_numeric($chapter) ? (int) $chapter : null;

@@ -19,7 +19,6 @@ $parser = match ($userBibleStructure) {
     "catholic" => new BiblePassageParser(
         BibleStructure::getBibleStructureCatholic(),
         numberingType: $numberingType,
-        lettersAreFragments: false,
     ),
     default => new BiblePassageParser(
         BibleStructure::getBibleStructure(),

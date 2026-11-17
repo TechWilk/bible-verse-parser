@@ -21,7 +21,6 @@ class ParserCatholicStructureTest extends TestCase
         $this->parser = new BiblePassageParser(
             $structure,
             numberingType: NumberingType::USFM,
-            lettersAreFragments: false,
         );
     }
 
@@ -850,7 +849,6 @@ class ParserCatholicStructureTest extends TestCase
         $parser = new BiblePassageParser(
             $structure,
             numberingType: NumberingType::CanonOrder,
-            lettersAreFragments: false,
         );
     $parsedVerses = $parser->parse($verses);
 
