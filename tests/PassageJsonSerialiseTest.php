@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace TechWilk\BibleVerseParser\Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -25,6 +25,7 @@ class PassageJsonSerialiseTest extends TestCase
                 $bookData['singularName'] ?? $bookData['name'],
                 $bookData['abbreviations'],
                 $bookData['chapterStructure'],
+                $bookData['transformations'] ?? []
             );
 
             $this->books[$bookData['name']] = $book;

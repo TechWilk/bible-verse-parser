@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace TechWilk\BibleVerseParser\Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -24,7 +24,8 @@ class PassageToUSFMTest extends TestCase
                 $bookData['name'],
                 $bookData['singularName'] ?? $bookData['name'],
                 $bookData['abbreviations'],
-                $bookData['chapterStructure']
+                $bookData['chapterStructure'],
+                $bookData['transformations'] ?? []
             );
 
             $this->books[$bookData['name']] = $book;

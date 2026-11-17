@@ -18,6 +18,7 @@ class BiblePassageParser
     protected $separators = ['&', ',', ';', 'and'];
     protected $books = [];
     protected $bookAbbreviations = [];
+    protected $singleChapterBooksCanOmitChapter;
 
     /**
      * @param array<Book>|null $structure
@@ -28,6 +29,7 @@ class BiblePassageParser
         ?array $structure = null,
         ?array $separators = null,
         NumberingType $numberingType = NumberingType::CanonOrder,
+        bool $singleChapterBooksCanOmitChapter = false,
     ) {
         if ($structure === null) {
             $structure = BibleStructure::getBibleStructure();
@@ -55,6 +57,7 @@ class BiblePassageParser
             // strict type check
             $this->separators = (fn (string ...$separators) => $separators)(...$separators);
         }
+        $this->singleChapterBooksCanOmitChapter = $singleChapterBooksCanOmitChapter;
     }
 
     public function parse(string $versesString): array
@@ -98,13 +101,15 @@ class BiblePassageParser
                 $lastChapter,
                 $lastVerse,
                 $lastFragment,
+                $lastBookNotNormalised,
+                $lastChapterNotNormalised,
             ] = $this->parseStartReference($splitSection[0], $lastBook, $lastChapter, $lastVerse);
 
             // End reference stuff
 
             if (1 === count($splitSection)) {
                 $endBookObject = $this->getBookFromAbbreviation($lastBook);
-                $endChapterForReference = (int) ($lastChapter ?? $endBookObject->chaptersInBook());
+                $endChapterForReference = (int) ($lastChapter ?? $endBookObject->lastChapter());
                 $toReference = new BibleReference(
                     $endBookObject,
                     $endChapterForReference,
@@ -135,23 +140,46 @@ class BiblePassageParser
                         if ('end' === $matches['chapter_or_verse']) {
                             $matches['chapter_or_verse'] = $endBookObject->versesInChapter($lastChapter);
                         } else {
-                            $endFragment = in_array($matches['chapter_or_verse'][-1], ['a', 'b', 'c']) ? $matches['chapter_or_verse'][-1] : null;
+                            $normalisedPassage = $lastBookNotNormalised->normalise(
+                                (string) ($lastChapterNotNormalised ?? $lastBookNotNormalised->firstChapter()),
+                                (string) ($matches['chapter_or_verse'] ?? '1'),
+                            );
+                            if ($normalisedPassage) {
+                                $endBookObject = $this->getBookFromAbbreviation($this->standardiseString($normalisedPassage[0])); // USFM identifier
+                                $endChapter = $normalisedPassage[1];
+                                $matches['chapter_or_verse'] = $normalisedPassage[2];
+                                $endFragment = '';
+                            } else {
+                                $endFragment = $this->verseFragment($matches['chapter_or_verse']);
+                            }
                         }
                         $endVerse = (int) $matches['chapter_or_verse'];
                     } else {
                         if ('end' === $matches['chapter_or_verse']) {
-                            $matches['chapter_or_verse'] = $endBookObject->chaptersInBook();
+                            $matches['chapter_or_verse'] = $endBookObject->lastChapter();
                         }
                         $endChapter = (int) $matches['chapter_or_verse'];
                     }
                 }
 
                 if ('' !== $matches['verse']) {
-                    $endVerse = (int) $matches['verse'];
-                    $endFragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
+                    $bookForNormalisation = ('' !== $endBook) ? $endBookObject : $lastBookNotNormalised;
+                    $normalisedPassage = $bookForNormalisation->normalise(
+                        (string) ($endChapter ?? $lastChapterNotNormalised),
+                        (string) ($matches['verse'] ?? '1'),
+                    );
+                    if ($normalisedPassage) {
+                        $endBookObject = $this->getBookFromAbbreviation($this->standardiseString($normalisedPassage[0])); // USFM identifier
+                        $endChapter = $normalisedPassage[1];
+                        $endVerse = $normalisedPassage[2];
+                        $endFragment = '';
+                    } else {
+                        $endVerse = (int) $matches['verse'];
+                        $endFragment = $this->verseFragment($matches['verse']);
+                    }
                 }
 
-                $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->chaptersInBook();
+                $endChapterForReference = $endChapter ?? $lastChapter ?? $endBookObject->lastChapter();
 
                 $lastBook = $endBookObject->name();
                 $lastChapter = $endChapter ?? $lastChapter;
@@ -208,11 +236,10 @@ class BiblePassageParser
                 null === $lastVerse
                 || '' !== $matches['verse']
             ) {
-                $chapter = (int) $matches['chapter_or_verse'];
+                $chapter = $matches['chapter_or_verse'];
                 $lastVerse = null;
             } else {
-                $verse = (int) $matches['chapter_or_verse'];
-                $fragment = in_array($matches['chapter_or_verse'][-1], ['a', 'b', 'c']) ? $matches['chapter_or_verse'][-1] : null;
+                $verse = $matches['chapter_or_verse'];
             }
         }
 
@@ -222,10 +249,9 @@ class BiblePassageParser
                 // even though it wasn't caught above
                 // as you can't have a verse in a non-existent chapter
                 // (possibly not needed with the simpler regex)
-                $chapter = (int) $matches['verse'];
+                $chapter = $matches['verse'];
             } else {
-                $verse = (int) $matches['verse'];
-                $fragment = in_array($matches['verse'][-1], ['a', 'b', 'c']) ? $matches['verse'][-1] : null;
+                $verse = $matches['verse'];
             }
         }
 
@@ -234,14 +260,49 @@ class BiblePassageParser
         }
 
         $startBookObject = $this->getBookFromAbbreviation($book);
+        $lastBookNotNormalised = $startBookObject;
+        $lastChapterNotNormalised = is_numeric($chapter) ? (int) $chapter : null;
+        // try the transformations
+        // but don't override $lastVerse if we don't actually have a verse
+        $verseIsNull = is_null($verse);
+
+        $normalisedPassage = $startBookObject->normalise(
+            (string) ($chapter ?? $startBookObject->firstChapter()),
+            (string) ($verse ?? '1'),
+        );
+        if ($normalisedPassage) {
+            $startBookObject = $this->getBookFromAbbreviation($this->standardiseString($normalisedPassage[0])); // USFM identifier
+            $chapter = $normalisedPassage[1];
+            $verse = $normalisedPassage[2];
+        } elseif (is_string($verse) && !is_numeric($verse)) {
+            // verse contains a fragment letter
+            $fragment = $this->verseFragment($verse) ?? $fragment; // before we int the verse
+            $chapter = $lastChapterNotNormalised ?? $startBookObject->firstChapter();
+            $verse = (int) $verse;
+        }
+
+        $chapter = is_numeric($chapter) ? (int) $chapter : null;
+        $verse = is_numeric($verse) ? (int) $verse : null;
+
+        if (
+            $this->singleChapterBooksCanOmitChapter
+            && 1 === $startBookObject->chaptersInBook()
+            && is_null($verse)
+            && !is_null($chapter)
+        ) {
+            $verse = $chapter;
+            $chapter = 1;
+            $verseIsNull = false;
+        }
+
         $lastBook = $startBookObject->name();
         $lastChapter = $chapter;
-        $lastVerse = $verse;
+        $lastVerse = $verseIsNull ? null : $verse;
         $lastFragment = $fragment;
 
         $fromReference = new BibleReference(
             $startBookObject,
-            $chapter ?? 1,
+            $chapter ?? $startBookObject->firstChapter(),
             $verse ?? 1,
             $fragment ?? ''
         );
@@ -253,20 +314,31 @@ class BiblePassageParser
             $lastChapter,
             $lastVerse,
             $lastFragment,
+            $lastBookNotNormalised,
+            $lastChapterNotNormalised,
         ];
     }
 
     protected function parseReference(string $reference): array
     {
         $reference = strtolower($reference);
-        $regex = '/^\s*(?<book>(?:[0-9]+\s+)?[^0-9]+)?(?:(?<chapter_or_verse>[0-9]+[abc]?)?(?:\s*[\. \:v]+\s*(?<verse>[0-9]+[abc]?(?:end)?))?)?\s*$/';
+        $regex = '/^\s*(?<book>(?:[0-9]+\s+)?[^0-9]+)?(?:(?<chapter_or_verse>[0-9]+[abc]?)?(?:\s*[\. \:v]+\s*(?<verse>[0-9\/]+[abc]?(?:end)?))?)?\s*$/';
         $result = preg_match(
             $regex,
             $reference,
             $matches
         );
         if (!$result) {
-            throw new UnableToParseException('Unable to parse reference');
+            // try again looking for more letters after the verses
+            $regex = '/^\s*(?<book>(?:[0-9]+\s+)?[^0-9]+)?(?:(?<chapter_or_verse>[0-9]+[a-z]{0,2})?(?:\s*[\. \:v]+\s*(?<verse>[0-9]+[a-z]{0,2}(?:end)?))?)?\s*$/';
+            $result = preg_match(
+                $regex,
+                $reference,
+                $matches
+            );
+            if (!$result) {
+                throw new UnableToParseException('Unable to parse reference');
+            }
         }
 
         if (
@@ -316,6 +388,11 @@ class BiblePassageParser
         return $matches;
     }
 
+    protected function verseFragment(string $verse): ?string
+    {
+        return in_array($verse[-1], ['a', 'b', 'c']) ? $verse[-1] : null;
+    }
+
     protected function parseReferenceAsInteger(string $reference): array
     {
         $reference = trim($reference);
@@ -338,10 +415,20 @@ class BiblePassageParser
         ];
     }
 
+    // protected function transformChapterAndVerse($book, $chapter, $verse): array
+    // {
+    //     if ()
+    // }
+
     protected function getBookFromAbbreviation(string $bookAbbreviation): Book
     {
         $bookNumber = $this->getBookNumber($bookAbbreviation);
 
+        return $this->getBookFromNumber($bookNumber);
+    }
+
+    protected function getBookFromNumber(int $bookNumber): Book
+    {
         if (!array_key_exists($bookNumber, $this->books)) {
             throw new InvalidBookException('Invalid book number "'.$bookNumber.'"');
         }

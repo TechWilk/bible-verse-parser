@@ -16,6 +16,7 @@ class Book implements JsonSerializable
     protected $singularName;
     protected $abbreviations;
     protected $chapterStructure;
+    protected $transformations;
 
     /**
      * @param $index      Position of book in the bible (1-indexed)
@@ -31,7 +32,8 @@ class Book implements JsonSerializable
         string $name,
         string $singularName,
         array $abbreviations,
-        array $chapterStructure
+        array $chapterStructure,
+        array $transformations
     ) {
         if ($index <= 0) {
             throw new InvalidArgumentException('Invalid index');
@@ -52,6 +54,7 @@ class Book implements JsonSerializable
         $this->singularName = $singularName;
         $this->abbreviations = $abbreviations;
         $this->chapterStructure = $chapterStructure;
+        $this->transformations = $transformations;
     }
 
     /**
@@ -152,6 +155,16 @@ class Book implements JsonSerializable
         return count($this->chapterStructure);
     }
 
+    public function firstChapter(): int
+    {
+        return array_key_first($this->chapterStructure);
+    }
+
+    public function lastChapter(): int
+    {
+        return array_key_last($this->chapterStructure);
+    }
+
     public function versesInChapter(int $chapter): int
     {
         if (!array_key_exists($chapter, $this->chapterStructure)) {
@@ -159,5 +172,33 @@ class Book implements JsonSerializable
         }
 
         return $this->chapterStructure[$chapter];
+    }
+
+    public function normalise(string $chapter, string $verse): ?array
+    {
+        $chapter = trim($chapter);
+        $chapter = ltrim($chapter, '0');
+        $verse = trim($verse);
+        $verse = ltrim($verse, '0');
+
+        if (strlen($chapter) < 1) {
+            // prologues are usually represented as chapter 0
+            $chapter = '0';
+        }
+
+        if (strlen($verse) < 1) {
+            // prologues may be represented as verse 0
+            $verse = '0';
+        }
+
+        if (!array_key_exists($chapter, $this->transformations)) {
+            return null;
+        }
+
+        if (!array_key_exists($verse, $this->transformations[$chapter])) {
+            return null;
+        }
+
+        return $this->transformations[$chapter][$verse];
     }
 }
