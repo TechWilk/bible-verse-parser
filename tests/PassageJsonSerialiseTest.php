@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace TechWilk\BibleVerseParser\Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
