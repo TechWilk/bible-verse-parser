@@ -4,7 +4,6 @@ namespace TechWilk\BibleVerseParser\Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use TechWilk\BibleVerseParser\BiblePassage;
 use TechWilk\BibleVerseParser\BiblePassageParser;
 use TechWilk\BibleVerseParser\Data\BibleStructure;
 use TechWilk\BibleVerseParser\Enum\NumberingType;
@@ -171,15 +170,7 @@ class ParserCatholicStructureTest extends TestCase
             $structure,
             numberingType: NumberingType::CanonOrder,
         );
-    $parsedVerses = $parser->parse($verses);
-
-        // test as strings for now
-        $parsedVerses = array_map(fn (BiblePassage $passage) => [
-            (string) $passage->from(),
-            (string) $passage->to(),
-        ], $parsedVerses);
-
-        $this->assertEquals($expectedParsedVerses, $parsedVerses);
+        $this->assertEquals($expectedParsedVerses, $this->passagesAsArrays($parser->parse($verses)));
     }
 
     #[DataProvider('providerVerses')]
@@ -187,15 +178,7 @@ class ParserCatholicStructureTest extends TestCase
     #[DataProvider('providerVersesIntegerUSFMNumbering')]
     public function testParseVersesWithUSFMNumbering(string $verses, array $expectedParsedVerses): void
     {
-        $parsedVerses = $this->parser->parse($verses);
-
-        // test as strings for now
-        $parsedVerses = array_map(fn (BiblePassage $passage) => [
-            (string) $passage->from(),
-            (string) $passage->to(),
-        ], $parsedVerses);
-
-        $this->assertEquals($expectedParsedVerses, $parsedVerses);
+        $this->assertEquals($expectedParsedVerses, $this->passagesAsArrays($this->parser->parse($verses)));
     }
 
     public static function providerInvalidVerses(): array

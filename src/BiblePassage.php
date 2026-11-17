@@ -10,11 +10,22 @@ class BiblePassage implements JsonSerializable
 {
     protected $from;
     protected $to;
+    protected $stanza;
+    protected $refrain = false;
+    protected $comparison = false;
 
-    public function __construct(BibleReference $from, BibleReference $to)
-    {
+    public function __construct(
+        BibleReference $from,
+        BibleReference $to,
+        ?int $stanza = null,
+        bool $refrain = false,
+        bool $comparison = false
+    ) {
         $this->from = $from;
         $this->to = $to;
+        $this->stanza = $stanza;
+        $this->refrain = $refrain;
+        $this->comparison = $comparison;
     }
 
     public function from(): BibleReference
@@ -222,6 +233,29 @@ class BiblePassage implements JsonSerializable
         }
 
         return $this->from->book()->identifier().$trailer.'-'.$toString;
+    }
+
+    /**
+     * Stanza number within a responsorial citation, starting at 1. The refrain is sung
+     * before, between and after the stanzas.
+     */
+    public function stanza(): ?int
+    {
+        return $this->stanza;
+    }
+
+    public function isRefrain(): bool
+    {
+        return $this->refrain;
+    }
+
+    /**
+     * Cited with "cf." (compare): the text is related to these verses rather than quoted
+     * from them, such as a refrain adapted from a psalm verse.
+     */
+    public function isComparison(): bool
+    {
+        return $this->comparison;
     }
 
     /**
