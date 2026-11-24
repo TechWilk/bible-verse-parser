@@ -110,6 +110,8 @@ class BiblePassageParser
 
             // End reference stuff
 
+            $endFragment = null;
+
             if (1 === count($splitSection)) {
                 $endBookObject = $this->getBookFromAbbreviation($lastBook);
                 $endChapterForReference = (int) ($lastChapter ?? $endBookObject->lastChapter());
