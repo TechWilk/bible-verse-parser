@@ -1695,7 +1695,7 @@ return [
         'number' => 67,
         'name' => 'Revelation',
         'identifier' => 'REV',
-        'abbreviations' => ['rev', 're', 'the revelation'],
+        'abbreviations' => ['rev', 're', 'the revelation', 'revelations'],
         'chapterStructure' => [
             1 => 20,
             2 => 29,
